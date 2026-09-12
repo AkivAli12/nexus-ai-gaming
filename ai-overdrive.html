@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Overdrive | NEXUS AI</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    overflow: hidden;
+    background: #020208;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+canvas {
+    display: block;
+}
+
+#hud {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0,0,0,.7);
+    border-bottom: 1px solid #00eaff;
+    z-index: 5;
+}
+
+.stat {
+    font-size: 16px;
+}
+
+.stat span {
+    color: #00eaff;
+    font-weight: bold;
+}
+
+#help {
+    position: fixed;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #888;
+    font-size: 13px;
+    z-index: 5;
+    text-align: center;
+}
+
+#gameOver {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,.88);
+    z-index: 10;
+}
+
+.box {
+    width: min(90%, 450px);
+    padding: 45px;
+    text-align: center;
+    border: 1px solid #00eaff;
+    border-radius: 20px;
+    background: rgba(8,10,25,.98);
+    box-shadow: 0 0 50px #00eaff55;
+}
+
+.box h1 {
+    color: #00eaff;
+    font-size: 42px;
+    margin-bottom: 15px;
+}
+
+.box p {
+    color: #aaa;
+    font-size: 19px;
+    line-height: 1.8;
+    margin-bottom: 25px;
+}
+
+.box span {
+    color: #00eaff;
+    font-weight: bold;
+}
+
+button {
+    border: 0;
+    padding: 14px 30px;
+    border-radius: 8px;
+    color: white;
+    background: linear-gradient(90deg,#7c3cff,#00eaff);
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    box-shadow: 0 0 25px #00eaff88;
+    transform: translateY(-2px);
+}
+
+#scorePopup {
+    position: fixed;
+    pointer-events: none;
+    color: #00eaff;
+    font-weight: bold;
+    font-size: 20px;
+    display: none;
+    z-index: 20;
+}
+</style>
+</head>
+
+<body>
+
+<div id="hud">
+    <div class="stat">🏎️ AI OVERDRIVE</div>
+    <div class="stat">⭐ SCORE: <span id="score">0</span></div>
+    <div class="stat">💨 SPEED: <span id="speed">1</span>x</div>
+    <div class="stat">❤️ HP: <span id="health">100</span></div>
+    <div class="stat">🏁 DIST: <span id="distance">0</span>m</div>
+</div>
+
+<canvas id="game"></canvas>
+
+<div id="help">
+    Move: ← → / A D &nbsp; | &nbsp; Avoid the AI cars!
+</div>
+
+<div id="scorePopup">+10</div>
+
+<div id="gameOver">
+    <div class="box">
+        <h1>RACE OVER</h1>
+
+        <p>
+            Score: <span id="finalScore">0</span><br>
+            Distance: <span id="finalDistance">0</span>m
+        </p>
+
+        <button onclick="restartGame()">
+            RACE AGAIN
+        </button>
+    </div>
+</div>
+
+<script>
+
+/* =====================================
+   CANVAS
+===================================== */
+
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+
+let W = window.innerWidth;
+let H = window.innerHeight;
+
+canvas.width = W;
+canvas.height = H;
+
+
+/* =====================================
+   GAME VARIABLES
+===================================== */
+
+let score = 0;
+let health = 100;
+let distance = 0;
+
+let gameRunning = true;
+
+let roadOffset = 0;
+
+let opponentTimer = 0;
+
+let opponents = [];
+
+let particles = [];
+
+const keys = {};
+
+
+/* =====================================
+   ROAD
+===================================== */
+
+const road = {
+
+    width: 440,
+
+    get left() {
+        return W / 2 - this.width / 2;
+    },
+
+    get right() {
+        return W / 2 + this.width / 2;
+    }
+
+};
+
+
+/* =====================================
+   PLAYER
+===================================== */
+
+const player = {
+
+    x: W / 2,
+
+    y: H - 140,
+
+    width: 48,
+
+    height: 82,
+
+    speed: 7
+
+};
+
+
+/* =====================================
+   KEYBOARD
+===================================== */
+
+document.addEventListener("keydown", function(e) {
+
+    keys[e.key.toLowerCase()] = true;
+
+    if (
+        e.key === "ArrowLeft" ||
+        e.key === "ArrowRight"
+    ) {
+        e.preventDefault();
+    }
+
+});
+
+
+document.addEventListener("keyup", function(e) {
+
+    keys[e.key.toLowerCase()] = false;
+
+});
+
+
+/* =====================================
+   DRAW ROAD
+===================================== */
+
+function drawRoad() {
+
+    /* Background */
+
+    ctx.fillStyle = "#050509";
+
+    ctx.fillRect(0, 0, W, H);
+
+
+    /* Road */
+
+    ctx.fillStyle = "#17171f";
+
+    ctx.fillRect(
+        road.left,
+        0,
+        road.width,
+        H
+    );
+
+
+    /* Road borders */
+
+    ctx.fillStyle = "#00eaff";
+
+    ctx.fillRect(
+        road.left,
+        0,
+        5,
+        H
+    );
+
+    ctx.fillRect(
+        road.right - 5,
+        0,
+        5,
+        H
+    );
+
+
+    /* Lane markings */
+
+    ctx.strokeStyle = "#ffffff55";
+    ctx.lineWidth = 4;
+
+    const laneWidth = road.width / 3;
+
+    for (let lane = 1; lane < 3; lane++) {
+
+        const x =
+            road.left + lane * laneWidth;
+
+        for (
+            let y = -100 + roadOffset;
+            y < H + 100;
+            y += 100
+        ) {
+
+            ctx.beginPath();
+
+            ctx.moveTo(x, y);
+            ctx.lineTo(x, y + 50);
+
+            ctx.stroke();
+
+        }
+
+    }
+
+
+    /* Neon road glow */
+
+    ctx.shadowBlur = 20;
+    ctx.shadowColor = "#00eaff";
+
+    ctx.fillStyle = "#00eaff";
+
+    ctx.fillRect(
+        road.left,
+        0,
+        3,
+        H
+    );
+
+    ctx.fillRect(
+        road.right - 3,
+        0,
+        3,
+        H
+    );
+
+    ctx.shadowBlur = 0;
+
+}
+
+
+/* =====================================
+   PLAYER CAR
+===================================== */
+
+function drawPlayer() {
+
+    ctx.save();
+
+    ctx.translate(player.x, player.y);
+
+    ctx.shadowBlur = 25;
+    ctx.shadowColor = "#00eaff";
+
+
+    /* Main body */
+
+    ctx.fillStyle = "#00eaff";
+
+    ctx.beginPath();
+
+    ctx.roundRect(
+        -player.width / 2,
+        -player.height / 2,
+        player.width,
+        player.height,
+        12
+    );
+
+    ctx.fill();
+
+
+    /* Windshield */
+
+    ctx.fillStyle = "#07101d";
+
+    ctx.beginPath();
+
+    ctx.roundRect(
+        -16,
+        -25,
+        32,
+        25,
+        7
+    );
+
+    ctx.fill();
+
+
+    /* Front lights */
+
+    ctx.fillStyle = "#ffffff";
+
+    ctx.fillRect(
+        -17,
+        -36,
+        10,
+        5
+    );
+
+    ctx.fillRect(
+        7,
+        -36,
+        10,
+        5
+    );
+
+
+    /* Rear glow */
+
+    ctx.fillStyle = "#ff4d00";
+
+    ctx.shadowColor = "#ff4d00";
+
+    ctx.fillRect(
+        -17,
+        30,
+        10,
+        5
+    );
+
+    ctx.fillRect(
+        7,
+        30,
+        10,
+        5
+    );
+
+
+    ctx.restore();
+
+}
+
+
+/* =====================================
+   CREATE AI CAR
+===================================== */
+
+function createOpponent() {
+
+    const laneWidth = road.width / 3;
+
+    const lane =
+        Math.floor(Math.random() * 3);
+
+    const x =
+        road.left +
+        laneWidth * lane +
+        laneWidth / 2;
+
+
+    opponents.push({
+
+        x: x,
+
+        y: -120,
+
+        width: 48,
+
+        height: 82,
+
+        speed:
+            3 + Math.random() * 2.5,
+
+        lane: lane,
+
+        passed: false
+
+    });
+
+}
+
+
+/* =====================================
+   DRAW AI CAR
+===================================== */
+
+function drawOpponent(car) {
+
+    ctx.save();
+
+    ctx.translate(car.x, car.y);
+
+    ctx.shadowBlur = 20;
+    ctx.shadowColor = "#ff2bd6";
+
+    ctx.fillStyle = "#ff2bd6";
+
+    ctx.beginPath();
+
+    ctx.roundRect(
+        -car.width / 2,
+        -car.height / 2,
+        car.width,
+        car.height,
+        12
+    );
+
+    ctx.fill();
+
+
+    /* Window */
+
+    ctx.fillStyle = "#090914";
+
+    ctx.beginPath();
+
+    ctx.roundRect(
+        -16,
+        -22,
+        32,
+        25,
+        7
+    );
+
+    ctx.fill();
+
+
+    /* Lights */
+
+    ctx.fillStyle = "#ff3344";
+
+    ctx.fillRect(
+        -17,
+        30,
+        10,
+        5
+    );
+
+    ctx.fillRect(
+        7,
+        30,
+        10,
+        5
+    );
+
+    ctx.restore();
+
+}
+
+
+/* =====================================
+   PLAYER MOVEMENT
+===================================== */
+
+function updatePlayer() {
+
+    if (
+        keys["arrowleft"] ||
+        keys["a"]
+    ) {
+
+        player.x -= player.speed;
+
+    }
+
+
+    if (
+        keys["arrowright"] ||
+        keys["d"]
+    ) {
+
+        player.x += player.speed;
+
+    }
+
+
+    const minX =
+        road.left + player.width / 2 + 10;
+
+    const maxX =
+        road.right - player.width / 2 - 10;
+
+
+    player.x =
+        Math.max(
+            minX,
+            Math.min(maxX, player.x)
+        );
+
+}
+
+
+/* =====================================
+   COLLISION
+===================================== */
+
+function carCollision(a, b) {
+
+    return (
+
+        a.x - a.width / 2 <
+        b.x + b.width / 2 &&
+
+        a.x + a.width / 2 >
+        b.x - b.width / 2 &&
+
+        a.y - a.height / 2 <
+        b.y + b.height / 2 &&
+
+        a.y + a.height / 2 >
+        b.y - b.height / 2
+
+    );
+
+}
+
+
+/* =====================================
+   UPDATE OPPONENTS
+===================================== */
+
+function updateOpponents() {
+
+    for (const car of opponents) {
+
+        car.y += car.speed;
+
+
+        /* Collision */
+
+        if (carCollision(player, car)) {
+
+            damagePlayer(30);
+
+            car.y = H + 200;
+
+        }
+
+
+        /* Passed opponent */
+
+        if (
+            !car.passed &&
+            car.y >
+            player.y + player.height
+        ) {
+
+            car.passed = true;
+
+            addScore(25);
+
+        }
+
+    }
+
+
+    opponents =
+        opponents.filter(
+            car => car.y < H + 200
+        );
+
+}
+
+
+/* =====================================
+   SPAWN AI CARS
+===================================== */
+
+function spawnOpponents() {
+
+    opponentTimer++;
+
+
+    const difficulty =
+        Math.max(
+            28,
+            75 - Math.floor(score / 100)
+        );
+
+
+    if (opponentTimer >= difficulty) {
+
+        createOpponent();
+
+        opponentTimer = 0;
+
+    }
+
+}
+
+
+/* =====================================
+   SCORE
+===================================== */
+
+function addScore(points) {
+
+    score += points;
+
+    document.getElementById("score")
+        .textContent = score;
+
+    showScorePopup(points);
+
+}
+
+
+/* =====================================
+   SCORE POPUP
+===================================== */
+
+function showScorePopup(points) {
+
+    const popup =
+        document.getElementById("scorePopup");
+
+    popup.textContent =
+        "+" + points;
+
+    popup.style.left =
+        player.x + "px";
+
+    popup.style.top =
+        player.y - 70 + "px";
+
+    popup.style.display = "block";
+
+
+    setTimeout(function() {
+
+        popup.style.display = "none";
+
+    }, 400);
+
+}
+
+
+/* =====================================
+   DAMAGE
+===================================== */
+
+function damagePlayer(amount) {
+
+    health -= amount;
+
+    if (health < 0) {
+        health = 0;
+    }
+
+
+    document.getElementById("health")
+        .textContent = health;
+
+
+    if (health <= 0) {
+
+        endGame();
+
+    }
+
+}
+
+
+/* =====================================
+   SPEED
+===================================== */
+
+function getGameSpeed() {
+
+    return Math.min(
+        12,
+        5 + score / 250
+    );
+
+}
+
+
+/* =====================================
+   DISTANCE
+===================================== */
+
+function updateDistance() {
+
+    const speed =
+        getGameSpeed();
+
+    distance += speed * 0.025;
+
+    document.getElementById("distance")
+        .textContent =
+        Math.floor(distance);
+
+}
+
+
+/* =====================================
+   PARTICLES
+===================================== */
+
+function createParticle(x, y) {
+
+    particles.push({
+
+        x: x,
+
+        y: y,
+
+        size: Math.random() * 4 + 1,
+
+        speed: Math.random() * 3 + 1,
+
+        life: 30
+
+    });
+
+}
+
+
+function updateParticles() {
+
+    for (const p of particles) {
+
+        p.y += p.speed;
+
+        p.life--;
+
+    }
+
+
+    particles =
+        particles.filter(
+            p => p.life > 0
+        );
+
+}
+
+
+function drawParticles() {
+
+    for (const p of particles) {
+
+        ctx.globalAlpha =
+            p.life / 30;
+
+        ctx.fillStyle = "#00eaff";
+
+        ctx.beginPath();
+
+        ctx.arc(
+            p.x,
+            p.y,
+            p.size,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.fill();
+
+    }
+
+    ctx.globalAlpha = 1;
+
+}
+
+
+/* =====================================
+   GAME OVER
+===================================== */
+
+function endGame() {
+
+    if (!gameRunning) {
+        return;
+    }
+
+    gameRunning = false;
+
+
+    document.getElementById("finalScore")
+        .textContent = score;
+
+
+    document.getElementById("finalDistance")
+        .textContent =
+        Math.floor(distance);
+
+
+    document.getElementById("gameOver")
+        .style.display = "flex";
+
+}
+
+
+/* =====================================
+   RESTART
+===================================== */
+
+function restartGame() {
+
+    score = 0;
+
+    health = 100;
+
+    distance = 0;
+
+    opponents = [];
+
+    particles = [];
+
+    opponentTimer = 0;
+
+    roadOffset = 0;
+
+    player.x = W / 2;
+
+    player.y = H - 140;
+
+    gameRunning = true;
+
+
+    document.getElementById("score")
+        .textContent = "0";
+
+    document.getElementById("health")
+        .textContent = "100";
+
+    document.getElementById("distance")
+        .textContent = "0";
+
+    document.getElementById("gameOver")
+        .style.display = "none";
+
+
+    gameLoop();
+
+}
+
+
+/* =====================================
+   GAME LOOP
+===================================== */
+
+function gameLoop() {
+
+    if (!gameRunning) {
+        return;
+    }
+
+
+    ctx.clearRect(
+        0,
+        0,
+        W,
+        H
+    );
+
+
+    const gameSpeed =
+        getGameSpeed();
+
+
+    /* Moving road */
+
+    roadOffset += gameSpeed;
+
+    if (roadOffset >= 100) {
+        roadOffset = 0;
+    }
+
+
+    drawRoad();
+
+
+    updatePlayer();
+
+    updateOpponents();
+
+    spawnOpponents();
+
+    updateDistance();
+
+
+    /* Engine particles */
+
+    if (Math.random() < 0.4) {
+
+        createParticle(
+            player.x,
+            player.y + 40
+        );
+
+    }
+
+
+    updateParticles();
+
+    drawParticles();
+
+
+    /* Draw cars */
+
+    for (const car of opponents) {
+        drawOpponent(car);
+    }
+
+
+    drawPlayer();
+
+
+    /* HUD */
+
+    document.getElementById("speed")
+        .textContent =
+        (gameSpeed / 5).toFixed(1);
+
+
+    requestAnimationFrame(gameLoop);
+
+}
+
+
+/* =====================================
+   RESIZE
+===================================== */
+
+window.addEventListener("resize", function() {
+
+    W = window.innerWidth;
+
+    H = window.innerHeight;
+
+    canvas.width = W;
+
+    canvas.height = H;
+
+    player.y = H - 140;
+
+    player.x = W / 2;
+
+});
+
+
+/* =====================================
+   START
+===================================== */
+
+gameLoop();
+
+</script>
+
+</body>
+</html>
