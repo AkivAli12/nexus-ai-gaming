@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cyber Warriors</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #03030b;
+    color: white;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+}
+
+#game {
+    display: block;
+    background:
+        radial-gradient(circle at center, #10152e 0%, #03030b 70%);
+}
+
+#hud {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 18px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0,0,0,0.45);
+    border-bottom: 1px solid #00eaff;
+    z-index: 5;
+}
+
+.stat {
+    font-size: 18px;
+}
+
+.stat span {
+    color: #00eaff;
+    font-weight: bold;
+}
+
+#help {
+    position: fixed;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #777;
+    font-size: 14px;
+}
+
+#gameOver {
+    position: fixed;
+    inset: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.82);
+    z-index: 10;
+}
+
+.gameOverBox {
+    text-align: center;
+    padding: 45px;
+    width: min(90%, 450px);
+    background: rgba(10,12,30,0.95);
+    border: 1px solid #00eaff;
+    border-radius: 20px;
+    box-shadow: 0 0 50px #00eaff44;
+}
+
+.gameOverBox h1 {
+    color: #00eaff;
+    font-size: 45px;
+    margin-bottom: 15px;
+}
+
+.gameOverBox p {
+    color: #aaa;
+    font-size: 20px;
+    margin-bottom: 25px;
+}
+
+button {
+    border: none;
+    padding: 14px 30px;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    background: linear-gradient(90deg, #6c2cff, #00eaff);
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    box-shadow: 0 0 25px #00eaff88;
+    transform: translateY(-2px);
+}
+</style>
+</head>
+
+<body>
+
+<div id="hud">
+    <div class="stat">⚔️ CYBER WARRIORS</div>
+    <div class="stat">SCORE: <span id="score">0</span></div>
+    <div class="stat">❤️ HP: <span id="health">100</span></div>
+</div>
+
+<canvas id="game"></canvas>
+
+<div id="help">
+    Move: WASD / Arrow Keys &nbsp; | &nbsp; Shoot: SPACE
+</div>
+
+<div id="gameOver">
+    <div class="gameOverBox">
+        <h1>GAME OVER</h1>
+        <p>Your Score: <span id="finalScore">0</span></p>
+        <button onclick="restartGame()">PLAY AGAIN</button>
+    </div>
+</div>
+
+<script>
+
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+
+let W = window.innerWidth;
+let H = window.innerHeight;
+
+canvas.width = W;
+canvas.height = H;
+
+window.addEventListener("resize", () => {
+    W = window.innerWidth;
+    H = window.innerHeight;
+
+    canvas.width = W;
+    canvas.height = H;
+
+    player.x = W / 2;
+    player.y = H - 100;
+});
+
+const keys = {};
+
+document.addEventListener("keydown", e => {
+    keys[e.key.toLowerCase()] = true;
+
+    if (e.code === "Space") {
+        keys.space = true;
+        e.preventDefault();
+    }
+});
+
+document.addEventListener("keyup", e => {
+    keys[e.key.toLowerCase()] = false;
+
+    if (e.code === "Space") {
+        keys.space = false;
+    }
+});
+
+let score = 0;
+let health = 100;
+let gameRunning = true;
+
+let bullets = [];
+let enemies = [];
+
+let spawnTimer = 0;
+let shootCooldown = 0;
+
+const player = {
+    x: W / 2,
+    y: H - 100,
+    width: 35,
+    height: 45,
+    speed: 6
+};
+
+function drawPlayer() {
+
+    ctx.save();
+
+    ctx.translate(player.x, player.y);
+
+    ctx.shadowBlur = 20;
+    ctx.shadowColor = "#00eaff";
+
+    ctx.fillStyle = "#00eaff";
+
+    ctx.beginPath();
+    ctx.moveTo(0, -25);
+    ctx.lineTo(-22, 20);
+    ctx.lineTo(0, 12);
+    ctx.lineTo(22, 20);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.fillStyle = "#ffffff";
+
+    ctx.beginPath();
+    ctx.arc(0, -5, 7, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.restore();
+}
+
+function shoot() {
+
+    if (shootCooldown > 0) return;
+
+    bullets.push({
+        x: player.x,
+        y: player.y - 25,
+        speed: 10,
+        size: 5
+    });
+
+    shootCooldown = 12;
+}
+
+function createEnemy() {
+
+    enemies.push({
+        x: Math.random() * (W - 60) + 30,
+        y: -40,
+        size: 22,
+        speed: 1.5 + Math.random() * 2,
+        hp: 1
+    });
+}
+
+function drawBullet(bullet) {
+
+    ctx.save();
+
+    ctx.shadowBlur = 15;
+    ctx.shadowColor = "#00eaff";
+
+    ctx.fillStyle = "#00eaff";
+
+    ctx.beginPath();
+    ctx.arc(
+        bullet.x,
+        bullet.y,
+        bullet.size,
+        0,
+        Math.PI * 2
+    );
+
+    ctx.fill();
+
+    ctx.restore();
+}
+
+function drawEnemy(enemy) {
+
+    ctx.save();
+
+    ctx.translate(enemy.x, enemy.y);
+
+    ctx.shadowBlur = 18;
+    ctx.shadowColor = "#ff2bd6";
+
+    ctx.fillStyle = "#ff2bd6";
+
+    ctx.beginPath();
+    ctx.moveTo(0, -enemy.size);
+    ctx.lineTo(enemy.size, 0);
+    ctx.lineTo(0, enemy.size);
+    ctx.lineTo(-enemy.size, 0);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.fillStyle = "#111";
+
+    ctx.beginPath();
+    ctx.arc(0, 0, 6, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.restore();
+}
+
+function updatePlayer() {
+
+    if (
+        keys["arrowleft"] ||
+        keys["a"]
+    ) {
+        player.x -= player.speed;
+    }
+
+    if (
+        keys["arrowright"] ||
+        keys["d"]
+    ) {
+        player.x += player.speed;
+    }
+
+    if (
+        keys["arrowup"] ||
+        keys["w"]
+    ) {
+        player.y -= player.speed;
+    }
+
+    if (
+        keys["arrowdown"] ||
+        keys["s"]
+    ) {
+        player.y += player.speed;
+    }
+
+    player.x = Math.max(30, Math.min(W - 30, player.x));
+    player.y = Math.max(80, Math.min(H - 40, player.y));
+
+    if (keys.space) {
+        shoot();
+    }
+}
+
+function updateBullets() {
+
+    bullets.forEach(bullet => {
+        bullet.y -= bullet.speed;
+    });
+
+    bullets = bullets.filter(
+        bullet => bullet.y > -20
+    );
+}
+
+function updateEnemies() {
+
+    enemies.forEach(enemy => {
+
+        enemy.y += enemy.speed;
+
+        const dx = enemy.x - player.x;
+        const dy = enemy.y - player.y;
+
+        const distance = Math.sqrt(
+            dx * dx + dy * dy
+        );
+
+        if (distance < 40) {
+
+            health -= 20;
+            enemy.y = H + 100;
+
+            updateHUD();
+
+            if (health <= 0) {
+                endGame();
+            }
+        }
+
+        if (enemy.y > H + 50) {
+
+            health -= 5;
+
+            enemy.y = -100;
+
+            updateHUD();
+
+            if (health <= 0) {
+                endGame();
+            }
+        }
+    });
+}
+
+function collisionDetection() {
+
+    bullets.forEach((bullet, bulletIndex) => {
+
+        enemies.forEach((enemy, enemyIndex) => {
+
+            const dx = bullet.x - enemy.x;
+            const dy = bullet.y - enemy.y;
+
+            const distance = Math.sqrt(
+                dx * dx + dy * dy
+            );
+
+            if (distance < enemy.size + bullet.size) {
+
+                bullets.splice(bulletIndex, 1);
+                enemies.splice(enemyIndex, 1);
+
+                score += 10;
+
+                updateHUD();
+            }
+
+        });
+
+    });
+}
+
+function updateHUD() {
+
+    document.getElementById("score").textContent = score;
+    document.getElementById("health").textContent = health;
+}
+
+function spawnEnemies() {
+
+    spawnTimer++;
+
+    const spawnRate =
+        Math.max(20, 60 - Math.floor(score / 100));
+
+    if (spawnTimer >= spawnRate) {
+
+        createEnemy();
+
+        spawnTimer = 0;
+    }
+}
+
+function drawBackground() {
+
+    ctx.strokeStyle = "#ffffff08";
+    ctx.lineWidth = 1;
+
+    const gridSize = 50;
+
+    for (let x = 0; x < W; x += gridSize) {
+
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, H);
+        ctx.stroke();
+    }
+
+    for (let y = 0; y < H; y += gridSize) {
+
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(W, y);
+        ctx.stroke();
+    }
+}
+
+function gameLoop() {
+
+    if (!gameRunning) return;
+
+    ctx.clearRect(0, 0, W, H);
+
+    drawBackground();
+
+    updatePlayer();
+    updateBullets();
+    updateEnemies();
+    collisionDetection();
+    spawnEnemies();
+
+    if (shootCooldown > 0) {
+        shootCooldown--;
+    }
+
+    bullets.forEach(drawBullet);
+    enemies.forEach(drawEnemy);
+
+    drawPlayer();
+
+    requestAnimationFrame(gameLoop);
+}
+
+function endGame() {
+
+    gameRunning = false;
+
+    document.getElementById("finalScore").textContent = score;
+    document.getElementById("gameOver").style.display = "flex";
+}
+
+function restartGame() {
+
+    score = 0;
+    health = 100;
+
+    bullets = [];
+    enemies = [];
+
+    player.x = W / 2;
+    player.y = H - 100;
+
+    spawnTimer = 0;
+    shootCooldown = 0;
+
+    gameRunning = true;
+
+    updateHUD();
+
+    document.getElementById("gameOver").style.display = "none";
+
+    gameLoop();
+}
+
+updateHUD();
+gameLoop();
+
+</script>
+
+</body>
+</html>
