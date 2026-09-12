@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Neon Battle | NEXUS AI</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    overflow: hidden;
+    background: #03030b;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+canvas {
+    display: block;
+    background:
+        radial-gradient(circle at center,
+        #15102d 0%,
+        #050510 65%,
+        #020208 100%);
+}
+
+/* HUD */
+
+#hud {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    padding: 15px 25px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: rgba(0,0,0,.65);
+
+    border-bottom: 1px solid #ff2bd6;
+
+    z-index: 5;
+}
+
+.stat {
+    font-size: 16px;
+}
+
+.stat span {
+    color: #00eaff;
+    font-weight: bold;
+}
+
+/* HELP */
+
+#help {
+    position: fixed;
+
+    bottom: 12px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    color: #777;
+
+    font-size: 13px;
+
+    z-index: 5;
+
+    text-align: center;
+}
+
+/* GAME OVER */
+
+#gameOver {
+
+    position: fixed;
+
+    inset: 0;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(0,0,0,.88);
+
+    z-index: 10;
+}
+
+.box {
+
+    width: min(90%, 450px);
+
+    padding: 45px;
+
+    text-align: center;
+
+    border: 1px solid #ff2bd6;
+
+    border-radius: 20px;
+
+    background: rgba(10,8,30,.98);
+
+    box-shadow: 0 0 50px #ff2bd655;
+}
+
+.box h1 {
+
+    color: #ff2bd6;
+
+    font-size: 43px;
+
+    margin-bottom: 15px;
+}
+
+.box p {
+
+    color: #aaa;
+
+    font-size: 19px;
+
+    line-height: 1.8;
+
+    margin-bottom: 25px;
+}
+
+.box span {
+
+    color: #00eaff;
+
+    font-weight: bold;
+}
+
+button {
+
+    border: 0;
+
+    padding: 14px 30px;
+
+    border-radius: 8px;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ff2bd6,
+            #7c3cff,
+            #00eaff
+        );
+
+    font-weight: bold;
+
+    font-size: 16px;
+
+    cursor: pointer;
+}
+
+button:hover {
+
+    box-shadow: 0 0 30px #ff2bd688;
+
+    transform: translateY(-2px);
+}
+
+/* SCORE POPUP */
+
+#scorePopup {
+
+    position: fixed;
+
+    pointer-events: none;
+
+    color: #00eaff;
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+    display: none;
+
+    z-index: 20;
+}
+
+</style>
+</head>
+
+<body>
+
+
+<!-- HUD -->
+
+<div id="hud">
+
+    <div class="stat">
+        👾 NEON BATTLE
+    </div>
+
+    <div class="stat">
+        ⭐ SCORE:
+        <span id="score">0</span>
+    </div>
+
+    <div class="stat">
+        ❤️ HP:
+        <span id="health">100</span>
+    </div>
+
+    <div class="stat">
+        🌊 WAVE:
+        <span id="wave">1</span>
+    </div>
+
+</div>
+
+
+<canvas id="game"></canvas>
+
+
+<div id="help">
+
+    Move: WASD / Arrow Keys
+    &nbsp; | &nbsp;
+    Shoot: SPACE
+
+</div>
+
+
+<div id="scorePopup">
+    +10
+</div>
+
+
+<!-- GAME OVER -->
+
+<div id="gameOver">
+
+    <div class="box">
+
+        <h1>BATTLE OVER</h1>
+
+        <p>
+
+            Score:
+            <span id="finalScore">0</span>
+
+            <br>
+
+            Wave:
+            <span id="finalWave">1</span>
+
+        </p>
+
+        <button onclick="restartGame()">
+
+            FIGHT AGAIN
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =====================================
+   CANVAS
+===================================== */
+
+const canvas =
+    document.getElementById("game");
+
+const ctx =
+    canvas.getContext("2d");
+
+let W = window.innerWidth;
+let H = window.innerHeight;
+
+canvas.width = W;
+canvas.height = H;
+
+
+/* =====================================
+   GAME VARIABLES
+===================================== */
+
+let score = 0;
+
+let health = 100;
+
+let wave = 1;
+
+let gameRunning = true;
+
+let bullets = [];
+
+let enemies = [];
+
+let particles = [];
+
+let enemyTimer = 0;
+
+let shootCooldown = 0;
+
+let waveTimer = 0;
+
+const keys = {};
+
+
+/* =====================================
+   KEYBOARD
+===================================== */
+
+document.addEventListener(
+    "keydown",
+    function(e) {
+
+        keys[e.key.toLowerCase()] = true;
+
+        if (e.code === "Space") {
+
+            keys.space = true;
+
+            e.preventDefault();
+
+        }
+
+    }
+);
+
+
+document.addEventListener(
+    "keyup",
+    function(e) {
+
+        keys[e.key.toLowerCase()] = false;
+
+        if (e.code === "Space") {
+
+            keys.space = false;
+
+        }
+
+    }
+);
+
+
+/* =====================================
+   PLAYER
+===================================== */
+
+const player = {
+
+    x: W / 2,
+
+    y: H / 2,
+
+    radius: 22,
+
+    speed: 6
+
+};
+
+
+/* =====================================
+   DRAW PLAYER
+===================================== */
+
+function drawPlayer() {
+
+    ctx.save();
+
+    ctx.translate(
+        player.x,
+        player.y
+    );
+
+    ctx.shadowBlur = 25;
+
+    ctx.shadowColor = "#00eaff";
+
+
+    /* Outer circle */
+
+    ctx.strokeStyle = "#00eaff";
+
+    ctx.lineWidth = 4;
+
+    ctx.beginPath();
+
+    ctx.arc(
+        0,
+        0,
+        22,
+        0,
+        Math.PI * 2
+    );
+
+    ctx.stroke();
+
+
+    /* Core */
+
+    ctx.fillStyle = "#00eaff";
+
+    ctx.beginPath();
+
+    ctx.arc(
+        0,
+        0,
+        10,
+        0,
+        Math.PI * 2
+    );
+
+    ctx.fill();
+
+
+    /* Direction */
+
+    ctx.fillStyle = "#ffffff";
+
+    ctx.beginPath();
+
+    ctx.moveTo(0, -30);
+
+    ctx.lineTo(-6, -16);
+
+    ctx.lineTo(6, -16);
+
+    ctx.closePath();
+
+    ctx.fill();
+
+
+    ctx.restore();
+
+}
+
+
+/* =====================================
+   SHOOT
+===================================== */
+
+function shoot() {
+
+    if (shootCooldown > 0) {
+
+        return;
+
+    }
+
+
+    bullets.push({
+
+        x: player.x,
+
+        y: player.y - 28,
+
+        radius: 5,
+
+        speed: 11
+
+    });
+
+
+    shootCooldown = 10;
+
+}
+
+
+/* =====================================
+   DRAW BULLET
+===================================== */
+
+function drawBullet(bullet) {
+
+    ctx.save();
+
+    ctx.shadowBlur = 18;
+
+    ctx.shadowColor = "#00eaff";
+
+    ctx.fillStyle = "#00eaff";
+
+
+    ctx.beginPath();
+
+    ctx.arc(
+        bullet.x,
+        bullet.y,
+        bullet.radius,
+        0,
+        Math.PI * 2
+    );
+
+    ctx.fill();
+
+    ctx.restore();
+
+}
+
+
+/* =====================================
+   CREATE ENEMY
+===================================== */
+
+function createEnemy() {
+
+    const side =
+        Math.floor(
+            Math.random() * 4
+        );
+
+
+    let x;
+    let y;
+
+
+    if (side === 0) {
+
+        x = Math.random() * W;
+        y = -40;
+
+    }
+
+    else if (side === 1) {
+
+        x = W + 40;
+        y = Math.random() * H;
+
+    }
+
+    else if (side === 2) {
+
+        x = Math.random() * W;
+        y = H + 40;
+
+    }
+
+    else {
+
+        x = -40;
+        y = Math.random() * H;
+
+    }
+
+
+    enemies.push({
+
+        x: x,
+
+        y: y,
+
+        radius:
+            16 + Math.random() * 8,
+
+        speed:
+            1.2 +
+            Math.random() * 1.4 +
+            wave * .08,
+
+        health: 1
+
+    });
+
+}
+
+
+/* =====================================
+   DRAW ENEMY
+===================================== */
+
+function drawEnemy(enemy) {
+
+    ctx.save();
+
+    ctx.translate(
+        enemy.x,
+        enemy.y
+    );
+
+    ctx.shadowBlur = 20;
+
+    ctx.shadowColor = "#ff2bd6";
+
+
+    ctx.fillStyle = "#ff2bd6";
+
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        0,
+        -enemy.radius
+    );
+
+    ctx.lineTo(
+        enemy.radius,
+        0
+    );
+
+    ctx.lineTo(
+        0,
+        enemy.radius
+    );
+
+    ctx.lineTo(
+        -enemy.radius,
+        0
+    );
+
+    ctx.closePath();
+
+    ctx.fill();
+
+
+    ctx.fillStyle = "#090909";
+
+
+    ctx.beginPath();
+
+    ctx.arc(
+        0,
+        0,
+        6,
+        0,
+        Math.PI * 2
+    );
+
+    ctx.fill();
+
+
+    ctx.restore();
+
+}
+
+
+/* =====================================
+   PLAYER MOVEMENT
+===================================== */
+
+function updatePlayer() {
+
+    if (
+        keys.w ||
+        keys.arrowup
+    ) {
+
+        player.y -= player.speed;
+
+    }
+
+
+    if (
+        keys.s ||
+        keys.arrowdown
+    ) {
+
+        player.y += player.speed;
+
+    }
+
+
+    if (
+        keys.a ||
+        keys.arrowleft
+    ) {
+
+        player.x -= player.speed;
+
+    }
+
+
+    if (
+        keys.d ||
+        keys.arrowright
+    ) {
+
+        player.x += player.speed;
+
+    }
+
+
+    player.x =
+        Math.max(
+            player.radius,
+            Math.min(
+                W - player.radius,
+                player.x
+            )
+        );
+
+
+    player.y =
+        Math.max(
+            85,
+            Math.min(
+                H - player.radius,
+                player.y
+            )
+        );
+
+
+    if (keys.space) {
+
+        shoot();
+
+    }
+
+}
+
+
+/* =====================================
+   UPDATE BULLETS
+===================================== */
+
+function updateBullets() {
+
+    for (const bullet of bullets) {
+
+        bullet.y -= bullet.speed;
+
+    }
+
+
+    bullets =
+        bullets.filter(
+            bullet =>
+                bullet.y > -30
+        );
+
+}
+
+
+/* =====================================
+   DISTANCE
+===================================== */
+
+function distanceBetween(
+    x1,
+    y1,
+    x2,
+    y2
+) {
+
+    const dx = x1 - x2;
+
+    const dy = y1 - y2;
+
+    return Math.sqrt(
+        dx * dx + dy * dy
+    );
+
+}
+
+
+/* =====================================
+   UPDATE ENEMIES
+===================================== */
+
+function updateEnemies() {
+
+    for (const enemy of enemies) {
+
+        const dx =
+            player.x - enemy.x;
+
+        const dy =
+            player.y - enemy.y;
+
+        const distance =
+            Math.sqrt(
+                dx * dx +
+                dy * dy
+            );
+
+
+        /* Move toward player */
+
+        if (distance > 0) {
+
+            enemy.x +=
+                (dx / distance) *
+                enemy.speed;
+
+            enemy.y +=
+                (dy / distance) *
+                enemy.speed;
+
+        }
+
+
+        /* Enemy hits player */
+
+        if (
+            distance <
+            player.radius +
+            enemy.radius
+        ) {
+
+            damagePlayer(20);
+
+            createExplosion(
+                enemy.x,
+                enemy.y
+            );
+
+            enemy.dead = true;
+
+        }
+
+    }
+
+
+    enemies =
+        enemies.filter(
+            enemy =>
+                !enemy.dead
+        );
+
+}
+
+
+/* =====================================
+   BULLET COLLISIONS
+===================================== */
+
+function checkBulletCollisions() {
+
+    const bulletsToRemove =
+        new Set();
+
+    const enemiesToRemove =
+        new Set();
+
+
+    for (
+        let b = 0;
+        b < bullets.length;
+        b++
+    ) {
+
+        if (
+            bulletsToRemove.has(b)
+        ) {
+
+            continue;
+
+        }
+
+
+        const bullet =
+            bullets[b];
+
+
+        for (
+            let e = 0;
+            e < enemies.length;
+            e++
+        ) {
+
+            if (
+                enemiesToRemove.has(e)
+            ) {
+
+                continue;
+
+            }
+
+
+            const enemy =
+                enemies[e];
+
+
+            const distance =
+                distanceBetween(
+                    bullet.x,
+                    bullet.y,
+                    enemy.x,
+                    enemy.y
+                );
+
+
+            if (
+                distance <
+                bullet.radius +
+                enemy.radius
+            ) {
+
+                bulletsToRemove.add(b);
+
+                enemiesToRemove.add(e);
+
+
+                /* RELIABLE SCORING */
+
+                addScore(10);
+
+
+                createExplosion(
+                    enemy.x,
+                    enemy.y
+                );
+
+
+                break;
+
+            }
+
+        }
+
+    }
+
+
+    bullets =
+        bullets.filter(
+            (_, index) =>
+                !bulletsToRemove.has(index)
+        );
+
+
+    enemies =
+        enemies.filter(
+            (_, index) =>
+                !enemiesToRemove.has(index)
+        );
+
+}
+
+
+/* =====================================
+   SCORE
+===================================== */
+
+function addScore(points) {
+
+    score += points;
+
+
+    document.getElementById(
+        "score"
+    ).textContent = score;
+
+
+    showScorePopup(points);
+
+
+    /* Every 100 points = new wave */
+
+    const newWave =
+        Math.floor(score / 100) + 1;
+
+
+    if (
+        newWave > wave
+    ) {
+
+        wave = newWave;
+
+        document.getElementById(
+            "wave"
+        ).textContent = wave;
+
+    }
+
+}
+
+
+/* =====================================
+   SCORE POPUP
+===================================== */
+
+function showScorePopup(points) {
+
+    const popup =
+        document.getElementById(
+            "scorePopup"
+        );
+
+
+    popup.textContent =
+        "+" + points;
+
+
+    popup.style.left =
+        player.x + "px";
+
+
+    popup.style.top =
+        player.y - 50 + "px";
+
+
+    popup.style.display =
+        "block";
+
+
+    setTimeout(
+        function() {
+
+            popup.style.display =
+                "none";
+
+        },
+        350
+    );
+
+}
+
+
+/* =====================================
+   DAMAGE
+===================================== */
+
+function damagePlayer(amount) {
+
+    health -= amount;
+
+
+    if (health < 0) {
+
+        health = 0;
+
+    }
+
+
+    document.getElementById(
+        "health"
+    ).textContent = health;
+
+
+    if (health <= 0) {
+
+        endGame();
+
+    }
+
+}
+
+
+/* =====================================
+   EXPLOSIONS
+===================================== */
+
+function createExplosion(
+    x,
+    y
+) {
+
+    for (
+        let i = 0;
+        i < 15;
+        i++
+    ) {
+
+        particles.push({
+
+            x: x,
+
+            y: y,
+
+            vx:
+                (Math.random() - .5) *
+                6,
+
+            vy:
+                (Math.random() - .5) *
+                6,
+
+            size:
+                Math.random() * 4 + 1,
+
+            life: 30
+
+        });
+
+    }
+
+}
+
+
+function updateParticles() {
+
+    for (const particle of particles) {
+
+        particle.x +=
+            particle.vx;
+
+        particle.y +=
+            particle.vy;
+
+        particle.life--;
+
+    }
+
+
+    particles =
+        particles.filter(
+            particle =>
+                particle.life > 0
+        );
+
+}
+
+
+function drawParticles() {
+
+    for (const particle of particles) {
+
+        ctx.globalAlpha =
+            particle.life / 30;
+
+
+        ctx.fillStyle =
+            "#00eaff";
+
+
+        ctx.beginPath();
+
+        ctx.arc(
+            particle.x,
+            particle.y,
+            particle.size,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.fill();
+
+    }
+
+
+    ctx.globalAlpha = 1;
+
+}
+
+
+/* =====================================
+   SPAWN
+===================================== */
+
+function spawnEnemies() {
+
+    enemyTimer++;
+
+
+    const spawnRate =
+        Math.max(
+            18,
+            65 - wave * 4
+        );
+
+
+    if (
+        enemyTimer >= spawnRate
+    ) {
+
+        createEnemy();
+
+        enemyTimer = 0;
+
+    }
+
+}
+
+
+/* =====================================
+   GAME OVER
+===================================== */
+
+function endGame() {
+
+    if (!gameRunning) {
+
+        return;
+
+    }
+
+
+    gameRunning = false;
+
+
+    document.getElementById(
+        "finalScore"
+    ).textContent = score;
+
+
+    document.getElementById(
+        "finalWave"
+    ).textContent = wave;
+
+
+    document.getElementById(
+        "gameOver"
+    ).style.display = "flex";
+
+}
+
+
+/* =====================================
+   RESTART
+===================================== */
+
+function restartGame() {
+
+    score = 0;
+
+    health = 100;
+
+    wave = 1;
+
+    enemyTimer = 0;
+
+    shootCooldown = 0;
+
+
+    bullets = [];
+
+    enemies = [];
+
+    particles = [];
+
+
+    player.x = W / 2;
+
+    player.y = H / 2;
+
+
+    gameRunning = true;
+
+
+    document.getElementById(
+        "score"
+    ).textContent = "0";
+
+
+    document.getElementById(
+        "health"
+    ).textContent = "100";
+
+
+    document.getElementById(
+        "wave"
+    ).textContent = "1";
+
+
+    document.getElementById(
+        "gameOver"
+    ).style.display = "none";
+
+
+    gameLoop();
+
+}
+
+
+/* =====================================
+   GAME LOOP
+===================================== */
+
+function gameLoop() {
+
+    if (!gameRunning) {
+
+        return;
+
+    }
+
+
+    ctx.clearRect(
+        0,
+        0,
+        W,
+        H
+    );
+
+
+    /* Background grid */
+
+    ctx.strokeStyle =
+        "#ffffff08";
+
+    ctx.lineWidth = 1;
+
+
+    const grid = 50;
+
+
+    for (
+        let x = 0;
+        x < W;
+        x += grid
+    ) {
+
+        ctx.beginPath();
+
+        ctx.moveTo(x, 0);
+
+        ctx.lineTo(x, H);
+
+        ctx.stroke();
+
+    }
+
+
+    for (
+        let y = 0;
+        y < H;
+        y += grid
+    ) {
+
+        ctx.beginPath();
+
+        ctx.moveTo(0, y);
+
+        ctx.lineTo(W, y);
+
+        ctx.stroke();
+
+    }
+
+
+    updatePlayer();
+
+    updateBullets();
+
+    updateEnemies();
+
+    checkBulletCollisions();
+
+    spawnEnemies();
+
+    updateParticles();
+
+
+    if (shootCooldown > 0) {
+
+        shootCooldown--;
+
+    }
+
+
+    bullets.forEach(
+        drawBullet
+    );
+
+
+    enemies.forEach(
+        drawEnemy
+    );
+
+
+    drawParticles();
+
+    drawPlayer();
+
+
+    requestAnimationFrame(
+        gameLoop
+    );
+
+}
+
+
+/* =====================================
+   RESIZE
+===================================== */
+
+window.addEventListener(
+    "resize",
+    function() {
+
+        W = window.innerWidth;
+
+        H = window.innerHeight;
+
+        canvas.width = W;
+
+        canvas.height = H;
+
+
+        player.x = W / 2;
+
+        player.y = H / 2;
+
+    }
+);
+
+
+/* =====================================
+   START
+===================================== */
+
+gameLoop();
+
+</script>
+
+</body>
+</html>
