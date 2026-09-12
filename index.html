@@ -3,9 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>NEXUS AI GAMING</title>
 
 <style>
+
 * {
     margin: 0;
     padding: 0;
@@ -23,7 +25,8 @@ body {
     overflow-x: hidden;
 }
 
-/* Animated background */
+/* BACKGROUND */
+
 body::before {
     content: "";
     position: fixed;
@@ -31,7 +34,7 @@ body::before {
     height: 500px;
     background: #6c2cff;
     filter: blur(180px);
-    opacity: 0.25;
+    opacity: .25;
     top: -150px;
     left: -150px;
     z-index: -1;
@@ -44,13 +47,14 @@ body::after {
     height: 450px;
     background: #00d9ff;
     filter: blur(180px);
-    opacity: 0.18;
+    opacity: .18;
     right: -150px;
     bottom: -100px;
     z-index: -1;
 }
 
-/* NAVBAR */
+/* NAV */
+
 nav {
     position: fixed;
     top: 0;
@@ -59,9 +63,9 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(5,5,16,0.75);
+    background: rgba(5,5,16,.78);
     backdrop-filter: blur(15px);
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+    border-bottom: 1px solid rgba(255,255,255,.08);
     z-index: 1000;
 }
 
@@ -98,6 +102,7 @@ nav ul li a:hover {
 }
 
 /* HERO */
+
 .hero {
     min-height: 100vh;
     display: flex;
@@ -117,7 +122,7 @@ nav ul li a:hover {
 }
 
 .hero h1 {
-    font-size: clamp(50px, 8vw, 100px);
+    font-size: clamp(50px,8vw,100px);
     line-height: .95;
     margin-bottom: 25px;
 }
@@ -138,6 +143,7 @@ nav ul li a:hover {
     margin-top: 35px;
     display: flex;
     gap: 15px;
+    flex-wrap: wrap;
 }
 
 .btn {
@@ -147,6 +153,7 @@ nav ul li a:hover {
     color: white;
     font-weight: bold;
     transition: .3s;
+    cursor: pointer;
 }
 
 .primary {
@@ -164,6 +171,7 @@ nav ul li a:hover {
 }
 
 /* SECTIONS */
+
 section {
     padding: 100px 7%;
 }
@@ -183,6 +191,7 @@ section {
 }
 
 /* GAME CARDS */
+
 .games {
     display: grid;
     grid-template-columns: repeat(auto-fit,minmax(230px,1fr));
@@ -231,9 +240,97 @@ section {
     border-radius: 20px;
     color: #00eaff;
     text-decoration: none;
+    transition: .3s;
+}
+
+.play:hover {
+    background: #00eaff;
+    color: #050510;
+    box-shadow: 0 0 20px #00eaff;
+}
+
+/* PROFILE */
+
+.profile-box {
+    max-width: 900px;
+    margin: auto;
+    padding: 35px;
+    border-radius: 20px;
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(0,234,255,.18);
+    box-shadow: 0 0 35px rgba(0,234,255,.05);
+}
+
+.profile-grid {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 30px;
+    align-items: center;
+}
+
+.avatar {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    background: radial-gradient(circle,#00eaff33,#6c2cff33);
+    border: 2px solid #00eaff;
+    box-shadow: 0 0 30px #00eaff44;
+}
+
+.profile-info h2 {
+    color: #00eaff;
+}
+
+.profile-info p {
+    color: #888;
+    margin-top: 8px;
+}
+
+.username-input {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.username-input input {
+    flex: 1;
+}
+
+/* STATS */
+
+.stats {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 15px;
+}
+
+.stat-box {
+    padding: 20px;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 12px;
+    background: rgba(255,255,255,.03);
+}
+
+.stat-box strong {
+    display: block;
+    color: #00eaff;
+    font-size: 28px;
+    margin-bottom: 6px;
+}
+
+.stat-box span {
+    color: #777;
+    font-size: 13px;
 }
 
 /* AI ARENA */
+
 .arena {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -284,34 +381,113 @@ section {
     padding: 10px 18px;
     border-radius: 20px;
     cursor: pointer;
+    transition: .3s;
 }
 
-.difficulty button:hover {
+.difficulty button:hover,
+.difficulty button.active {
     border-color: #00eaff;
     color: #00eaff;
+    box-shadow: 0 0 15px #00eaff33;
 }
 
 /* LEADERBOARD */
+
 .leaderboard {
-    max-width: 900px;
+    max-width: 950px;
     margin: auto;
     background: rgba(255,255,255,.04);
     border-radius: 18px;
     overflow: hidden;
+    border: 1px solid rgba(0,234,255,.12);
+}
+
+.leader-head,
+.player {
+    display: grid;
+    grid-template-columns: 70px 1fr 120px 130px 130px;
+    gap: 10px;
+    align-items: center;
+    padding: 18px 20px;
+}
+
+.leader-head {
+    color: #777;
+    font-size: 12px;
+    text-transform: uppercase;
+    background: rgba(0,234,255,.04);
 }
 
 .player {
-    display: grid;
-    grid-template-columns: 70px 1fr 100px 100px;
-    padding: 20px;
-    border-bottom: 1px solid rgba(255,255,255,.08);
+    border-top: 1px solid rgba(255,255,255,.07);
+    transition: .2s;
 }
 
-.player:first-child {
+.player:hover {
+    background: rgba(0,234,255,.05);
+}
+
+.player.rank-1 {
     color: #00eaff;
 }
 
+.player.current-player {
+    background: rgba(108,44,255,.12);
+    border-left: 3px solid #00eaff;
+}
+
+.rank {
+    font-weight: bold;
+}
+
+.player-name {
+    font-weight: bold;
+}
+
+.level {
+    color: #999;
+}
+
+.xp {
+    color: #00eaff;
+    font-weight: bold;
+}
+
+.best {
+    color: #aaa;
+}
+
+.empty {
+    padding: 35px;
+    text-align: center;
+    color: #777;
+}
+
+/* LEADERBOARD CONTROLS */
+
+.leader-controls {
+    max-width: 950px;
+    margin: 20px auto 0;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.reset-btn {
+    background: transparent;
+    color: #777;
+    border: 1px solid #333;
+    padding: 9px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.reset-btn:hover {
+    color: #ff5c7a;
+    border-color: #ff5c7a;
+}
+
 /* CONTACT */
+
 .contact {
     max-width: 700px;
     margin: auto;
@@ -329,7 +505,8 @@ form {
     gap: 15px;
 }
 
-input, textarea {
+input,
+textarea {
     width: 100%;
     padding: 15px;
     background: rgba(255,255,255,.05);
@@ -339,7 +516,8 @@ input, textarea {
     outline: none;
 }
 
-input:focus, textarea:focus {
+input:focus,
+textarea:focus {
     border-color: #00eaff;
 }
 
@@ -347,7 +525,31 @@ textarea {
     min-height: 130px;
 }
 
+/* TOAST */
+
+#toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    padding: 15px 22px;
+    background: rgba(5,5,20,.95);
+    border: 1px solid #00eaff;
+    border-radius: 10px;
+    color: #00eaff;
+    box-shadow: 0 0 25px #00eaff44;
+    transform: translateY(100px);
+    opacity: 0;
+    transition: .3s;
+    z-index: 2000;
+}
+
+#toast.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
 /* FOOTER */
+
 footer {
     text-align: center;
     padding: 40px;
@@ -356,7 +558,9 @@ footer {
 }
 
 /* MOBILE */
+
 @media(max-width:800px) {
+
     nav ul {
         display: none;
     }
@@ -369,40 +573,84 @@ footer {
         grid-template-columns: 1fr;
     }
 
-    .player {
-        grid-template-columns: 50px 1fr 70px;
+    .profile-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
     }
 
-    .player span:last-child {
+    .avatar {
+        margin: auto;
+    }
+
+    .username-input {
+        flex-direction: column;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .leader-head {
         display: none;
     }
+
+    .player {
+        grid-template-columns: 45px 1fr 80px;
+    }
+
+    .player .level,
+    .player .best {
+        display: none;
+    }
+
+    #toast {
+        left: 20px;
+        right: 20px;
+        bottom: 20px;
+        text-align: center;
+    }
+
 }
+
 </style>
 </head>
 
 <body>
 
+
 <!-- NAVIGATION -->
+
 <nav>
-    <div class="logo">NEXUS AI</div>
+
+    <div class="logo">
+        NEXUS AI
+    </div>
 
     <ul>
         <li><a href="#home">Home</a></li>
         <li><a href="#games">Games</a></li>
+        <li><a href="#profile">Profile</a></li>
         <li><a href="#arena">AI Arena</a></li>
         <li><a href="#leaderboard">Leaderboard</a></li>
         <li><a href="#contact">Contact</a></li>
     </ul>
 
-    <a href="#games" class="join">JOIN NOW</a>
+    <a href="#games" class="join">
+        JOIN NOW
+    </a>
+
 </nav>
 
 
 <!-- HERO -->
+
 <section class="hero" id="home">
+
     <div class="hero-content">
 
-        <div class="tag">NEXT GENERATION GAMING</div>
+        <div class="tag">
+            NEXT GENERATION GAMING
+        </div>
 
         <h1>
             ENTER THE<br>
@@ -417,165 +665,466 @@ footer {
         </p>
 
         <div class="buttons">
-            <a href="#games" class="btn primary">EXPLORE GAMES</a>
-            <a href="#arena" class="btn secondary">AI ARENA</a>
+
+            <a href="#games" class="btn primary">
+                EXPLORE GAMES
+            </a>
+
+            <a href="#arena" class="btn secondary">
+                AI ARENA
+            </a>
+
         </div>
 
     </div>
+
 </section>
 
 
 <!-- GAMES -->
+
 <section id="games">
 
     <div class="section-title">
+
         <h2>AI GAME HUB</h2>
-        <p>Discover your next gaming experience.</p>
+
+        <p>
+            Discover your next gaming experience.
+        </p>
+
     </div>
+
 
     <div class="games">
 
-        <div class="card">
-            <div class="game-icon">⚔️</div>
-            <h3>Cyber Warriors</h3>
-            <p>Action • Multiplayer</p>
-            <a href="cyber-warriors.html" class="play">PLAY NOW</a>
-        </div>
+
+        <!-- CYBER WARRIORS -->
 
         <div class="card">
-            <div class="game-icon">🚀</div>
-            <h3>Galaxy X</h3>
-            <p>Space • Strategy</p>
-            <a href="galaxy-x.html" class="play">PLAY NOW</a>
+
+            <div class="game-icon">
+                ⚔️
+            </div>
+
+            <h3>
+                Cyber Warriors
+            </h3>
+
+            <p>
+                Action • Multiplayer
+            </p>
+
+            <a
+                href="cyber-warriors.html"
+                class="play">
+                PLAY NOW
+            </a>
+
         </div>
 
-        <div class="card">
-            <div class="game-icon">🤖</div>
-            <h3>AI Overdrive</h3>
-            <p>Racing • AI</p>
-            <a href="#" class="play">PLAY NOW</a>
-        </div>
+
+        <!-- GALAXY X -->
 
         <div class="card">
-            <div class="game-icon">👾</div>
-            <h3>Neon Battle</h3>
-            <p>Arcade • PvP</p>
-            <a href="ai-overdrive.html" class="play">PLAY NOW</a>
+
+            <div class="game-icon">
+                🚀
+            </div>
+
+            <h3>
+                Galaxy X
+            </h3>
+
+            <p>
+                Space • Strategy
+            </p>
+
+            <a
+                href="galaxy-x.html"
+                class="play">
+                PLAY NOW
+            </a>
+
+        </div>
+
+
+        <!-- AI OVERDRIVE -->
+
+        <div class="card">
+
+            <div class="game-icon">
+                🏎️
+            </div>
+
+            <h3>
+                AI Overdrive
+            </h3>
+
+            <p>
+                Racing • AI
+            </p>
+
+            <a
+                href="ai-overdrive.html"
+                class="play">
+                PLAY NOW
+            </a>
+
+        </div>
+
+
+        <!-- NEON BATTLE -->
+
+        <div class="card">
+
+            <div class="game-icon">
+                👾
+            </div>
+
+            <h3>
+                Neon Battle
+            </h3>
+
+            <p>
+                Arcade • PvP
+            </p>
+
+            <a
+                href="neon-battle.html"
+                class="play">
+                PLAY NOW
+            </a>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- PLAYER PROFILE -->
+
+<section id="profile">
+
+    <div class="section-title">
+
+        <h2>PLAYER PROFILE</h2>
+
+        <p>
+            Your NEXUS gaming identity.
+        </p>
+
+    </div>
+
+
+    <div class="profile-box">
+
+        <div class="profile-grid">
+
+            <div class="avatar">
+                👤
+            </div>
+
+            <div class="profile-info">
+
+                <h2 id="profileName">
+                    Guest Player
+                </h2>
+
+                <p>
+                    NEXUS PLAYER • LEVEL
+                    <span id="profileLevel">
+                        1
+                    </span>
+                </p>
+
+                <div class="username-input">
+
+                    <input
+                        id="usernameInput"
+                        type="text"
+                        maxlength="20"
+                        placeholder="Enter your gamer name">
+
+                    <button
+                        class="btn primary"
+                        onclick="saveUsername()">
+                        SAVE NAME
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="stats">
+
+            <div class="stat-box">
+
+                <strong id="totalXP">
+                    0
+                </strong>
+
+                <span>
+                    TOTAL XP
+                </span>
+
+            </div>
+
+
+            <div class="stat-box">
+
+                <strong id="bestScore">
+                    0
+                </strong>
+
+                <span>
+                    BEST SCORE
+                </span>
+
+            </div>
+
+
+            <div class="stat-box">
+
+                <strong id="gamesPlayed">
+                    0
+                </strong>
+
+                <span>
+                    GAMES PLAYED
+                </span>
+
+            </div>
+
         </div>
 
     </div>
+
 </section>
 
 
 <!-- AI ARENA -->
+
 <section id="arena">
 
     <div class="section-title">
-        <h2>AI ARENA</h2>
-        <p>Are you ready to challenge the machine?</p>
+
+        <h2>
+            AI ARENA
+        </h2>
+
+        <p>
+            Are you ready to challenge the machine?
+        </p>
+
     </div>
+
 
     <div class="arena">
 
-        <div class="arena-box">
-            <div class="ai-circle">🤖</div>
-        </div>
 
         <div class="arena-box">
 
-            <h2>NEXUS AI</h2>
-
-            <p style="color:#999;margin-top:15px;line-height:1.7;">
-                Challenge our advanced AI opponents and prove
-                that human players can still dominate the future.
-            </p>
-
-            <h3 style="margin-top:25px;">SELECT DIFFICULTY</h3>
-
-            <div class="difficulty">
-                <button>ROOKIE</button>
-                <button>PRO</button>
-                <button>ELITE</button>
-                <button>LEGEND</button>
+            <div class="ai-circle">
+                🤖
             </div>
 
+        </div>
+
+
+        <div class="arena-box">
+
+            <h2>
+                NEXUS AI
+            </h2>
+
+            <p style="
+                color:#999;
+                margin-top:15px;
+                line-height:1.7;
+            ">
+
+                Challenge our advanced AI opponents
+                and prove that human players can still
+                dominate the future.
+
+            </p>
+
+
+            <h3 style="margin-top:25px;">
+                SELECT DIFFICULTY
+            </h3>
+
+
+            <div class="difficulty">
+
+                <button
+                    onclick="selectDifficulty(this)">
+                    ROOKIE
+                </button>
+
+                <button
+                    onclick="selectDifficulty(this)">
+                    PRO
+                </button>
+
+                <button
+                    class="active"
+                    onclick="selectDifficulty(this)">
+                    ELITE
+                </button>
+
+                <button
+                    onclick="selectDifficulty(this)">
+                    LEGEND
+                </button>
+
+            </div>
+
+
             <div style="margin-top:25px;">
-                <a href="neon-battle.html" class="play">PLAY NOW</a>
+
+                <a
+                    href="neon-battle.html"
+                    class="play">
+                    PLAY NOW
+                </a>
+
             </div>
 
         </div>
 
     </div>
+
 </section>
 
 
 <!-- LEADERBOARD -->
+
 <section id="leaderboard">
 
     <div class="section-title">
-        <h2>GLOBAL LEADERBOARD</h2>
-        <p>Top players in the NEXUS network.</p>
+
+        <h2>
+            GLOBAL LEADERBOARD
+        </h2>
+
+        <p>
+            Top players in this browser's NEXUS network.
+        </p>
+
     </div>
+
 
     <div class="leaderboard">
 
-        <div class="player">
-            <span>#1</span>
-            <span>ShadowX</span>
-            <span>LVL 99</span>
-            <span>98,420 XP</span>
+        <div class="leader-head">
+
+            <span>
+                Rank
+            </span>
+
+            <span>
+                Player
+            </span>
+
+            <span>
+                Level
+            </span>
+
+            <span>
+                XP
+            </span>
+
+            <span>
+                Best Score
+            </span>
+
         </div>
 
-        <div class="player">
-            <span>#2</span>
-            <span>CyberGhost</span>
-            <span>LVL 94</span>
-            <span>91,820 XP</span>
-        </div>
 
-        <div class="player">
-            <span>#3</span>
-            <span>NovaPlayer</span>
-            <span>LVL 91</span>
-            <span>87,500 XP</span>
-        </div>
+        <div id="leaderboardList">
 
-        <div class="player">
-            <span>#4</span>
-            <span>AIHunter</span>
-            <span>LVL 88</span>
-            <span>82,340 XP</span>
         </div>
 
     </div>
+
+
+    <div class="leader-controls">
+
+        <button
+            class="reset-btn"
+            onclick="resetScores()">
+
+            RESET MY SCORES
+
+        </button>
+
+    </div>
+
 </section>
 
 
 <!-- CONTACT -->
+
 <section id="contact">
 
     <div class="contact">
 
         <div class="section-title">
-            <h2>CONTACT NEXUS</h2>
-            <p>Connect with the future of gaming.</p>
+
+            <h2>
+                CONTACT NEXUS
+            </h2>
+
+            <p>
+                Connect with the future of gaming.
+            </p>
+
         </div>
 
+
         <div class="contact-info">
-            📞 9394562832<br>
+
+            📞 9394562832
+            <br>
+
             📧 iabadulali@gmail.com
+
         </div>
+
 
         <form onsubmit="sendMessage(event)">
 
-            <input type="text" placeholder="Your Name" required>
+            <input
+                type="text"
+                placeholder="Your Name"
+                required>
 
-            <input type="email" placeholder="Your Email" required>
 
-            <textarea placeholder="Your Message" required></textarea>
+            <input
+                type="email"
+                placeholder="Your Email"
+                required>
 
-            <button class="btn primary" type="submit">
+
+            <textarea
+                placeholder="Your Message"
+                required>
+            </textarea>
+
+
+            <button
+                class="btn primary"
+                type="submit">
+
                 SEND MESSAGE
+
             </button>
 
         </form>
@@ -586,19 +1135,620 @@ footer {
 
 
 <!-- FOOTER -->
+
 <footer>
-    © 2026 NEXUS AI GAMING — ENTER THE FUTURE.
+
+    © 2026 NEXUS AI GAMING —
+    ENTER THE FUTURE.
+
 </footer>
+
+
+<div id="toast">
+    Saved!
+</div>
 
 
 <script>
 
-function sendMessage(event) {
-    event.preventDefault();
+/* =====================================
+   NEXUS PLAYER DATA
+===================================== */
 
-    alert("Message received! Welcome to NEXUS AI Gaming.");
+const STORAGE_KEY =
+    "nexus_ai_player";
+
+
+const DEFAULT_DATA = {
+
+    username: "Guest Player",
+
+    scores: {
+
+        "Cyber Warriors": 0,
+
+        "Galaxy X": 0,
+
+        "AI Overdrive": 0,
+
+        "Neon Battle": 0
+
+    },
+
+    gamesPlayed: 0
+
+};
+
+
+/* =====================================
+   GET PLAYER DATA
+===================================== */
+
+function getPlayerData() {
+
+    try {
+
+        const saved =
+            localStorage.getItem(
+                STORAGE_KEY
+            );
+
+        if (!saved) {
+
+            return {
+                ...DEFAULT_DATA,
+                scores: {
+                    ...DEFAULT_DATA.scores
+                }
+            };
+
+        }
+
+
+        const data =
+            JSON.parse(saved);
+
+
+        return {
+
+            ...DEFAULT_DATA,
+
+            ...data,
+
+            scores: {
+
+                ...DEFAULT_DATA.scores,
+
+                ...(data.scores || {})
+
+            }
+
+        };
+
+    }
+
+    catch (error) {
+
+        return {
+            ...DEFAULT_DATA,
+            scores: {
+                ...DEFAULT_DATA.scores
+            }
+        };
+
+    }
 
 }
+
+
+/* =====================================
+   SAVE PLAYER DATA
+===================================== */
+
+function savePlayerData(data) {
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(data)
+    );
+
+}
+
+
+/* =====================================
+   USERNAME
+===================================== */
+
+function saveUsername() {
+
+    const input =
+        document.getElementById(
+            "usernameInput"
+        );
+
+
+    let name =
+        input.value.trim();
+
+
+    if (!name) {
+
+        showToast(
+            "Please enter a gamer name."
+        );
+
+        return;
+
+    }
+
+
+    const data =
+        getPlayerData();
+
+
+    data.username =
+        name.substring(0,20);
+
+
+    savePlayerData(data);
+
+    updateEverything();
+
+
+    showToast(
+        "Gamer name saved!"
+    );
+
+}
+
+
+/* =====================================
+   PLAYER LEVEL
+===================================== */
+
+function getLevel(xp) {
+
+    return Math.max(
+        1,
+        Math.floor(xp / 1000) + 1
+    );
+
+}
+
+
+/* =====================================
+   UPDATE PROFILE
+===================================== */
+
+function updateProfile() {
+
+    const data =
+        getPlayerData();
+
+
+    const scores =
+        Object.values(
+            data.scores
+        );
+
+
+    const totalXP =
+        scores.reduce(
+            (sum, value) =>
+                sum + Number(value || 0),
+            0
+        );
+
+
+    const bestScore =
+        Math.max(
+            0,
+            ...scores
+        );
+
+
+    document.getElementById(
+        "profileName"
+    ).textContent =
+        data.username;
+
+
+    document.getElementById(
+        "profileLevel"
+    ).textContent =
+        getLevel(totalXP);
+
+
+    document.getElementById(
+        "totalXP"
+    ).textContent =
+        totalXP.toLocaleString();
+
+
+    document.getElementById(
+        "bestScore"
+    ).textContent =
+        bestScore.toLocaleString();
+
+
+    document.getElementById(
+        "gamesPlayed"
+    ).textContent =
+        data.gamesPlayed || 0;
+
+
+    document.getElementById(
+        "usernameInput"
+    ).value =
+        data.username === "Guest Player"
+            ? ""
+            : data.username;
+
+}
+
+
+/* =====================================
+   LEADERBOARD
+===================================== */
+
+function updateLeaderboard() {
+
+    const data =
+        getPlayerData();
+
+
+    const scores =
+        Object.values(
+            data.scores
+        );
+
+
+    const totalXP =
+        scores.reduce(
+            (sum, value) =>
+                sum + Number(value || 0),
+            0
+        );
+
+
+    const bestScore =
+        Math.max(
+            0,
+            ...scores
+        );
+
+
+    const currentPlayer = {
+
+        name:
+            data.username,
+
+        xp:
+            totalXP,
+
+        best:
+            bestScore
+
+    };
+
+
+    /*
+       Local demo leaderboard.
+
+       The other players are sample
+       NPC leaderboard entries.
+    */
+
+    const players = [
+
+        {
+            name: "ShadowX",
+            xp: 98420,
+            best: 28420
+        },
+
+        {
+            name: "CyberGhost",
+            xp: 91820,
+            best: 26820
+        },
+
+        {
+            name: "NovaPlayer",
+            xp: 87500,
+            best: 24500
+        },
+
+        {
+            name: "AIHunter",
+            xp: 82340,
+            best: 22340
+        },
+
+        currentPlayer
+
+    ];
+
+
+    players.sort(
+        (a,b) =>
+            b.xp - a.xp
+    );
+
+
+    const container =
+        document.getElementById(
+            "leaderboardList"
+        );
+
+
+    container.innerHTML = "";
+
+
+    players.forEach(
+        (player,index) => {
+
+            const row =
+                document.createElement(
+                    "div"
+                );
+
+
+            row.className =
+                "player " +
+                (index === 0
+                    ? "rank-1 "
+                    : "") +
+                (
+                    player.name ===
+                    currentPlayer.name
+                    ? "current-player"
+                    : ""
+                );
+
+
+            const rank =
+                index + 1;
+
+
+            const medal =
+                rank === 1
+                    ? "🥇"
+                    : rank === 2
+                    ? "🥈"
+                    : rank === 3
+                    ? "🥉"
+                    : "#" + rank;
+
+
+            row.innerHTML = `
+
+                <span class="rank">
+                    ${medal}
+                </span>
+
+                <span class="player-name">
+                    ${escapeHTML(player.name)}
+                </span>
+
+                <span class="level">
+                    LVL ${getLevel(player.xp)}
+                </span>
+
+                <span class="xp">
+                    ${player.xp.toLocaleString()} XP
+                </span>
+
+                <span class="best">
+                    ${player.best.toLocaleString()}
+                </span>
+
+            `;
+
+
+            container.appendChild(row);
+
+        }
+    );
+
+}
+
+
+/* =====================================
+   HTML ESCAPE
+===================================== */
+
+function escapeHTML(text) {
+
+    return String(text)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* =====================================
+   DIFFICULTY
+===================================== */
+
+function selectDifficulty(button) {
+
+    document
+        .querySelectorAll(
+            ".difficulty button"
+        )
+        .forEach(
+            btn =>
+                btn.classList.remove(
+                    "active"
+                )
+        );
+
+
+    button.classList.add(
+        "active"
+    );
+
+
+    showToast(
+        button.textContent +
+        " difficulty selected."
+    );
+
+}
+
+
+/* =====================================
+   TOAST
+===================================== */
+
+let toastTimer;
+
+
+function showToast(message) {
+
+    const toast =
+        document.getElementById(
+            "toast"
+        );
+
+
+    toast.textContent =
+        message;
+
+
+    toast.classList.add(
+        "show"
+    );
+
+
+    clearTimeout(
+        toastTimer
+    );
+
+
+    toastTimer =
+        setTimeout(
+            () => {
+
+                toast.classList.remove(
+                    "show"
+                );
+
+            },
+            2200
+        );
+
+}
+
+
+/* =====================================
+   RESET SCORES
+===================================== */
+
+function resetScores() {
+
+    const confirmed =
+        confirm(
+            "Reset your NEXUS scores?"
+        );
+
+
+    if (!confirmed) {
+
+        return;
+
+    }
+
+
+    const data =
+        getPlayerData();
+
+
+    data.scores = {
+
+        "Cyber Warriors": 0,
+
+        "Galaxy X": 0,
+
+        "AI Overdrive": 0,
+
+        "Neon Battle": 0
+
+    };
+
+
+    data.gamesPlayed = 0;
+
+
+    savePlayerData(data);
+
+    updateEverything();
+
+
+    showToast(
+        "Your scores were reset."
+    );
+
+}
+
+
+/* =====================================
+   CONTACT
+===================================== */
+
+function sendMessage(event) {
+
+    event.preventDefault();
+
+
+    showToast(
+        "Message received! Welcome to NEXUS AI."
+    );
+
+
+    event.target.reset();
+
+}
+
+
+/* =====================================
+   INITIALIZE
+===================================== */
+
+function updateEverything() {
+
+    updateProfile();
+
+    updateLeaderboard();
+
+}
+
+
+updateEverything();
 
 </script>
 
