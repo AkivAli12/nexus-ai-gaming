@@ -2,598 +2,1284 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="theme-color" content="#080814">
-<meta name="description" content="NEXUS AI - Next generation gaming platform">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<meta name="theme-color" content="#070714">
 
 <title>NEXUS AI | Next Generation Gaming</title>
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial, Helvetica, sans-serif;
+
+/* =====================================================
+   RESET
+===================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-html{
-    scroll-behavior:smooth;
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
 }
 
-body{
-    background:#05050f;
-    color:white;
-    overflow-x:hidden;
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #050510;
+    color: #ffffff;
+    overflow-x: hidden;
+    line-height: 1.6;
 }
 
-/* ================= NAVBAR ================= */
-
-header{
-    position:sticky;
-    top:0;
-    z-index:1000;
-    background:rgba(5,5,15,.88);
-    backdrop-filter:blur(15px);
-    border-bottom:1px solid rgba(255,255,255,.08);
+a {
+    text-decoration: none;
+    color: inherit;
 }
 
-nav{
-    max-width:1200px;
-    margin:auto;
-    padding:18px 25px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+button {
+    font-family: inherit;
 }
 
-.logo{
-    font-size:25px;
-    font-weight:900;
-    letter-spacing:1px;
-    color:#00eaff;
-    text-shadow:0 0 15px #00eaff;
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+:root {
+    --bg: #050510;
+    --bg2: #0a0920;
+    --card: rgba(255,255,255,0.05);
+    --border: rgba(255,255,255,0.10);
+
+    --purple: #693cff;
+    --blue: #00d9ff;
+    --pink: #ff3cf2;
+
+    --text: #ffffff;
+    --muted: #a7a7bd;
+
+    --max: 1200px;
 }
 
-.nav-links{
-    display:flex;
-    gap:30px;
-    list-style:none;
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+
+    width: 100%;
+
+    background: rgba(5,5,16,0.88);
+    backdrop-filter: blur(18px);
+
+    border-bottom: 1px solid var(--border);
 }
 
-.nav-links a{
-    color:#ccc;
-    text-decoration:none;
-    font-size:15px;
-    transition:.3s;
+.navbar {
+    width: min(100% - 32px, var(--max));
+    min-height: 72px;
+
+    margin: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
 }
 
-.nav-links a:hover{
-    color:#00eaff;
+.logo {
+    font-size: 24px;
+    font-weight: 900;
+
+    color: var(--blue);
+
+    text-shadow:
+        0 0 15px rgba(0,217,255,.7);
+
+    white-space: nowrap;
 }
 
-.join{
-    text-decoration:none;
-    color:white;
-    font-weight:bold;
-    padding:12px 23px;
-    border-radius:25px;
-    background:linear-gradient(90deg,#713cff,#00cfff);
-    box-shadow:0 0 20px rgba(0,207,255,.35);
-    transition:.3s;
+.logo span {
+    color: white;
 }
 
-.join:hover{
-    transform:translateY(-2px);
-    box-shadow:0 0 30px rgba(0,207,255,.6);
+
+/* NAV LINKS */
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 28px;
 }
 
-/* ================= HERO ================= */
+.nav-links a {
+    color: #c6c6d5;
+    font-size: 14px;
+    transition: .25s;
+}
 
-.hero{
-    min-height:720px;
-    display:flex;
-    align-items:center;
-    position:relative;
-    overflow:hidden;
+.nav-links a:hover {
+    color: var(--blue);
+}
+
+
+/* JOIN */
+
+.join-btn {
+    padding: 11px 22px;
+
+    border-radius: 30px;
+
     background:
-        radial-gradient(circle at 15% 30%,rgba(100,40,255,.28),transparent 35%),
-        radial-gradient(circle at 85% 50%,rgba(0,220,255,.16),transparent 35%),
-        #05050f;
+        linear-gradient(
+            90deg,
+            var(--purple),
+            var(--blue)
+        );
+
+    color: white;
+
+    font-weight: 800;
+    font-size: 14px;
+
+    box-shadow:
+        0 0 25px rgba(0,217,255,.25);
+
+    transition: .25s;
 }
 
-.hero::before{
-    content:"";
-    position:absolute;
-    width:500px;
-    height:500px;
-    border:1px solid rgba(0,234,255,.15);
-    border-radius:50%;
-    right:-180px;
-    top:100px;
-    animation:spin 15s linear infinite;
+.join-btn:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 0 35px rgba(0,217,255,.45);
 }
 
-.hero-content{
-    max-width:1200px;
-    width:100%;
-    margin:auto;
-    padding:70px 25px;
-    position:relative;
-    z-index:2;
+
+/* MOBILE MENU BUTTON */
+
+.menu-btn {
+    display: none;
+
+    width: 42px;
+    height: 42px;
+
+    border: 1px solid var(--border);
+    border-radius: 10px;
+
+    background: var(--card);
+    color: white;
+
+    font-size: 21px;
+
+    cursor: pointer;
 }
 
-.tag{
-    color:#00eaff;
-    font-size:13px;
-    letter-spacing:6px;
-    font-weight:bold;
-    margin-bottom:25px;
+
+/* =====================================================
+   MOBILE MENU
+===================================================== */
+
+.mobile-menu {
+    display: none;
+
+    position: absolute;
+
+    top: 72px;
+    left: 12px;
+    right: 12px;
+
+    padding: 15px;
+
+    background: #0c0b1c;
+
+    border: 1px solid var(--border);
+    border-radius: 16px;
+
+    box-shadow:
+        0 20px 50px rgba(0,0,0,.5);
 }
 
-.hero h1{
-    font-size:clamp(55px,9vw,115px);
-    line-height:.9;
-    max-width:900px;
-    font-weight:900;
-    letter-spacing:-4px;
+.mobile-menu.active {
+    display: block;
 }
 
-.gradient{
-    background:linear-gradient(90deg,#713cff,#00eaff);
-    -webkit-background-clip:text;
-    color:transparent;
+.mobile-menu a {
+    display: block;
+
+    padding: 13px;
+
+    color: #d2d2df;
+
+    border-radius: 10px;
 }
 
-.hero p{
-    max-width:650px;
-    color:#aaa;
-    line-height:1.8;
-    margin-top:30px;
-    font-size:17px;
+.mobile-menu a:hover {
+    background: rgba(255,255,255,.06);
+    color: var(--blue);
 }
 
-.buttons{
-    display:flex;
-    gap:15px;
-    margin-top:35px;
-    flex-wrap:wrap;
-}
 
-.btn{
-    display:inline-block;
-    text-decoration:none;
-    padding:15px 27px;
-    border-radius:10px;
-    font-weight:bold;
-    transition:.3s;
-}
+/* =====================================================
+   HERO
+===================================================== */
 
-.primary{
-    color:white;
-    background:linear-gradient(90deg,#713cff,#00cfff);
-    box-shadow:0 0 25px rgba(0,207,255,.25);
-}
+.hero {
+    min-height: 720px;
 
-.primary:hover{
-    transform:translateY(-3px);
-    box-shadow:0 0 35px rgba(0,207,255,.5);
-}
+    display: flex;
+    align-items: center;
 
-.secondary{
-    color:white;
-    border:1px solid #00eaff;
-    background:transparent;
-}
+    position: relative;
+    overflow: hidden;
 
-.secondary:hover{
-    background:#00eaff;
-    color:#05050f;
-}
-
-/* ================= SECTIONS ================= */
-
-.section{
-    max-width:1200px;
-    margin:auto;
-    padding:90px 25px;
-}
-
-.section-heading{
-    margin-bottom:40px;
-}
-
-.section-heading small{
-    color:#00eaff;
-    letter-spacing:4px;
-    font-weight:bold;
-}
-
-.section-heading h2{
-    font-size:45px;
-    margin-top:10px;
-}
-
-.section-heading p{
-    color:#888;
-    margin-top:10px;
-}
-
-/* ================= GAME CARDS ================= */
-
-.games{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:20px;
-}
-
-.game{
-    min-height:300px;
-    padding:30px;
-    border:1px solid rgba(255,255,255,.1);
-    border-radius:20px;
     background:
-        linear-gradient(145deg,rgba(255,255,255,.06),rgba(255,255,255,.015));
-    position:relative;
-    overflow:hidden;
-    transition:.35s;
+        radial-gradient(
+            circle at 15% 30%,
+            rgba(105,60,255,.30),
+            transparent 35%
+        ),
+
+        radial-gradient(
+            circle at 85% 60%,
+            rgba(0,217,255,.18),
+            transparent 35%
+        ),
+
+        linear-gradient(
+            135deg,
+            #10082c,
+            #050510 60%
+        );
 }
 
-.game:hover{
-    transform:translateY(-8px);
-    border-color:#00eaff;
-    box-shadow:0 15px 45px rgba(0,234,255,.12);
+
+/* GRID */
+
+.hero::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background-image:
+        linear-gradient(
+            rgba(255,255,255,.025) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.025) 1px,
+            transparent 1px
+        );
+
+    background-size: 45px 45px;
+
+    mask-image:
+        linear-gradient(
+            to bottom,
+            black,
+            transparent
+        );
 }
 
-.game-icon{
-    font-size:55px;
-    margin-bottom:25px;
+
+/* HERO CONTENT */
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+
+    width: min(100% - 32px, var(--max));
+
+    margin: auto;
 }
 
-.game h3{
-    font-size:25px;
-    margin-bottom:12px;
+.hero-tag {
+    color: var(--blue);
+
+    font-size: 13px;
+
+    letter-spacing: 6px;
+
+    font-weight: 800;
+
+    margin-bottom: 20px;
 }
 
-.game p{
-    color:#999;
-    line-height:1.6;
-    min-height:70px;
-}
+.hero h1 {
+    max-width: 850px;
 
-.play{
-    display:inline-block;
-    margin-top:20px;
-    color:#00eaff;
-    text-decoration:none;
-    font-weight:bold;
-}
-
-.play:hover{
-    text-shadow:0 0 10px #00eaff;
-}
-
-/* ================= AI SECTION ================= */
-
-.ai-section{
-    background:
-        radial-gradient(circle at center,rgba(80,40,255,.15),transparent 55%);
-}
-
-.ai-box{
-    border:1px solid rgba(0,234,255,.2);
-    border-radius:25px;
-    padding:55px;
-    background:linear-gradient(
-        135deg,
-        rgba(100,50,255,.12),
-        rgba(0,234,255,.04)
+    font-size: clamp(
+        55px,
+        8vw,
+        110px
     );
-    text-align:center;
+
+    line-height: .9;
+
+    font-weight: 900;
+
+    letter-spacing: -5px;
+
+    text-transform: uppercase;
 }
 
-.ai-symbol{
-    width:100px;
-    height:100px;
-    margin:0 auto 25px;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:45px;
-    background:linear-gradient(135deg,#713cff,#00eaff);
-    box-shadow:0 0 45px rgba(0,234,255,.35);
-    animation:pulse 2.5s infinite;
+.hero h1 .gradient {
+    background:
+        linear-gradient(
+            90deg,
+            var(--blue),
+            var(--purple),
+            var(--pink)
+        );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    color: transparent;
 }
 
-.ai-box h2{
-    font-size:40px;
+.hero-description {
+    max-width: 680px;
+
+    margin-top: 28px;
+
+    color: #aaaabd;
+
+    font-size: 17px;
+
+    line-height: 1.8;
 }
 
-.ai-box p{
-    max-width:650px;
-    margin:15px auto 30px;
-    color:#999;
-    line-height:1.7;
+.hero-buttons {
+    display: flex;
+
+    gap: 13px;
+
+    flex-wrap: wrap;
+
+    margin-top: 32px;
 }
 
-/* ================= FEATURES ================= */
+.primary-btn,
+.secondary-btn {
+    padding: 15px 25px;
 
-.features{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:15px;
+    border-radius: 12px;
+
+    font-weight: 800;
+
+    display: inline-block;
+
+    transition: .25s;
 }
 
-.feature{
-    padding:25px;
-    border-radius:16px;
-    background:#0b0b18;
-    border:1px solid #17172a;
+.primary-btn {
+    background:
+        linear-gradient(
+            90deg,
+            var(--purple),
+            var(--blue)
+        );
+
+    box-shadow:
+        0 0 30px rgba(0,217,255,.22);
 }
 
-.feature span{
-    font-size:30px;
+.secondary-btn {
+    border: 1px solid var(--blue);
+
+    background: rgba(0,217,255,.03);
+
+    color: white;
 }
 
-.feature h3{
-    margin:15px 0 8px;
+.primary-btn:hover,
+.secondary-btn:hover {
+    transform: translateY(-3px);
 }
 
-.feature p{
-    color:#888;
-    font-size:14px;
-    line-height:1.6;
+
+/* =====================================================
+   GENERAL SECTION
+===================================================== */
+
+section {
+    position: relative;
 }
 
-/* ================= LOGIN ================= */
+.container {
+    width: min(100% - 32px, var(--max));
 
-.login-section{
-    text-align:center;
+    margin: auto;
+
+    padding: 90px 0;
 }
 
-.login-box{
-    max-width:800px;
-    margin:auto;
-    padding:55px 25px;
-    border-radius:25px;
-    border:1px solid rgba(255,255,255,.1);
-    background:linear-gradient(
-        135deg,
-        rgba(113,60,255,.12),
-        rgba(0,234,255,.06)
+.section-header {
+    margin-bottom: 35px;
+}
+
+.section-header small {
+    color: var(--blue);
+
+    font-weight: 800;
+
+    letter-spacing: 3px;
+}
+
+.section-header h2 {
+    margin-top: 8px;
+
+    font-size: clamp(
+        32px,
+        5vw,
+        52px
     );
+
+    line-height: 1.1;
 }
 
-.login-box h2{
-    font-size:40px;
+.section-header p {
+    margin-top: 10px;
+
+    color: var(--muted);
+
+    max-width: 650px;
 }
 
-.login-box p{
-    color:#888;
-    margin:12px 0 25px;
+
+/* =====================================================
+   GAMES
+===================================================== */
+
+.games-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 18px;
 }
 
-/* ================= FOOTER ================= */
+.game-card {
+    position: relative;
 
-footer{
-    border-top:1px solid #151522;
-    padding:45px 25px;
-    text-align:center;
-    color:#777;
+    min-height: 270px;
+
+    padding: 25px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    overflow: hidden;
+
+    border-radius: 22px;
+
+    border: 1px solid var(--border);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(105,60,255,.18),
+            rgba(0,217,255,.04)
+        );
+
+    transition: .3s;
 }
 
-footer strong{
-    color:#00eaff;
+.game-card:hover {
+    transform: translateY(-8px);
+
+    border-color:
+        rgba(0,217,255,.7);
+
+    box-shadow:
+        0 20px 60px rgba(0,217,255,.10);
 }
 
-.footer-links{
-    margin:20px 0;
-    display:flex;
-    justify-content:center;
-    gap:20px;
-    flex-wrap:wrap;
+.game-icon {
+    position: absolute;
+
+    top: 25px;
+    right: 25px;
+
+    font-size: 55px;
+
+    filter:
+        drop-shadow(
+            0 0 15px
+            rgba(0,217,255,.4)
+        );
 }
 
-.footer-links a{
-    color:#888;
-    text-decoration:none;
+.game-card h3 {
+    font-size: 24px;
 }
 
-.footer-links a:hover{
-    color:#00eaff;
+.game-card p {
+    margin-top: 7px;
+
+    color: var(--muted);
+
+    font-size: 14px;
 }
 
-/* ================= ANIMATIONS ================= */
+.play-btn {
+    width: fit-content;
 
-@keyframes pulse{
-    0%,100%{
-        transform:scale(1);
-        box-shadow:0 0 35px rgba(0,234,255,.3);
+    margin-top: 18px;
+
+    padding: 10px 16px;
+
+    border-radius: 9px;
+
+    background: var(--blue);
+
+    color: #001018;
+
+    font-weight: 900;
+
+    font-size: 12px;
+}
+
+
+/* =====================================================
+   AI ARENA
+===================================================== */
+
+.ai-section {
+    background:
+        linear-gradient(
+            180deg,
+            transparent,
+            rgba(105,60,255,.08),
+            transparent
+        );
+}
+
+.ai-box {
+    padding: 50px;
+
+    border-radius: 28px;
+
+    border: 1px solid rgba(105,60,255,.35);
+
+    background:
+        radial-gradient(
+            circle at 80% 20%,
+            rgba(0,217,255,.15),
+            transparent 35%
+        ),
+
+        rgba(255,255,255,.03);
+
+    display: grid;
+
+    grid-template-columns: 1.2fr .8fr;
+
+    gap: 35px;
+
+    align-items: center;
+}
+
+.ai-box h2 {
+    font-size: clamp(35px,5vw,60px);
+}
+
+.ai-box p {
+    margin-top: 15px;
+
+    color: var(--muted);
+
+    max-width: 600px;
+}
+
+.ai-visual {
+    min-height: 250px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+}
+
+.ai-core {
+    width: 130px;
+    height: 130px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            white,
+            var(--blue) 25%,
+            var(--purple) 60%,
+            transparent 70%
+        );
+
+    box-shadow:
+        0 0 50px var(--blue),
+        0 0 100px var(--purple);
+
+    animation:
+        pulse 2.5s infinite;
+}
+
+.ai-ring {
+    position: absolute;
+
+    width: 230px;
+    height: 100px;
+
+    border: 1px solid var(--blue);
+
+    border-radius: 50%;
+
+    transform: rotate(25deg);
+
+    animation:
+        spin 5s linear infinite;
+}
+
+.ai-ring.two {
+    transform: rotate(-25deg);
+}
+
+
+/* =====================================================
+   PROFILE / FEATURES
+===================================================== */
+
+.features {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 15px;
+}
+
+.feature {
+    padding: 24px;
+
+    background: var(--card);
+
+    border: 1px solid var(--border);
+
+    border-radius: 18px;
+
+    transition: .25s;
+}
+
+.feature:hover {
+    border-color: var(--blue);
+
+    transform: translateY(-5px);
+}
+
+.feature-icon {
+    font-size: 32px;
+
+    margin-bottom: 12px;
+}
+
+.feature h3 {
+    font-size: 18px;
+}
+
+.feature p {
+    margin-top: 7px;
+
+    color: var(--muted);
+
+    font-size: 13px;
+}
+
+
+/* =====================================================
+   LEADERBOARD
+===================================================== */
+
+.leaderboard {
+    max-width: 800px;
+
+    margin: auto;
+
+    border: 1px solid var(--border);
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    background: var(--card);
+}
+
+.player {
+    display: grid;
+
+    grid-template-columns:
+        60px 1fr 100px;
+
+    align-items: center;
+
+    padding: 18px 22px;
+
+    border-bottom: 1px solid var(--border);
+}
+
+.player:last-child {
+    border-bottom: none;
+}
+
+.rank {
+    color: var(--blue);
+
+    font-weight: 900;
+}
+
+.player-name {
+    font-weight: 700;
+}
+
+.points {
+    text-align: right;
+
+    color: var(--blue);
+
+    font-weight: 800;
+}
+
+
+/* =====================================================
+   CTA
+===================================================== */
+
+.cta {
+    text-align: center;
+
+    padding: 70px 20px;
+
+    border-radius: 28px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(105,60,255,.25),
+            rgba(0,217,255,.13)
+        );
+
+    border: 1px solid var(--border);
+}
+
+.cta h2 {
+    font-size: clamp(32px,5vw,55px);
+}
+
+.cta p {
+    color: var(--muted);
+
+    margin: 12px auto 25px;
+
+    max-width: 600px;
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+footer {
+    padding: 50px 20px 35px;
+
+    text-align: center;
+
+    color: var(--muted);
+
+    border-top: 1px solid var(--border);
+}
+
+.footer-logo {
+    font-size: 25px;
+
+    color: var(--blue);
+
+    font-weight: 900;
+
+    margin-bottom: 12px;
+}
+
+.footer-links {
+    display: flex;
+
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 20px;
+
+    margin: 20px 0;
+}
+
+.footer-links a:hover {
+    color: var(--blue);
+}
+
+
+/* =====================================================
+   ANIMATIONS
+===================================================== */
+
+@keyframes pulse {
+
+    0%,100% {
+        transform: scale(1);
     }
 
-    50%{
-        transform:scale(1.08);
-        box-shadow:0 0 60px rgba(0,234,255,.65);
+    50% {
+        transform: scale(1.12);
     }
 }
 
-@keyframes spin{
-    from{
-        transform:rotate(0deg);
+@keyframes spin {
+
+    from {
+        transform:
+            rotate(0deg);
     }
 
-    to{
-        transform:rotate(360deg);
+    to {
+        transform:
+            rotate(360deg);
     }
 }
 
-/* ================= MOBILE ================= */
 
-@media(max-width:900px){
+/* =====================================================
+   TABLET
+===================================================== */
 
-    .nav-links{
-        display:none;
+@media (max-width: 950px) {
+
+    .nav-links {
+        display: none;
     }
 
-    .games{
-        grid-template-columns:repeat(2,1fr);
+    .menu-btn {
+        display: block;
     }
 
-    .features{
-        grid-template-columns:repeat(2,1fr);
+    .navbar > .join-btn {
+        display: none;
+    }
+
+    .hero {
+        min-height: 650px;
+    }
+
+    .hero h1 {
+        font-size: clamp(
+            55px,
+            10vw,
+            85px
+        );
+    }
+
+    .games-grid {
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .features {
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .ai-box {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+/* =====================================================
+   PHONE
+===================================================== */
+
+@media (max-width: 600px) {
+
+    html {
+        scroll-padding-top: 70px;
+    }
+
+    body {
+        font-size: 14px;
+    }
+
+    .navbar {
+        min-height: 64px;
+
+        width:
+            calc(100% - 24px);
+    }
+
+    header {
+        position: sticky;
+    }
+
+    .logo {
+        font-size: 19px;
+    }
+
+    .menu-btn {
+        width: 40px;
+        height: 40px;
+    }
+
+    .mobile-menu {
+        top: 64px;
+    }
+
+
+    /* HERO */
+
+    .hero {
+        min-height: 650px;
+    }
+
+    .hero-content {
+        width:
+            calc(100% - 28px);
+    }
+
+    .hero-tag {
+        font-size: 10px;
+
+        letter-spacing: 4px;
+    }
+
+    .hero h1 {
+        font-size: 48px;
+
+        letter-spacing: -2px;
+    }
+
+    .hero-description {
+        font-size: 14px;
+
+        line-height: 1.7;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+
+        width: 100%;
+    }
+
+    .primary-btn,
+    .secondary-btn {
+        width: 100%;
+
+        text-align: center;
+    }
+
+
+    /* SECTIONS */
+
+    .container {
+        width:
+            calc(100% - 28px);
+
+        padding: 65px 0;
+    }
+
+    .section-header h2 {
+        font-size: 32px;
+    }
+
+
+    /* GAMES */
+
+    .games-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .game-card {
+        min-height: 230px;
+    }
+
+
+    /* AI */
+
+    .ai-box {
+        padding: 28px 20px;
+
+        border-radius: 20px;
+    }
+
+    .ai-visual {
+        min-height: 200px;
+    }
+
+    .ai-core {
+        width: 100px;
+        height: 100px;
+    }
+
+    .ai-ring {
+        width: 180px;
+        height: 80px;
+    }
+
+
+    /* FEATURES */
+
+    .features {
+        grid-template-columns: 1fr;
+    }
+
+
+    /* LEADERBOARD */
+
+    .player {
+        grid-template-columns:
+            40px 1fr 75px;
+
+        padding: 15px;
+    }
+
+    .points {
+        font-size: 12px;
+    }
+
+
+    /* CTA */
+
+    .cta {
+        padding: 45px 18px;
+
+        border-radius: 20px;
+    }
+
+
+    /* FOOTER */
+
+    footer {
+        padding-bottom: 30px;
     }
 
 }
 
-@media(max-width:600px){
 
-    nav{
-        padding:15px;
+/* =====================================================
+   SMALL PHONE
+===================================================== */
+
+@media (max-width: 380px) {
+
+    .hero h1 {
+        font-size: 41px;
     }
 
-    .logo{
-        font-size:20px;
+    .hero-tag {
+        letter-spacing: 2px;
     }
 
-    .join{
-        padding:10px 16px;
-        font-size:13px;
-    }
-
-    .hero{
-        min-height:650px;
-    }
-
-    .hero-content{
-        padding:60px 18px;
-    }
-
-    .hero h1{
-        font-size:58px;
-        letter-spacing:-2px;
-    }
-
-    .hero p{
-        font-size:15px;
-    }
-
-    .section{
-        padding:65px 18px;
-    }
-
-    .section-heading h2{
-        font-size:34px;
-    }
-
-    .games{
-        grid-template-columns:1fr;
-    }
-
-    .features{
-        grid-template-columns:1fr;
-    }
-
-    .ai-box{
-        padding:40px 20px;
-    }
-
-    .ai-box h2{
-        font-size:30px;
-    }
-
-    .buttons{
-        flex-direction:column;
-    }
-
-    .btn{
-        text-align:center;
-        width:100%;
+    .game-card {
+        padding: 20px;
     }
 
 }
+
+
+/* =====================================================
+   REDUCED MOTION
+===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+
+        animation-iteration-count: 1 !important;
+
+        scroll-behavior: auto !important;
+
+        transition-duration: .01ms !important;
+    }
+
+}
+
 </style>
 </head>
 
+
 <body>
 
-<!-- ================= NAVBAR ================= -->
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
 
 <header>
 
-<nav>
+<nav class="navbar">
 
-<div class="logo">
-NEXUS AI
-</div>
+    <a href="index.html" class="logo">
+        NEXUS <span>AI</span>
+    </a>
 
-<ul class="nav-links">
 
-<li>
-<a href="index.html">Home</a>
-</li>
+    <div class="nav-links">
 
-<li>
-<a href="#games">Games</a>
-</li>
+        <a href="#home">Home</a>
 
-<li>
-<a href="#ai">AI Arena</a>
-</li>
+        <a href="#games">Games</a>
 
-<li>
-<a href="#features">Features</a>
-</li>
+        <a href="#ai">AI Arena</a>
 
-<li>
-<a href="#contact">Contact</a>
-</li>
+        <a href="#profile">Profile</a>
 
-</ul>
+        <a href="#leaderboard">
+            Leaderboard
+        </a>
 
-<a href="login.html" class="join">
-JOIN NOW
-</a>
+    </div>
+
+
+    <a href="login.html"
+       class="join-btn">
+
+        JOIN NOW
+
+    </a>
+
+
+    <button
+        class="menu-btn"
+        onclick="toggleMenu()"
+        aria-label="Open menu">
+
+        ☰
+
+    </button>
 
 </nav>
+
+
+<!-- MOBILE MENU -->
+
+<div
+    class="mobile-menu"
+    id="mobileMenu">
+
+    <a href="#home"
+       onclick="closeMenu()">
+        🏠 Home
+    </a>
+
+    <a href="#games"
+       onclick="closeMenu()">
+        🎮 Games
+    </a>
+
+    <a href="#ai"
+       onclick="closeMenu()">
+        🤖 AI Arena
+    </a>
+
+    <a href="#profile"
+       onclick="closeMenu()">
+        👤 Profile
+    </a>
+
+    <a href="#leaderboard"
+       onclick="closeMenu()">
+        🏆 Leaderboard
+    </a>
+
+    <a href="login.html">
+        🔐 Login / Sign Up
+    </a>
+
+</div>
 
 </header>
 
 
-<!-- ================= HERO ================= -->
 
-<section class="hero" id="home">
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<main id="home">
+
+<section class="hero">
 
 <div class="hero-content">
 
-<div class="tag">
-NEXT GENERATION GAMING
+<div class="hero-tag">
+    NEXT GENERATION GAMING
 </div>
+
 
 <h1>
-ENTER THE
-<br>
-<span class="gradient">
-FUTURE
-</span>
-OF GAMING.
+
+    ENTER THE
+
+    <span class="gradient">
+        FUTURE
+    </span>
+
+    OF GAMING
+
 </h1>
 
-<p>
-Welcome to NEXUS AI — a next-generation gaming
-platform where futuristic games, artificial intelligence,
-competition and technology come together.
+
+<p class="hero-description">
+
+    Welcome to NEXUS AI — a next-generation
+    gaming platform where artificial intelligence,
+    competition and interactive experiences come
+    together.
+
 </p>
 
-<div class="buttons">
 
-<a href="#games" class="btn primary">
-EXPLORE GAMES
-</a>
+<div class="hero-buttons">
 
-<a href="#ai" class="btn secondary">
-AI ARENA
-</a>
+    <a
+        href="#games"
+        class="primary-btn">
+
+        🎮 EXPLORE GAMES
+
+    </a>
+
+
+    <a
+        href="#ai"
+        class="secondary-btn">
+
+        🤖 AI ARENA
+
+    </a>
 
 </div>
 
@@ -602,200 +1288,238 @@ AI ARENA
 </section>
 
 
-<!-- ================= GAMES ================= -->
 
-<section class="section" id="games">
+<!-- =====================================================
+     GAMES
+===================================================== -->
 
-<div class="section-heading">
+<section
+    class="container"
+    id="games">
 
-<small>GAME HUB</small>
+<div class="section-header">
 
-<h2>Choose Your Game</h2>
+    <small>GAME CENTER</small>
 
-<p>
-Enter different worlds created for the NEXUS AI universe.
-</p>
+    <h2>
+        Choose Your Battle
+    </h2>
+
+    <p>
+        Play interactive games directly
+        from NEXUS AI.
+    </p>
 
 </div>
 
 
-<div class="games">
+<div class="games-grid">
 
 
-<!-- AI OVERDRIVE -->
+<!-- GAME 1 -->
 
-<div class="game">
+<a
+    href="neon-rush.html"
+    class="game-card">
 
-<div class="game-icon">
-🏎️
-</div>
+    <div class="game-icon">
+        ⚡
+    </div>
 
-<h3>
-AI Overdrive
-</h3>
+    <h3>
+        Neon Rush
+    </h3>
 
-<p>
-Challenge yourself in a futuristic AI-powered
-racing experience.
-</p>
+    <p>
+        Enter a fast futuristic challenge
+        and test your reflexes.
+    </p>
 
-<a href="ai-overdrive.html" class="play">
-PLAY NOW →
+    <span class="play-btn">
+        PLAY GAME →
+    </span>
+
 </a>
 
-</div>
 
+<!-- GAME 2 -->
 
-<!-- CYBER WARRIORS -->
+<a
+    href="neon-battle.html"
+    class="game-card">
 
-<div class="game">
+    <div class="game-icon">
+        ⚔️
+    </div>
 
-<div class="game-icon">
-🤖
-</div>
+    <h3>
+        Neon Battle
+    </h3>
 
-<h3>
-Cyber Warriors
-</h3>
+    <p>
+        Face challenges in a futuristic
+        digital arena.
+    </p>
 
-<p>
-Enter the cyber world and experience
-a futuristic battle environment.
-</p>
+    <span class="play-btn">
+        PLAY GAME →
+    </span>
 
-<a href="cyber-warriors.html" class="play">
-PLAY NOW →
 </a>
 
-</div>
 
+<!-- GAME 3 -->
 
-<!-- GALAXY X -->
+<a
+    href="galaxy-x.html"
+    class="game-card">
 
-<div class="game">
+    <div class="game-icon">
+        🚀
+    </div>
 
-<div class="game-icon">
-🌌
-</div>
+    <h3>
+        Galaxy X
+    </h3>
 
-<h3>
-Galaxy X
-</h3>
+    <p>
+        Explore a futuristic galaxy
+        beyond the ordinary.
+    </p>
 
-<p>
-Explore the universe and experience
-a futuristic space adventure.
-</p>
+    <span class="play-btn">
+        PLAY GAME →
+    </span>
 
-<a href="galaxy-x.html" class="play">
-PLAY NOW →
 </a>
 
-</div>
 
+<!-- GAME 4 -->
 
-<!-- NEON BATTLE -->
+<a
+    href="cyber-warriors.html"
+    class="game-card">
 
-<div class="game">
+    <div class="game-icon">
+        🤖
+    </div>
 
-<div class="game-icon">
-⚡
-</div>
+    <h3>
+        Cyber Warriors
+    </h3>
 
-<h3>
-Neon Battle
-</h3>
+    <p>
+        Enter the cyber arena and
+        challenge yourself.
+    </p>
 
-<p>
-A fast futuristic challenge built
-around the neon universe.
-</p>
+    <span class="play-btn">
+        PLAY GAME →
+    </span>
 
-<a href="neon-battle.html" class="play">
-PLAY NOW →
 </a>
 
-</div>
 
+<!-- GAME 5 -->
 
-<!-- NEON RUSH -->
+<a
+    href="ai-overdrive.html"
+    class="game-card">
 
-<div class="game">
+    <div class="game-icon">
+        🧠
+    </div>
 
-<div class="game-icon">
-🔥
-</div>
+    <h3>
+        AI Overdrive
+    </h3>
 
-<h3>
-Neon Rush
-</h3>
+    <p>
+        Experience a futuristic
+        AI-powered challenge.
+    </p>
 
-<p>
-Test your speed and reactions in
-a high-energy neon experience.
-</p>
+    <span class="play-btn">
+        PLAY GAME →
+    </span>
 
-<a href="neon-rush.html" class="play">
-PLAY NOW →
 </a>
-
-</div>
-
-
-<!-- MORE GAMES -->
-
-<div class="game">
-
-<div class="game-icon">
-🚀
-</div>
-
-<h3>
-More Coming Soon
-</h3>
-
-<p>
-The NEXUS universe is growing.
-More games and experiences are coming.
-</p>
-
-<a href="#contact" class="play">
-STAY UPDATED →
-</a>
-
-</div>
-
 
 </div>
 
 </section>
 
 
-<!-- ================= AI ARENA ================= -->
 
-<section class="section ai-section" id="ai">
+<!-- =====================================================
+     AI ARENA
+===================================================== -->
+
+<section
+    class="ai-section"
+    id="ai">
+
+<div class="container">
 
 <div class="ai-box">
 
-<div class="ai-symbol">
-AI
+<div>
+
+    <small
+        style="
+        color:var(--blue);
+        font-weight:800;
+        letter-spacing:3px;
+        ">
+
+        AI ARENA
+
+    </small>
+
+
+    <h2>
+        Challenge
+        <span
+            style="color:var(--blue)">
+            AI.
+        </span>
+    </h2>
+
+
+    <p>
+
+        Think faster. Solve problems.
+        Compete with intelligent challenges
+        designed for the next generation.
+
+    </p>
+
+
+    <div
+        style="margin-top:25px">
+
+        <a
+            href="ai-overdrive.html"
+            class="primary-btn">
+
+            ENTER AI ARENA →
+
+        </a>
+
+    </div>
+
 </div>
 
-<h2>
-NEXUS AI Arena
-</h2>
 
-<p>
-Enter the AI Arena and explore the future of
-intelligent gaming. Challenge yourself,
-compete and improve your skills.
-</p>
+<div class="ai-visual">
 
-<div class="buttons" style="justify-content:center;">
+    <div class="ai-core"></div>
 
-<a href="login.html" class="btn primary">
-ENTER AI ARENA
-</a>
+    <div class="ai-ring"></div>
+
+    <div class="ai-ring two"></div>
+
+</div>
 
 </div>
 
@@ -804,21 +1528,27 @@ ENTER AI ARENA
 </section>
 
 
-<!-- ================= FEATURES ================= -->
 
-<section class="section" id="features">
+<!-- =====================================================
+     PROFILE / FEATURES
+===================================================== -->
 
-<div class="section-heading">
+<section
+    class="container"
+    id="profile">
 
-<small>THE PLATFORM</small>
+<div class="section-header">
 
-<h2>
-Built For The Future
-</h2>
+    <small>NEXUS SYSTEM</small>
 
-<p>
-NEXUS AI is more than just a collection of games.
-</p>
+    <h2>
+        Built For Players
+    </h2>
+
+    <p>
+        Your NEXUS experience keeps getting
+        better as you play.
+    </p>
 
 </div>
 
@@ -828,64 +1558,171 @@ NEXUS AI is more than just a collection of games.
 
 <div class="feature">
 
-<span>🤖</span>
+    <div class="feature-icon">
+        👤
+    </div>
 
-<h3>
-AI Gaming
-</h3>
+    <h3>
+        Personal Profile
+    </h3>
 
-<p>
-Explore experiences designed around
-artificial intelligence.
-</p>
-
-</div>
-
-
-<div class="feature">
-
-<span>🏆</span>
-
-<h3>
-Competition
-</h3>
-
-<p>
-Challenge yourself and aim for
-the top of the leaderboard.
-</p>
+    <p>
+        Create your own NEXUS identity
+        and track your experience.
+    </p>
 
 </div>
 
 
 <div class="feature">
 
-<span>⚡</span>
+    <div class="feature-icon">
+        🏆
+    </div>
 
-<h3>
-Fast Experience
-</h3>
+    <h3>
+        Achievements
+    </h3>
 
-<p>
-Designed to work smoothly across
-PC and mobile devices.
-</p>
+    <p>
+        Complete challenges and
+        improve your score.
+    </p>
 
 </div>
 
 
 <div class="feature">
 
-<span>🌐</span>
+    <div class="feature-icon">
+        ⚡
+    </div>
 
-<h3>
-Always Growing
-</h3>
+    <h3>
+        Fast Gameplay
+    </h3>
 
-<p>
-New games and features can be added
-to the NEXUS universe.
-</p>
+    <p>
+        Designed to work smoothly
+        across modern devices.
+    </p>
+
+</div>
+
+
+<div class="feature">
+
+    <div class="feature-icon">
+        📱
+    </div>
+
+    <h3>
+        Multi-Device
+    </h3>
+
+    <p>
+        Play on PC, tablet or
+        smartphone.
+    </p>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     LEADERBOARD
+===================================================== -->
+
+<section
+    class="container"
+    id="leaderboard">
+
+<div class="section-header">
+
+    <small>GLOBAL RANKING</small>
+
+    <h2>
+        Leaderboard
+    </h2>
+
+    <p>
+        The top players of the NEXUS arena.
+    </p>
+
+</div>
+
+
+<div class="leaderboard">
+
+
+<div class="player">
+
+    <span class="rank">
+        #1
+    </span>
+
+    <span class="player-name">
+        NEXUS Champion
+    </span>
+
+    <span class="points">
+        9,850 XP
+    </span>
+
+</div>
+
+
+<div class="player">
+
+    <span class="rank">
+        #2
+    </span>
+
+    <span class="player-name">
+        Cyber Master
+    </span>
+
+    <span class="points">
+        8,920 XP
+    </span>
+
+</div>
+
+
+<div class="player">
+
+    <span class="rank">
+        #3
+    </span>
+
+    <span class="player-name">
+        Galaxy Player
+    </span>
+
+    <span class="points">
+        8,410 XP
+    </span>
+
+</div>
+
+
+<div class="player">
+
+    <span class="rank">
+        #4
+    </span>
+
+    <span class="player-name">
+        Neon Runner
+    </span>
+
+    <span class="points">
+        7,980 XP
+    </span>
 
 </div>
 
@@ -895,69 +1732,179 @@ to the NEXUS universe.
 </section>
 
 
-<!-- ================= LOGIN ================= -->
 
-<section class="section login-section" id="contact">
+<!-- =====================================================
+     JOIN CTA
+===================================================== -->
 
-<div class="login-box">
+<section class="container">
 
-<h2>
-Ready to Enter NEXUS?
-</h2>
+<div class="cta">
 
-<p>
-Create your account or log in to continue
-your gaming journey.
-</p>
+    <h2>
+        Ready to enter NEXUS?
+    </h2>
 
-<a href="login.html" class="btn primary">
-LOGIN / SIGN UP
-</a>
+    <p>
+        Create your account and start
+        your gaming journey.
+    </p>
+
+
+    <a
+        href="login.html"
+        class="primary-btn">
+
+        JOIN NEXUS →
+
+    </a>
 
 </div>
 
 </section>
 
+</main>
 
-<!-- ================= FOOTER ================= -->
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
 
 <footer>
 
-<strong>NEXUS AI</strong>
-
-<p style="margin-top:10px;">
-Next Generation Gaming Platform
-</p>
-
-<div class="footer-links">
-
-<a href="index.html">
-Home
-</a>
-
-<a href="#games">
-Games
-</a>
-
-<a href="#ai">
-AI Arena
-</a>
-
-<a href="login.html">
-Login
-</a>
-
-<a href="#contact">
-Contact
-</a>
-
+<div class="footer-logo">
+    NEXUS AI
 </div>
 
 <p>
-© 2026 NEXUS AI. All rights reserved.
+    Next Generation Gaming Platform
+</p>
+
+
+<div class="footer-links">
+
+    <a href="#home">
+        Home
+    </a>
+
+    <a href="#games">
+        Games
+    </a>
+
+    <a href="#ai">
+        AI Arena
+    </a>
+
+    <a href="#profile">
+        Profile
+    </a>
+
+    <a href="#leaderboard">
+        Leaderboard
+    </a>
+
+    <a href="login.html">
+        Login
+    </a>
+
+</div>
+
+
+<p>
+    © 2026 NEXUS AI. All rights reserved.
 </p>
 
 </footer>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+
+/* =========================================
+   MOBILE MENU
+========================================= */
+
+function toggleMenu() {
+
+    const menu =
+        document.getElementById(
+            "mobileMenu"
+        );
+
+    menu.classList.toggle("active");
+
+}
+
+
+function closeMenu() {
+
+    const menu =
+        document.getElementById(
+            "mobileMenu"
+        );
+
+    menu.classList.remove("active");
+
+}
+
+
+/* =========================================
+   CLOSE MENU WHEN CLICKING OUTSIDE
+========================================= */
+
+document.addEventListener(
+    "click",
+    function(event) {
+
+        const menu =
+            document.getElementById(
+                "mobileMenu"
+            );
+
+        const button =
+            document.querySelector(
+                ".menu-btn"
+            );
+
+        if (
+            menu.classList.contains("active") &&
+            !menu.contains(event.target) &&
+            !button.contains(event.target)
+        ) {
+
+            menu.classList.remove(
+                "active"
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================
+   ESC KEY CLOSES MENU
+========================================= */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "Escape") {
+
+            closeMenu();
+
+        }
+
+    }
+);
+
+</script>
 
 
 </body>
