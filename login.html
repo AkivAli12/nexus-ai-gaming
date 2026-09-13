@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="theme-color" content="#080812">
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<meta name="theme-color" content="#050510">
 
 <title>NEXUS AI | Login</title>
 
@@ -18,7 +21,6 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial, Helvetica, sans-serif;
 }
 
 html{
@@ -29,9 +31,11 @@ body{
     min-height:100vh;
     background:#050510;
     color:white;
+    font-family:Arial, Helvetica, sans-serif;
+
+    /* IMPORTANT: allows scrolling */
     overflow-x:hidden;
     overflow-y:auto;
-}
 }
 
 
@@ -42,65 +46,100 @@ body{
 body::before{
     content:"";
     position:fixed;
+
     width:500px;
     height:500px;
+
     left:-180px;
-    top:-150px;
+    top:-180px;
+
     background:#6c2cff;
-    filter:blur(180px);
-    opacity:.28;
+    filter:blur(170px);
+
+    opacity:.22;
+
+    pointer-events:none;
+    z-index:-2;
 }
 
 body::after{
     content:"";
     position:fixed;
+
     width:500px;
     height:500px;
+
     right:-180px;
     bottom:-180px;
+
     background:#00d9ff;
-    filter:blur(180px);
-    opacity:.20;
+    filter:blur(170px);
+
+    opacity:.18;
+
+    pointer-events:none;
+    z-index:-2;
 }
 
 
 /* =========================
-   TOP NAV
+   NAVBAR
 ========================= */
 
-.navbar{
-    position:absolute;
-    top:0;
-    left:0;
+nav{
     width:100%;
-    padding:22px 7%;
+
+    padding:18px 7%;
+
     display:flex;
     justify-content:space-between;
     align-items:center;
-    z-index:10;
+
+    background:rgba(5,5,16,.82);
+
+    backdrop-filter:blur(15px);
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+    position:sticky;
+    top:0;
+
+    z-index:1000;
 }
 
 .logo{
-    color:#00eaff;
     font-size:24px;
     font-weight:800;
-    text-decoration:none;
-    text-shadow:0 0 18px #00eaff;
+
+    color:#00eaff;
+
+    text-shadow:
+        0 0 10px #00eaff,
+        0 0 25px #00eaff;
 }
 
-.home-btn{
-    color:#bbb;
+.logo span{
+    color:white;
+}
+
+.back-home{
+    color:#aaa;
     text-decoration:none;
-    border:1px solid rgba(255,255,255,.15);
+
     padding:10px 18px;
+
+    border:1px solid rgba(255,255,255,.15);
+
     border-radius:25px;
+
     transition:.3s;
 }
 
-.home-btn:hover{
+.back-home:hover{
     color:#00eaff;
     border-color:#00eaff;
-    box-shadow:0 0 20px rgba(0,234,255,.2);
+
+    transform:translateY(-2px);
 }
 
 
@@ -108,69 +147,151 @@ body::after{
    MAIN
 ========================= */
 
-.main{
-    min-height:100vh;
+main{
+    min-height:calc(100vh - 75px);
+
     display:flex;
-    align-items:center;
+
     justify-content:center;
-    padding:100px 20px 30px;
-    position:relative;
-    z-index:2;
+    align-items:center;
+
+    padding:60px 20px;
 }
 
 
 /* =========================
-   LOGIN CARD
+   AUTH CONTAINER
 ========================= */
 
-.auth-card{
+.auth-wrapper{
     width:100%;
-    max-width:460px;
-    padding:40px;
-    background:rgba(15,15,30,.82);
-    border:1px solid rgba(0,234,255,.18);
+    max-width:950px;
+
+    display:grid;
+    grid-template-columns:1fr 1fr;
+
+    background:rgba(255,255,255,.04);
+
+    border:1px solid rgba(255,255,255,.1);
+
     border-radius:25px;
-    backdrop-filter:blur(20px);
+
+    overflow:hidden;
+
     box-shadow:
-        0 25px 70px rgba(0,0,0,.5),
-        0 0 40px rgba(0,234,255,.06);
+        0 30px 80px rgba(0,0,0,.45);
+
+    backdrop-filter:blur(20px);
 }
 
 
 /* =========================
-   HEADING
+   LEFT SIDE
 ========================= */
 
-.auth-header{
-    text-align:center;
-    margin-bottom:30px;
+.auth-info{
+    padding:55px 45px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(108,44,255,.25),
+            rgba(0,217,255,.08)
+        );
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
 }
 
-.auth-icon{
-    width:70px;
-    height:70px;
-    margin:0 auto 18px;
-    border-radius:20px;
+.ai-icon{
+    width:85px;
+    height:85px;
+
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:32px;
-    background:linear-gradient(
-        135deg,
-        #6c2cff,
-        #00d9ff
-    );
-    box-shadow:0 0 30px rgba(0,217,255,.25);
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            #00eaff33,
+            #6c2cff22
+        );
+
+    border:2px solid #00eaff;
+
+    box-shadow:
+        0 0 35px #00eaff55;
+
+    font-size:42px;
+
+    margin-bottom:30px;
+
+    animation:pulse 2.5s infinite;
 }
 
-.auth-header h1{
-    font-size:30px;
-    margin-bottom:8px;
+@keyframes pulse{
+
+    50%{
+        transform:scale(1.07);
+
+        box-shadow:
+            0 0 60px #00eaff77;
+    }
+
 }
 
-.auth-header p{
-    color:#888;
+.auth-info h1{
+    font-size:48px;
+    line-height:1.05;
+
+    margin-bottom:20px;
+}
+
+.auth-info h1 span{
+    color:#00eaff;
+
+    text-shadow:
+        0 0 20px #00eaff;
+}
+
+.auth-info p{
+    color:#aaa;
+
+    line-height:1.7;
+
+    max-width:400px;
+}
+
+.features{
+    margin-top:30px;
+
+    display:grid;
+    gap:13px;
+}
+
+.feature{
+    color:#ccc;
     font-size:14px;
+}
+
+.feature span{
+    color:#00eaff;
+    margin-right:8px;
+}
+
+
+/* =========================
+   AUTH BOX
+========================= */
+
+.auth-box{
+    padding:45px;
+
+    background:rgba(5,5,16,.65);
 }
 
 
@@ -180,32 +301,52 @@ body::after{
 
 .tabs{
     display:grid;
+
     grid-template-columns:1fr 1fr;
-    gap:5px;
-    padding:5px;
-    background:#090916;
-    border-radius:12px;
-    margin-bottom:25px;
+
+    margin-bottom:30px;
+
+    border-bottom:1px solid rgba(255,255,255,.12);
 }
 
 .tab{
     border:none;
-    padding:12px;
-    border-radius:9px;
+
     background:transparent;
-    color:#888;
+
+    color:#777;
+
+    padding:15px;
+
     cursor:pointer;
+
+    font-size:15px;
     font-weight:bold;
+
+    position:relative;
+
     transition:.3s;
 }
 
 .tab.active{
-    background:linear-gradient(
-        90deg,
-        #6c2cff,
-        #00d9ff
-    );
-    color:white;
+    color:#00eaff;
+}
+
+.tab.active::after{
+    content:"";
+
+    position:absolute;
+
+    left:10%;
+    right:10%;
+    bottom:-1px;
+
+    height:2px;
+
+    background:#00eaff;
+
+    box-shadow:
+        0 0 12px #00eaff;
 }
 
 
@@ -221,44 +362,68 @@ body::after{
     display:block;
 }
 
-.form-group{
+.form h2{
+    font-size:30px;
+
+    margin-bottom:8px;
+}
+
+.form-subtitle{
+    color:#777;
+
+    font-size:14px;
+
+    margin-bottom:28px;
+}
+
+
+/* =========================
+   INPUTS
+========================= */
+
+.input-group{
     margin-bottom:18px;
 }
 
-.form-group label{
+.input-group label{
     display:block;
-    margin-bottom:8px;
+
     color:#ccc;
+
     font-size:13px;
+
+    margin-bottom:8px;
 }
 
-.input-box{
-    position:relative;
-}
-
-.input-box span{
-    position:absolute;
-    left:14px;
-    top:50%;
-    transform:translateY(-50%);
-    color:#666;
-}
-
-.input-box input{
+.input{
     width:100%;
-    padding:14px 14px 14px 43px;
+
+    padding:14px 15px;
+
     border-radius:10px;
-    border:1px solid #29293a;
+
+    border:1px solid #303044;
+
     outline:none;
-    background:#090914;
+
+    background:rgba(255,255,255,.04);
+
     color:white;
+
     font-size:14px;
+
     transition:.3s;
 }
 
-.input-box input:focus{
+.input::placeholder{
+    color:#666;
+}
+
+.input:focus{
     border-color:#00eaff;
-    box-shadow:0 0 15px rgba(0,234,255,.08);
+
+    box-shadow:
+        0 0 15px rgba(0,234,255,.12);
 }
 
 
@@ -266,78 +431,96 @@ body::after{
    PASSWORD
 ========================= */
 
-.password-toggle{
-    position:absolute;
-    right:13px;
-    top:50%;
-    transform:translateY(-50%);
-    cursor:pointer;
-    color:#777;
+.password-box{
+    position:relative;
 }
 
-.password-toggle:hover{
-    color:#00eaff;
+.password-box .input{
+    padding-right:50px;
+}
+
+.show-password{
+    position:absolute;
+
+    right:12px;
+    top:50%;
+
+    transform:translateY(-50%);
+
+    background:none;
+
+    border:none;
+
+    color:#777;
+
+    cursor:pointer;
+
+    font-size:17px;
 }
 
 
 /* =========================
-   OPTIONS
+   CHECKBOX
 ========================= */
 
-.form-options{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:20px;
-    font-size:12px;
-}
-
 .remember{
-    color:#888;
     display:flex;
+
     align-items:center;
-    gap:7px;
+
+    gap:8px;
+
+    color:#888;
+
+    font-size:12px;
+
+    margin-bottom:20px;
 }
 
 .remember input{
-    accent-color:#00d9ff;
-}
-
-.forgot{
-    color:#00d9ff;
-    text-decoration:none;
-}
-
-.forgot:hover{
-    text-decoration:underline;
+    accent-color:#00eaff;
 }
 
 
 /* =========================
-   MAIN BUTTON
+   BUTTON
 ========================= */
 
 .submit-btn{
     width:100%;
+
+    padding:15px;
+
     border:none;
-    padding:14px;
+
     border-radius:10px;
-    background:linear-gradient(
-        90deg,
-        #6c2cff,
-        #00d9ff
-    );
+
+    background:
+        linear-gradient(
+            90deg,
+            #6c2cff,
+            #00d9ff
+        );
+
     color:white;
-    font-weight:bold;
-    cursor:pointer;
+
     font-size:14px;
-    box-shadow:0 0 20px rgba(0,217,255,.15);
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 0 25px rgba(0,217,255,.2);
+
     transition:.3s;
 }
 
 .submit-btn:hover{
-    transform:translateY(-2px);
-    box-shadow:0 0 30px rgba(0,217,255,.35);
+    transform:translateY(-3px);
+
+    box-shadow:
+        0 0 35px rgba(0,217,255,.4);
 }
 
 
@@ -347,63 +530,42 @@ body::after{
 
 .divider{
     display:flex;
+
     align-items:center;
+
     gap:12px;
-    margin:23px 0;
+
+    margin:25px 0;
+
     color:#555;
+
     font-size:12px;
 }
 
 .divider::before,
 .divider::after{
     content:"";
-    height:1px;
+
     flex:1;
+
+    height:1px;
+
     background:#29293a;
 }
 
 
 /* =========================
-   SOCIAL BUTTONS
+   DEMO MESSAGE
 ========================= */
 
-.social{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-}
-
-.social button{
-    padding:11px;
-    border-radius:9px;
-    border:1px solid #29293a;
-    background:#090914;
-    color:#ccc;
-    cursor:pointer;
-    transition:.3s;
-}
-
-.social button:hover{
-    border-color:#00eaff;
-    color:white;
-}
-
-
-/* =========================
-   TERMS
-========================= */
-
-.terms{
+.demo-message{
     text-align:center;
-    color:#666;
-    font-size:11px;
-    line-height:1.6;
-    margin-top:22px;
-}
 
-.terms a{
-    color:#00d9ff;
-    text-decoration:none;
+    color:#666;
+
+    font-size:11px;
+
+    line-height:1.6;
 }
 
 
@@ -413,70 +575,177 @@ body::after{
 
 #toast{
     position:fixed;
+
     left:50%;
-    bottom:30px;
-    transform:translate(-50%,100px);
+    bottom:25px;
+
+    transform:
+        translate(-50%,120px);
+
     background:#171727;
-    border:1px solid #303047;
-    padding:13px 20px;
-    border-radius:10px;
+
     color:white;
+
+    padding:14px 20px;
+
+    border-radius:10px;
+
+    border:1px solid rgba(255,255,255,.1);
+
     opacity:0;
+
     transition:.3s;
-    z-index:100;
-    font-size:13px;
+
+    z-index:3000;
+
+    text-align:center;
+
+    max-width:90%;
 }
 
 #toast.show{
-    transform:translate(-50%,0);
+    transform:
+        translate(-50%,0);
+
     opacity:1;
 }
 
 
 /* =========================
-   MOBILE
+   FOOTER
 ========================= */
 
-@media(max-width:550px){
+footer{
+    text-align:center;
 
-    body{
-        overflow:auto;
+    padding:25px 15px 40px;
+
+    color:#555;
+
+    font-size:12px;
+}
+
+footer strong{
+    color:#00eaff;
+}
+
+
+/* =========================
+   TABLET
+========================= */
+
+@media(max-width:800px){
+
+    .auth-wrapper{
+        grid-template-columns:1fr;
+
+        max-width:520px;
     }
 
-    .navbar{
-        padding:18px 20px;
+    .auth-info{
+        padding:35px 30px;
+
+        text-align:center;
+
+        align-items:center;
+    }
+
+    .auth-info h1{
+        font-size:38px;
+    }
+
+    .auth-info p{
+        max-width:450px;
+    }
+
+    .features{
+        text-align:left;
+        width:100%;
+    }
+
+    .auth-box{
+        padding:35px 30px;
+    }
+
+}
+
+
+/* =========================
+   PHONE
+========================= */
+
+@media(max-width:500px){
+
+    nav{
+        padding:15px 16px;
     }
 
     .logo{
         font-size:20px;
     }
 
-    .home-btn{
+    .back-home{
         padding:8px 13px;
         font-size:12px;
     }
 
-    .main{
-        padding:90px 15px 30px;
-        align-items:flex-start;
+    main{
+        min-height:auto;
+
+        padding:30px 12px;
     }
 
-    .auth-card{
-        padding:28px 20px;
-        border-radius:20px;
+    .auth-wrapper{
+        border-radius:18px;
     }
 
-    .auth-header h1{
-        font-size:25px;
+    .auth-info{
+        padding:30px 22px;
     }
 
-    .social{
-        grid-template-columns:1fr;
+    .ai-icon{
+        width:70px;
+        height:70px;
+        font-size:34px;
+        margin-bottom:20px;
+    }
+
+    .auth-info h1{
+        font-size:32px;
+    }
+
+    .auth-info p{
+        font-size:13px;
+    }
+
+    .features{
+        margin-top:20px;
+    }
+
+    .feature{
+        font-size:12px;
+    }
+
+    .auth-box{
+        padding:30px 20px;
+    }
+
+    .form h2{
+        font-size:26px;
+    }
+
+    .input{
+        padding:13px;
+    }
+
+    footer{
+        padding-bottom:30px;
     }
 
 }
 
 </style>
+
 </head>
 
 
@@ -487,402 +756,416 @@ body::after{
      NAVBAR
 ========================= -->
 
-<div class="navbar">
+<nav>
 
-    <a href="index.html" class="logo">
-        NEXUS AI
-    </a>
+    <div class="logo">
+        NEXUS <span>AI</span>
+    </div>
 
-    <a href="index.html" class="home-btn">
+    <a
+        href="index.html"
+        class="back-home">
         ← Back Home
     </a>
 
-</div>
+</nav>
 
 
 <!-- =========================
      MAIN
 ========================= -->
 
-<main class="main">
+<main>
 
-<div class="auth-card">
-
-
-<!-- HEADER -->
-
-<div class="auth-header">
-
-    <div class="auth-icon">
-        🤖
-    </div>
-
-    <h1 id="authTitle">
-        Welcome Back
-    </h1>
-
-    <p id="authSubtitle">
-        Login to continue your NEXUS experience
-    </p>
-
-</div>
+<div class="auth-wrapper">
 
 
-<!-- TABS -->
+    <!-- =====================
+         LEFT INFORMATION
+    ====================== -->
 
-<div class="tabs">
+    <div class="auth-info">
 
-    <button
-        class="tab active"
-        id="loginTab"
-        onclick="showLogin()">
+        <div class="ai-icon">
+            🤖
+        </div>
 
-        LOGIN
+        <h1>
+            ENTER THE
+            <span>NEXUS</span>
+        </h1>
 
-    </button>
-
-    <button
-        class="tab"
-        id="signupTab"
-        onclick="showSignup()">
-
-        SIGN UP
-
-    </button>
-
-</div>
+        <p>
+            Sign in to your NEXUS AI account
+            and continue your gaming journey.
+            Challenge AI, play games and track
+            your progress.
+        </p>
 
 
-<!-- =========================
-     LOGIN FORM
-========================= -->
+        <div class="features">
 
-<form
-    class="form active"
-    id="loginForm"
-    onsubmit="loginUser(event)">
+            <div class="feature">
+                <span>✓</span>
+                Access your gaming profile
+            </div>
 
+            <div class="feature">
+                <span>✓</span>
+                Track your achievements
+            </div>
 
-<div class="form-group">
+            <div class="feature">
+                <span>✓</span>
+                Compete on the leaderboard
+            </div>
 
-    <label>Email Address</label>
+            <div class="feature">
+                <span>✓</span>
+                Play NEXUS AI games
+            </div>
 
-    <div class="input-box">
-
-        <span>📧</span>
-
-        <input
-            type="email"
-            id="loginEmail"
-            placeholder="Enter your email"
-            required>
+        </div>
 
     </div>
 
-</div>
+
+    <!-- =====================
+         RIGHT AUTH BOX
+    ====================== -->
+
+    <div class="auth-box">
 
 
-<div class="form-group">
+        <!-- TABS -->
 
-    <label>Password</label>
+        <div class="tabs">
 
-    <div class="input-box">
+            <button
+                class="tab active"
+                id="loginTab"
+                onclick="showForm('login')">
 
-        <span>🔒</span>
+                LOGIN
 
-        <input
-            type="password"
-            id="loginPassword"
-            placeholder="Enter your password"
-            required>
+            </button>
 
-        <span
-            class="password-toggle"
-            onclick="togglePassword('loginPassword',this)">
-            👁
-        </span>
+
+            <button
+                class="tab"
+                id="signupTab"
+                onclick="showForm('signup')">
+
+                SIGN UP
+
+            </button>
+
+        </div>
+
+
+        <!-- ==================
+             LOGIN FORM
+        =================== -->
+
+        <form
+            class="form active"
+            id="loginForm"
+            onsubmit="loginUser(event)">
+
+            <h2>
+                Welcome Back
+            </h2>
+
+            <p class="form-subtitle">
+                Login to continue to NEXUS AI.
+            </p>
+
+
+            <div class="input-group">
+
+                <label>
+                    Email
+                </label>
+
+                <input
+                    class="input"
+                    id="loginEmail"
+                    type="email"
+                    placeholder="Enter your email"
+                    required>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>
+                    Password
+                </label>
+
+                <div class="password-box">
+
+                    <input
+                        class="input"
+                        id="loginPassword"
+                        type="password"
+                        placeholder="Enter your password"
+                        required>
+
+                    <button
+                        type="button"
+                        class="show-password"
+                        onclick="togglePassword('loginPassword',this)">
+
+                        👁
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <label class="remember">
+
+                <input
+                    type="checkbox">
+
+                Remember me
+
+            </label>
+
+
+            <button
+                class="submit-btn"
+                type="submit">
+
+                LOGIN TO NEXUS →
+
+            </button>
+
+        </form>
+
+
+        <!-- ==================
+             SIGN UP FORM
+        =================== -->
+
+        <form
+            class="form"
+            id="signupForm"
+            onsubmit="signupUser(event)">
+
+            <h2>
+                Create Account
+            </h2>
+
+            <p class="form-subtitle">
+                Join the NEXUS AI community.
+            </p>
+
+
+            <div class="input-group">
+
+                <label>
+                    Username
+                </label>
+
+                <input
+                    class="input"
+                    id="signupUsername"
+                    type="text"
+                    placeholder="Choose a username"
+                    minlength="3"
+                    required>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>
+                    Email
+                </label>
+
+                <input
+                    class="input"
+                    id="signupEmail"
+                    type="email"
+                    placeholder="Enter your email"
+                    required>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>
+                    Password
+                </label>
+
+                <div class="password-box">
+
+                    <input
+                        class="input"
+                        id="signupPassword"
+                        type="password"
+                        placeholder="Create a password"
+                        minlength="6"
+                        required>
+
+                    <button
+                        type="button"
+                        class="show-password"
+                        onclick="togglePassword('signupPassword',this)">
+
+                        👁
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>
+                    Confirm Password
+                </label>
+
+                <div class="password-box">
+
+                    <input
+                        class="input"
+                        id="confirmPassword"
+                        type="password"
+                        placeholder="Confirm your password"
+                        minlength="6"
+                        required>
+
+                    <button
+                        type="button"
+                        class="show-password"
+                        onclick="togglePassword('confirmPassword',this)">
+
+                        👁
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <label class="remember">
+
+                <input
+                    type="checkbox"
+                    required>
+
+                I agree to the NEXUS AI terms.
+
+            </label>
+
+
+            <button
+                class="submit-btn"
+                type="submit">
+
+                CREATE ACCOUNT →
+
+            </button>
+
+        </form>
+
+
+        <div class="divider">
+            DEMO AUTHENTICATION
+        </div>
+
+
+        <p class="demo-message">
+
+            This version stores your demo account
+            locally in your browser.
+            Real online accounts require a backend
+            authentication system.
+
+        </p>
+
 
     </div>
-
-</div>
-
-
-<div class="form-options">
-
-    <label class="remember">
-
-        <input type="checkbox">
-
-        Remember me
-
-    </label>
-
-    <a href="#"
-       class="forgot"
-       onclick="forgotPassword(event)">
-
-       Forgot password?
-
-    </a>
-
-</div>
-
-
-<button
-    type="submit"
-    class="submit-btn">
-
-    LOGIN TO NEXUS →
-
-</button>
-
-
-</form>
-
-
-<!-- =========================
-     SIGN UP FORM
-========================= -->
-
-<form
-    class="form"
-    id="signupForm"
-    onsubmit="signupUser(event)">
-
-
-<div class="form-group">
-
-    <label>Username</label>
-
-    <div class="input-box">
-
-        <span>👤</span>
-
-        <input
-            type="text"
-            id="signupName"
-            placeholder="Choose a username"
-            required>
-
-    </div>
-
-</div>
-
-
-<div class="form-group">
-
-    <label>Email Address</label>
-
-    <div class="input-box">
-
-        <span>📧</span>
-
-        <input
-            type="email"
-            id="signupEmail"
-            placeholder="Enter your email"
-            required>
-
-    </div>
-
-</div>
-
-
-<div class="form-group">
-
-    <label>Password</label>
-
-    <div class="input-box">
-
-        <span>🔒</span>
-
-        <input
-            type="password"
-            id="signupPassword"
-            placeholder="Create a password"
-            required>
-
-        <span
-            class="password-toggle"
-            onclick="togglePassword('signupPassword',this)">
-            👁
-        </span>
-
-    </div>
-
-</div>
-
-
-<div class="form-group">
-
-    <label>Confirm Password</label>
-
-    <div class="input-box">
-
-        <span>🔐</span>
-
-        <input
-            type="password"
-            id="confirmPassword"
-            placeholder="Confirm your password"
-            required>
-
-        <span
-            class="password-toggle"
-            onclick="togglePassword('confirmPassword',this)">
-            👁
-        </span>
-
-    </div>
-
-</div>
-
-
-<div class="form-options">
-
-    <label class="remember">
-
-        <input
-            type="checkbox"
-            required>
-
-        I agree to the terms
-
-    </label>
-
-</div>
-
-
-<button
-    type="submit"
-    class="submit-btn">
-
-    CREATE ACCOUNT →
-
-</button>
-
-
-</form>
-
-
-<!-- DIVIDER -->
-
-<div class="divider">
-    OR CONTINUE WITH
-</div>
-
-
-<!-- SOCIAL -->
-
-<div class="social">
-
-    <button
-        onclick="socialLogin('Google')">
-
-        🌐 Google
-
-    </button>
-
-    <button
-        onclick="socialLogin('GitHub')">
-
-        ◉ GitHub
-
-    </button>
-
-</div>
-
-
-<!-- TERMS -->
-
-<div class="terms">
-
-    By continuing, you agree to the
-    <a href="#">Terms of Service</a>
-    and
-    <a href="#">Privacy Policy</a>.
-
-</div>
-
 
 </div>
 
 </main>
 
 
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <strong>NEXUS AI</strong>
+
+    <br><br>
+
+    © 2026 NEXUS AI GAMING
+
+</footer>
+
+
 <!-- TOAST -->
 
 <div id="toast">
-    Welcome to NEXUS AI
+    Message
 </div>
 
 
 <script>
 
 /* =========================
-   SWITCH TO LOGIN
+   FORM SWITCHING
 ========================= */
 
-function showLogin(){
+function showForm(type){
 
-    document
-        .getElementById("loginForm")
-        .classList.add("active");
+    const loginForm =
+        document.getElementById("loginForm");
 
-    document
-        .getElementById("signupForm")
-        .classList.remove("active");
+    const signupForm =
+        document.getElementById("signupForm");
 
-    document
-        .getElementById("loginTab")
-        .classList.add("active");
+    const loginTab =
+        document.getElementById("loginTab");
 
-    document
-        .getElementById("signupTab")
-        .classList.remove("active");
-
-    document
-        .getElementById("authTitle")
-        .textContent="Welcome Back";
-
-    document
-        .getElementById("authSubtitle")
-        .textContent=
-        "Login to continue your NEXUS experience";
-
-}
+    const signupTab =
+        document.getElementById("signupTab");
 
 
-/* =========================
-   SWITCH TO SIGNUP
-========================= */
+    if(type === "login"){
 
-function showSignup(){
+        loginForm.classList.add("active");
 
-    document
-        .getElementById("signupForm")
-        .classList.add("active");
+        signupForm.classList.remove("active");
 
-    document
-        .getElementById("loginForm")
-        .classList.remove("active");
+        loginTab.classList.add("active");
 
-    document
-        .getElementById("signupTab")
-        .classList.add("active");
+        signupTab.classList.remove("active");
 
-    document
-        .getElementById("loginTab")
-        .classList.remove("active");
+    }else{
 
-    document
-        .getElementById("authTitle")
-        .textContent="Join NEXUS AI";
+        signupForm.classList.add("active");
 
-    document
-        .getElementById("authSubtitle")
-        .textContent=
-        "Create your account and enter the future";
+        loginForm.classList.remove("active");
+
+        signupTab.classList.add("active");
+
+        loginTab.classList.remove("active");
+
+    }
 
 }
 
@@ -891,46 +1174,24 @@ function showSignup(){
    PASSWORD VISIBILITY
 ========================= */
 
-function togglePassword(id,icon){
+function togglePassword(id,button){
 
-    const input=
+    const input =
         document.getElementById(id);
 
-    if(input.type==="password"){
+    if(input.type === "password"){
 
-        input.type="text";
-        icon.textContent="🙈";
+        input.type = "text";
+
+        button.textContent = "🙈";
 
     }else{
 
-        input.type="password";
-        icon.textContent="👁";
+        input.type = "password";
+
+        button.textContent = "👁";
 
     }
-
-}
-
-
-/* =========================
-   LOGIN
-========================= */
-
-function loginUser(event){
-
-    event.preventDefault();
-
-    const email=
-        document.getElementById(
-            "loginEmail"
-        ).value;
-
-    if(!email){
-        return;
-    }
-
-    showToast(
-        "Login system connected! 🚀"
-    );
 
 }
 
@@ -943,17 +1204,32 @@ function signupUser(event){
 
     event.preventDefault();
 
-    const password=
+
+    const username =
+        document.getElementById(
+            "signupUsername"
+        ).value.trim();
+
+
+    const email =
+        document.getElementById(
+            "signupEmail"
+        ).value.trim();
+
+
+    const password =
         document.getElementById(
             "signupPassword"
         ).value;
 
-    const confirm=
+
+    const confirmPassword =
         document.getElementById(
             "confirmPassword"
         ).value;
 
-    if(password!==confirm){
+
+    if(password !== confirmPassword){
 
         showToast(
             "Passwords do not match!"
@@ -963,38 +1239,119 @@ function signupUser(event){
 
     }
 
-    showToast(
-        "Account created! Welcome to NEXUS 🚀"
+
+    const account = {
+
+        username:username,
+
+        email:email,
+
+        password:password
+
+    };
+
+
+    localStorage.setItem(
+        "nexusAccount",
+        JSON.stringify(account)
     );
+
+
+    showToast(
+        "Account created successfully! 🎉"
+    );
+
+
+    document.getElementById(
+        "signupForm"
+    ).reset();
+
+
+    setTimeout(function(){
+
+        showForm("login");
+
+        document.getElementById(
+            "loginEmail"
+        ).value = email;
+
+    },1200);
 
 }
 
 
 /* =========================
-   FORGOT PASSWORD
+   LOGIN
 ========================= */
 
-function forgotPassword(event){
+function loginUser(event){
 
     event.preventDefault();
 
-    showToast(
-        "Password recovery will be added soon."
-    );
 
-}
+    const email =
+        document.getElementById(
+            "loginEmail"
+        ).value.trim();
 
 
-/* =========================
-   SOCIAL LOGIN
-========================= */
+    const password =
+        document.getElementById(
+            "loginPassword"
+        ).value;
 
-function socialLogin(provider){
 
-    showToast(
-        provider +
-        " login will be connected later."
-    );
+    const saved =
+        localStorage.getItem(
+            "nexusAccount"
+        );
+
+
+    if(!saved){
+
+        showToast(
+            "No account found. Please sign up first."
+        );
+
+        return;
+
+    }
+
+
+    const account =
+        JSON.parse(saved);
+
+
+    if(
+        email === account.email &&
+        password === account.password
+    ){
+
+        localStorage.setItem(
+            "nexusLoggedIn",
+            "yes"
+        );
+
+
+        showToast(
+            "Login successful! 🚀"
+        );
+
+
+        setTimeout(function(){
+
+            window.location.href =
+                "index.html";
+
+        },1200);
+
+    }else{
+
+        showToast(
+            "Incorrect email or password."
+        );
+
+    }
 
 }
 
@@ -1005,27 +1362,42 @@ function socialLogin(provider){
 
 let toastTimer;
 
+
 function showToast(message){
 
-    const toast=
-        document.getElementById("toast");
+    const toast =
+        document.getElementById(
+            "toast"
+        );
 
-    toast.textContent=message;
 
-    toast.classList.add("show");
+    toast.textContent =
+        message;
 
-    clearTimeout(toastTimer);
 
-    toastTimer=
+    toast.classList.add(
+        "show"
+    );
+
+
+    clearTimeout(
+        toastTimer
+    );
+
+
+    toastTimer =
         setTimeout(function(){
 
-            toast.classList.remove("show");
+            toast.classList.remove(
+                "show"
+            );
 
         },2500);
 
 }
 
 </script>
+
 
 </body>
 </html>
