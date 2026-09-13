@@ -1,27 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
-
-<meta name="theme-color" content="#050510">
+<meta name="theme-color" content="#070711">
 
 <title>NEXUS AI GAMING</title>
 
-
 <style>
-
-/* =====================================================
-   RESET
-===================================================== */
 
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
 }
 
 html{
@@ -29,110 +22,68 @@ html{
 }
 
 body{
-    background:#050510;
+    background:#060611;
     color:white;
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-    min-height:100vh;
-
     overflow-x:hidden;
-    overflow-y:auto;
 }
 
-
-/* =====================================================
-   BACKGROUND GLOW
-===================================================== */
+/* =========================
+   BACKGROUND
+========================= */
 
 body::before{
     content:"";
-
     position:fixed;
-
     width:500px;
     height:500px;
-
-    top:-200px;
-    left:-180px;
-
     background:#6c2cff;
-
     filter:blur(180px);
-
-    opacity:.20;
-
+    opacity:.22;
+    top:-180px;
+    left:-180px;
     z-index:-2;
-
-    pointer-events:none;
 }
 
 body::after{
     content:"";
-
     position:fixed;
-
     width:500px;
     height:500px;
-
-    right:-200px;
-    bottom:-200px;
-
     background:#00d9ff;
-
     filter:blur(180px);
-
-    opacity:.15;
-
+    opacity:.16;
+    right:-180px;
+    bottom:-150px;
     z-index:-2;
-
-    pointer-events:none;
 }
 
-
-/* =====================================================
+/* =========================
    NAVBAR
-===================================================== */
+========================= */
 
 nav{
-    position:sticky;
-
+    position:fixed;
     top:0;
-
-    z-index:1000;
-
+    left:0;
     width:100%;
-
-    padding:18px 7%;
-
+    padding:17px 7%;
     display:flex;
-
+    justify-content:space-between;
     align-items:center;
 
-    justify-content:space-between;
-
-    background:rgba(5,5,16,.82);
-
+    background:rgba(6,6,17,.78);
     backdrop-filter:blur(18px);
 
-    border-bottom:
-        1px solid
-        rgba(255,255,255,.08);
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+    z-index:1000;
 }
 
 .logo{
-    font-size:25px;
-
+    font-size:24px;
     font-weight:900;
-
     color:#00eaff;
-
-    text-shadow:
-        0 0 12px #00eaff,
-        0 0 25px #00eaff;
+    text-shadow:0 0 18px #00eaff;
 }
 
 .logo span{
@@ -141,289 +92,133 @@ nav{
 
 .nav-links{
     display:flex;
-
-    gap:30px;
+    gap:28px;
 }
 
 .nav-links a{
     color:#aaa;
-
     text-decoration:none;
-
     font-size:14px;
-
     transition:.3s;
 }
 
 .nav-links a:hover{
     color:#00eaff;
-
-    text-shadow:
-        0 0 10px #00eaff;
 }
 
 .join{
+    text-decoration:none;
+    color:white;
+    font-weight:bold;
+
     padding:11px 22px;
 
     border-radius:25px;
 
-    color:white;
-
-    text-decoration:none;
-
-    font-weight:bold;
-
-    background:
-        linear-gradient(
-            90deg,
-            #6c2cff,
-            #00d9ff
-        );
+    background:linear-gradient(
+        90deg,
+        #6c2cff,
+        #00d9ff
+    );
 
     box-shadow:
-        0 0 25px
-        rgba(0,217,255,.25);
+        0 0 20px rgba(0,217,255,.25);
 
     transition:.3s;
 }
 
 .join:hover{
     transform:translateY(-3px);
-
     box-shadow:
-        0 0 35px
-        rgba(0,217,255,.45);
+        0 0 35px rgba(0,217,255,.5);
 }
 
-
-/* =====================================================
+/* =========================
    HERO
-===================================================== */
+========================= */
 
 .hero{
-    min-height:88vh;
+    min-height:100vh;
 
     display:flex;
-
     align-items:center;
 
-    padding:
-        100px 7%
-        80px;
+    padding:140px 7% 80px;
 
     position:relative;
 }
 
 .hero-content{
-    max-width:900px;
-}
-
-.tag{
-    color:#00eaff;
-
-    letter-spacing:6px;
-
-    font-size:13px;
-
-    font-weight:bold;
-
-    margin-bottom:25px;
-}
-
-.hero h1{
-    font-size:
-        clamp(55px,9vw,115px);
-
-    line-height:.88;
-
-    letter-spacing:-5px;
-}
-
-.hero h1 span{
-    color:#00eaff;
-
-    text-shadow:
-        0 0 25px #00eaff,
-        0 0 60px #00eaff;
-}
-
-
-/* HERO DECORATION */
-
-.hero-orb{
-    position:absolute;
-
-    right:10%;
-    top:30%;
-
-    width:240px;
-    height:240px;
-
-    border-radius:50%;
-
-    border:
-        1px solid
-        rgba(0,234,255,.3);
-
-    box-shadow:
-        0 0 70px
-        rgba(0,234,255,.12);
-
-    animation:
-        orbPulse 3s infinite;
-}
-
-.hero-orb::before{
-    content:"";
-
-    position:absolute;
-
-    inset:25px;
-
-    border-radius:50%;
-
-    border:
-        1px solid
-        rgba(108,44,255,.6);
-}
-
-.hero-orb::after{
-    content:"AI";
-
-    position:absolute;
-
-    inset:0;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    color:#00eaff;
-
-    font-size:45px;
-
-    font-weight:900;
-
-    text-shadow:
-        0 0 20px #00eaff;
-}
-
-@keyframes orbPulse{
-
-    50%{
-        transform:scale(1.08);
-
-        box-shadow:
-            0 0 100px
-            rgba(0,234,255,.25);
-    }
-
-}
-
-
-/* =====================================================
-   WELCOME SECTION
-===================================================== */
-
-.welcome{
-    min-height:75vh;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    text-align:center;
-
-    padding:
-        100px 7%;
-
-    background:
-        radial-gradient(
-            circle at center,
-            rgba(108,44,255,.12),
-            transparent 65%
-        );
-}
-
-.welcome-content{
     max-width:850px;
 }
 
-.welcome-tag{
+.tag{
     color:#00eaff;
 
     letter-spacing:5px;
 
     font-size:13px;
 
-    font-weight:bold;
-
     margin-bottom:20px;
 }
 
-.welcome h2{
-    font-size:
-        clamp(38px,6vw,70px);
+.hero h1{
+    font-size:clamp(55px,9vw,110px);
 
-    line-height:1;
+    line-height:.9;
 
-    margin-bottom:25px;
+    margin-bottom:30px;
 }
 
-.welcome h2 span{
-    display:block;
-
+.hero h1 span{
     color:#00eaff;
 
     text-shadow:
-        0 0 25px #00eaff;
+        0 0 15px #00eaff,
+        0 0 45px #00eaff;
 }
 
-.welcome p{
-    max-width:700px;
+.hero p{
+    color:#aaa;
 
-    margin:auto;
-
-    color:#999;
+    max-width:650px;
 
     font-size:18px;
 
-    line-height:1.8;
+    line-height:1.7;
 }
 
-.welcome-buttons{
-    margin-top:35px;
-
+.hero-buttons{
     display:flex;
 
-    justify-content:center;
-
     gap:15px;
+
+    margin-top:35px;
 
     flex-wrap:wrap;
 }
 
-.welcome-btn{
+.btn{
     display:inline-block;
 
     padding:15px 28px;
 
-    border-radius:10px;
+    border-radius:9px;
 
     text-decoration:none;
 
+    color:white;
+
     font-weight:bold;
+
+    border:none;
+
+    cursor:pointer;
 
     transition:.3s;
 }
 
-.welcome-btn.primary{
-    color:white;
-
+.primary{
     background:
         linear-gradient(
             90deg,
@@ -432,42 +227,69 @@ nav{
         );
 
     box-shadow:
-        0 0 25px
-        rgba(0,217,255,.25);
+        0 0 25px rgba(0,217,255,.25);
 }
 
-.welcome-btn.secondary{
-    color:#00eaff;
-
-    border:
-        1px solid
-        #00eaff;
+.secondary{
+    border:1px solid #00eaff;
+    background:transparent;
 }
 
-.welcome-btn:hover{
+.btn:hover{
     transform:translateY(-5px);
 
     box-shadow:
-        0 0 35px
-        rgba(0,234,255,.35);
+        0 0 35px rgba(0,217,255,.45);
 }
 
+/* =========================
+   HERO ORB
+========================= */
 
-/* =====================================================
-   GENERAL SECTIONS
-===================================================== */
+.ai-orb{
+    position:absolute;
+
+    right:9%;
+
+    width:300px;
+    height:300px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            #00eaff,
+            #6c2cff 45%,
+            transparent 70%
+        );
+
+    opacity:.35;
+
+    filter:blur(3px);
+
+    animation:
+        float 5s ease-in-out infinite;
+}
+
+@keyframes float{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-25px);
+    }
+
+}
+
+/* =========================
+   SECTIONS
+========================= */
 
 section{
-    scroll-margin-top:80px;
-}
-
-.section{
-    max-width:1150px;
-
-    margin:auto;
-
-    padding:
-        100px 7%;
+    padding:100px 7%;
 }
 
 .section-title{
@@ -486,82 +308,77 @@ section{
     margin-top:10px;
 }
 
-
-/* =====================================================
-   GAME HUB
-===================================================== */
+/* =========================
+   GAMES
+========================= */
 
 .games{
     display:grid;
 
     grid-template-columns:
-        repeat(4,1fr);
+        repeat(
+            auto-fit,
+            minmax(230px,1fr)
+        );
 
-    gap:20px;
+    gap:25px;
 }
 
-.game-card{
+.card{
     padding:22px;
 
+    border-radius:20px;
+
     background:
-        rgba(255,255,255,.035);
+        rgba(255,255,255,.04);
 
     border:
-        1px solid
-        rgba(255,255,255,.1);
+        1px solid rgba(255,255,255,.1);
 
-    border-radius:18px;
+    backdrop-filter:blur(10px);
 
     transition:.3s;
 }
 
-.game-card:hover{
-    transform:translateY(-8px);
+.card:hover{
+    transform:translateY(-10px);
 
     border-color:#00eaff;
 
     box-shadow:
-        0 0 35px
-        rgba(0,234,255,.12);
+        0 0 35px rgba(0,234,255,.15);
 }
 
-.game-image{
+.game-icon{
     height:170px;
 
     display:flex;
 
     align-items:center;
-
     justify-content:center;
 
-    border-radius:14px;
-
-    margin-bottom:18px;
+    border-radius:15px;
 
     font-size:65px;
+
+    margin-bottom:20px;
 
     background:
         linear-gradient(
             135deg,
             #15152b,
-            #111827
+            #101827
         );
-
-    border:
-        1px solid
-        rgba(255,255,255,.06);
 }
 
-.game-card h3{
-    font-size:20px;
+.card h3{
+    font-size:22px;
 
     margin-bottom:8px;
 }
 
-.game-card p{
-    color:#777;
-
-    font-size:13px;
+.card p{
+    color:#888;
 
     margin-bottom:18px;
 }
@@ -569,21 +386,16 @@ section{
 .play{
     display:inline-block;
 
-    padding:9px 16px;
+    padding:9px 18px;
 
     border:
-        1px solid
-        #00eaff;
+        1px solid #00eaff;
 
     border-radius:20px;
 
     color:#00eaff;
 
     text-decoration:none;
-
-    font-size:12px;
-
-    font-weight:bold;
 
     transition:.3s;
 }
@@ -594,14 +406,12 @@ section{
     color:#050510;
 
     box-shadow:
-        0 0 20px
-        #00eaff;
+        0 0 20px #00eaff;
 }
 
-
-/* =====================================================
+/* =========================
    AI ARENA
-===================================================== */
+========================= */
 
 .arena{
     display:grid;
@@ -609,35 +419,26 @@ section{
     grid-template-columns:
         1fr 1fr;
 
-    gap:30px;
+    gap:40px;
 
     align-items:center;
 }
 
 .arena-box{
-    padding:40px;
-
-    min-height:350px;
-
-    border:
-        1px solid
-        rgba(255,255,255,.1);
+    padding:45px;
 
     border-radius:22px;
 
     background:
-        rgba(255,255,255,.035);
+        rgba(255,255,255,.04);
 
-    display:flex;
-
-    flex-direction:column;
-
-    justify-content:center;
+    border:
+        1px solid rgba(255,255,255,.1);
 }
 
-.ai-core{
-    width:210px;
-    height:210px;
+.ai-circle{
+    width:220px;
+    height:220px;
 
     margin:auto;
 
@@ -646,52 +447,36 @@ section{
     display:flex;
 
     align-items:center;
-
     justify-content:center;
 
-    font-size:70px;
-
-    border:
-        2px solid
-        #00eaff;
+    font-size:80px;
 
     background:
         radial-gradient(
             circle,
-            rgba(0,234,255,.15),
-            rgba(108,44,255,.08)
+            #00eaff22,
+            #6c2cff22
         );
 
+    border:
+        2px solid #00eaff;
+
     box-shadow:
-        0 0 60px
-        rgba(0,234,255,.3);
+        0 0 60px #00eaff55;
 
     animation:
-        corePulse 2.5s infinite;
+        pulse 2s infinite;
 }
 
-@keyframes corePulse{
+@keyframes pulse{
 
     50%{
-        transform:scale(1.06);
+        transform:scale(1.07);
 
         box-shadow:
-            0 0 90px
-            rgba(0,234,255,.45);
+            0 0 100px #00eaff88;
     }
 
-}
-
-.arena-box h2{
-    font-size:32px;
-}
-
-.arena-box p{
-    color:#888;
-
-    line-height:1.7;
-
-    margin-top:15px;
 }
 
 .difficulty{
@@ -707,19 +492,15 @@ section{
 .difficulty button{
     padding:10px 17px;
 
-    border:
-        1px solid
-        #333;
-
-    border-radius:20px;
+    border:1px solid #444;
 
     background:transparent;
 
     color:white;
 
-    cursor:pointer;
+    border-radius:20px;
 
-    transition:.3s;
+    cursor:pointer;
 }
 
 .difficulty button:hover{
@@ -728,58 +509,115 @@ section{
     color:#00eaff;
 }
 
-
-/* =====================================================
+/* =========================
    LEADERBOARD
-===================================================== */
+========================= */
 
 .leaderboard{
     max-width:900px;
 
     margin:auto;
 
-    overflow:hidden;
-
-    border:
-        1px solid
-        rgba(255,255,255,.1);
+    background:
+        rgba(255,255,255,.04);
 
     border-radius:18px;
 
-    background:
-        rgba(255,255,255,.035);
+    overflow:hidden;
 }
 
 .player{
     display:grid;
 
     grid-template-columns:
-        70px 1fr 100px 120px;
+        70px 1fr 120px 120px;
 
     padding:20px;
 
     border-bottom:
-        1px solid
-        rgba(255,255,255,.07);
-
-    color:#aaa;
+        1px solid rgba(255,255,255,.08);
 }
 
 .player:first-child{
     color:#00eaff;
+}
+
+/* =========================
+   PRO
+========================= */
+
+.pro-section{
+    max-width:1000px;
+
+    margin:auto;
+
+    padding:55px 35px;
+
+    text-align:center;
+
+    border-radius:25px;
 
     background:
-        rgba(0,234,255,.03);
+        linear-gradient(
+            135deg,
+            rgba(108,44,255,.18),
+            rgba(0,217,255,.12)
+        );
+
+    border:
+        1px solid rgba(0,234,255,.25);
+
+    box-shadow:
+        0 0 60px rgba(91,75,255,.1);
 }
 
-.player:last-child{
-    border-bottom:none;
+.pro-section h2{
+    font-size:42px;
+
+    margin-bottom:15px;
 }
 
+.pro-section p{
+    color:#999;
 
-/* =====================================================
+    max-width:600px;
+
+    margin:auto;
+
+    line-height:1.7;
+}
+
+.pro-features{
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:15px;
+
+    margin:30px 0;
+}
+
+.pro-feature{
+    padding:20px;
+
+    background:
+        rgba(255,255,255,.05);
+
+    border-radius:15px;
+}
+
+.pro-feature span{
+    font-size:30px;
+
+    display:block;
+
+    margin-bottom:10px;
+}
+
+/* =========================
    CONTACT
-===================================================== */
+========================= */
 
 .contact{
     max-width:700px;
@@ -788,24 +626,23 @@ section{
 
     text-align:center;
 
-    padding:40px;
+    padding:35px;
 
-    border:
-        1px solid
-        rgba(255,255,255,.1);
-
-    border-radius:22px;
+    border-radius:20px;
 
     background:
-        rgba(255,255,255,.035);
+        rgba(255,255,255,.04);
+
+    border:
+        1px solid rgba(255,255,255,.1);
 }
 
 .contact-info{
-    margin:25px 0;
-
-    color:#999;
+    color:#aaa;
 
     line-height:2;
+
+    margin:25px 0;
 }
 
 .contact-info a{
@@ -814,178 +651,135 @@ section{
     text-decoration:none;
 }
 
-.email-btn{
-    display:inline-block;
-
-    padding:13px 25px;
-
-    color:white;
-
-    text-decoration:none;
-
-    border-radius:9px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #6c2cff,
-            #00d9ff
-        );
-
-    font-weight:bold;
-}
-
-
-/* =====================================================
+/* =========================
    FOOTER
-===================================================== */
+========================= */
 
 footer{
-    padding:45px 20px;
-
     text-align:center;
+
+    padding:45px 20px;
 
     color:#666;
 
     border-top:
-        1px solid
-        rgba(255,255,255,.08);
+        1px solid rgba(255,255,255,.08);
 }
 
 footer strong{
     color:#00eaff;
 }
 
-
-/* =====================================================
-   MOBILE NAV
-===================================================== */
+/* =========================
+   MOBILE
+========================= */
 
 .mobile-nav{
     display:none;
 }
 
-
-/* =====================================================
-   RESPONSIVE
-===================================================== */
-
-@media(max-width:950px){
-
-    .nav-links{
-        gap:15px;
-    }
-
-    .games{
-        grid-template-columns:
-            repeat(2,1fr);
-    }
-
-    .hero-orb{
-        opacity:.35;
-
-        right:2%;
-    }
-
-}
-
-
-@media(max-width:700px){
-
-    nav{
-        padding:15px 18px;
-    }
+@media(max-width:850px){
 
     .nav-links{
         display:none;
     }
 
-    .logo{
-        font-size:20px;
-    }
-
-    .join{
-        padding:9px 15px;
-
-        font-size:12px;
-    }
-
     .hero{
-        min-height:80vh;
+        text-align:center;
 
-        padding:
-            80px 20px;
+        justify-content:center;
     }
 
-    .hero h1{
-        font-size:55px;
-
-        letter-spacing:-3px;
+    .hero-content{
+        position:relative;
+        z-index:2;
     }
 
-    .hero-orb{
-        width:150px;
-        height:150px;
-
-        right:-20px;
-        top:20%;
-
-        opacity:.2;
+    .hero p{
+        margin:auto;
     }
 
-    .welcome{
-        min-height:65vh;
-
-        padding:
-            80px 20px;
+    .hero-buttons{
+        justify-content:center;
     }
 
-    .welcome h2{
-        font-size:38px;
-    }
-
-    .welcome p{
-        font-size:15px;
-    }
-
-    .welcome-buttons{
-        flex-direction:column;
-    }
-
-    .welcome-btn{
-        width:100%;
-    }
-
-    .section{
-        padding:
-            75px 20px;
-    }
-
-    .section-title h2{
-        font-size:32px;
-    }
-
-    .games{
-        grid-template-columns:1fr;
+    .ai-orb{
+        right:20%;
+        opacity:.15;
     }
 
     .arena{
         grid-template-columns:1fr;
     }
 
-    .arena-box{
-        min-height:300px;
-
-        padding:25px;
+    .pro-features{
+        grid-template-columns:1fr;
     }
 
     .player{
         grid-template-columns:
-            45px 1fr 65px;
+            50px 1fr 70px;
     }
 
     .player span:last-child{
         display:none;
+    }
+
+}
+
+@media(max-width:550px){
+
+    nav{
+        padding:14px 18px;
+    }
+
+    .logo{
+        font-size:19px;
+    }
+
+    .join{
+        padding:9px 14px;
+
+        font-size:12px;
+    }
+
+    .hero{
+        padding:
+            130px 18px 70px;
+    }
+
+    .hero h1{
+        font-size:48px;
+    }
+
+    .hero p{
+        font-size:15px;
+    }
+
+    section{
+        padding:75px 18px;
+    }
+
+    .section-title h2{
+        font-size:32px;
+    }
+
+    .arena-box{
+        padding:25px;
+    }
+
+    .ai-circle{
+        width:180px;
+        height:180px;
+        font-size:65px;
+    }
+
+    .pro-section{
+        padding:35px 20px;
+    }
+
+    .pro-section h2{
+        font-size:32px;
     }
 
     .mobile-nav{
@@ -998,22 +792,21 @@ footer strong{
 
         width:100%;
 
-        z-index:1500;
-
         justify-content:
             space-around;
 
-        padding:8px 3px;
+        padding:9px 3px;
 
         background:
-            rgba(5,5,16,.94);
+            rgba(5,5,15,.95);
 
         backdrop-filter:
             blur(15px);
 
         border-top:
-            1px solid
-            rgba(255,255,255,.1);
+            1px solid rgba(255,255,255,.1);
+
+        z-index:1500;
     }
 
     .mobile-nav a{
@@ -1021,17 +814,17 @@ footer strong{
 
         text-decoration:none;
 
-        text-align:center;
-
         font-size:10px;
+
+        text-align:center;
     }
 
     .mobile-nav span{
         display:block;
 
-        font-size:19px;
+        font-size:20px;
 
-        margin-bottom:2px;
+        margin-bottom:3px;
     }
 
     footer{
@@ -1040,51 +833,15 @@ footer strong{
 
 }
 
-
-@media(max-width:400px){
-
-    .hero h1{
-        font-size:46px;
-    }
-
-    .game-image{
-        height:140px;
-    }
-
-}
-
-
-/* =====================================================
-   SCROLL ANIMATION
-===================================================== */
-
-.reveal{
-    opacity:0;
-
-    transform:translateY(30px);
-
-    transition:
-        opacity .7s ease,
-        transform .7s ease;
-}
-
-.reveal.show{
-    opacity:1;
-
-    transform:translateY(0);
-}
-
 </style>
-
 </head>
-
 
 <body>
 
 
-<!-- ===================================================
+<!-- =========================
      NAVIGATION
-=================================================== -->
+========================= -->
 
 <nav>
 
@@ -1094,21 +851,23 @@ footer strong{
 
     <div class="nav-links">
 
-        <a href="#home">Home</a>
+        <a href="#home">HOME</a>
 
-        <a href="#games">Games</a>
+        <a href="#games">GAMES</a>
 
-        <a href="#arena">AI Arena</a>
+        <a href="#arena">AI ARENA</a>
 
         <a href="#leaderboard">
-            Leaderboard
+            LEADERBOARD
         </a>
 
-        <a href="#contact">
-            Contact
-        </a>
+        <a href="#pro">PRO</a>
 
     </div>
+
+    <!-- IMPORTANT:
+         JOIN NOW OPENS LOGIN PAGE
+    -->
 
     <a
         href="login.html"
@@ -1121,15 +880,15 @@ footer strong{
 </nav>
 
 
-<!-- ===================================================
+<!-- =========================
      HERO
-=================================================== -->
+========================= -->
 
 <section
     class="hero"
     id="home">
 
-    <div class="hero-content reveal">
+    <div class="hero-content">
 
         <div class="tag">
             NEXT GENERATION GAMING
@@ -1138,70 +897,40 @@ footer strong{
         <h1>
 
             ENTER THE
-
             <br>
 
             <span>FUTURE</span>
-
             OF GAMING
 
         </h1>
 
-    </div>
-
-
-    <div class="hero-orb"></div>
-
-</section>
-
-
-<!-- ===================================================
-     WELCOME
-=================================================== -->
-
-<section class="welcome">
-
-    <div class="welcome-content reveal">
-
-        <div class="welcome-tag">
-            WELCOME TO NEXUS AI
-        </div>
-
-        <h2>
-
-            GAMING MEETS
-
-            <span>
-                ARTIFICIAL INTELLIGENCE
-            </span>
-
-        </h2>
-
         <p>
 
-            Welcome to NEXUS AI — where artificial
-            intelligence meets the next generation
-            of gaming. Challenge AI, compete with
-            players and dominate the leaderboard.
+            Welcome to NEXUS AI — where
+            artificial intelligence meets
+            next-generation gaming.
+
+            Challenge AI, play exciting games,
+            compete with players and climb
+            the leaderboard.
 
         </p>
 
-
-        <div class="welcome-buttons">
+        <div class="hero-buttons">
 
             <a
                 href="#games"
-                class="welcome-btn primary">
+                class="btn primary">
 
-                🎮 EXPLORE GAMES
+                EXPLORE GAMES
 
             </a>
 
             <a
                 href="#arena"
-                class="welcome-btn secondary">
+                class="btn secondary">
 
-                🤖 AI ARENA
+                ENTER AI ARENA
 
             </a>
 
@@ -1209,25 +938,25 @@ footer strong{
 
     </div>
 
+    <div class="ai-orb"></div>
+
 </section>
 
 
-<!-- ===================================================
-     GAME HUB
-=================================================== -->
+<!-- =========================
+     GAMES
+========================= -->
 
-<section
-    class="section"
-    id="games">
+<section id="games">
 
-    <div class="section-title reveal">
+    <div class="section-title">
 
         <h2>
-            AI GAME HUB
+            🎮 GAME HUB
         </h2>
 
         <p>
-            Choose your next challenge.
+            Choose your battlefield.
         </p>
 
     </div>
@@ -1238,9 +967,9 @@ footer strong{
 
         <!-- GAME 1 -->
 
-        <div class="game-card reveal">
+        <div class="card">
 
-            <div class="game-image">
+            <div class="game-icon">
                 ⚔️
             </div>
 
@@ -1265,9 +994,9 @@ footer strong{
 
         <!-- GAME 2 -->
 
-        <div class="game-card reveal">
+        <div class="card">
 
-            <div class="game-image">
+            <div class="game-icon">
                 🚀
             </div>
 
@@ -1292,9 +1021,9 @@ footer strong{
 
         <!-- GAME 3 -->
 
-        <div class="game-card reveal">
+        <div class="card">
 
-            <div class="game-image">
+            <div class="game-icon">
                 🤖
             </div>
 
@@ -1319,9 +1048,9 @@ footer strong{
 
         <!-- GAME 4 -->
 
-        <div class="game-card reveal">
+        <div class="card">
 
-            <div class="game-image">
+            <div class="game-icon">
                 👾
             </div>
 
@@ -1343,29 +1072,26 @@ footer strong{
 
         </div>
 
+
     </div>
 
 </section>
 
-<a href="neon-rush.html" class="play">
-    PLAY NOW
-</a>
-<!-- ===================================================
+
+<!-- =========================
      AI ARENA
-=================================================== -->
+========================= -->
 
-<section
-    class="section"
-    id="arena">
+<section id="arena">
 
-    <div class="section-title reveal">
+    <div class="section-title">
 
         <h2>
-            AI ARENA
+            🤖 AI ARENA
         </h2>
 
         <p>
-            Are you ready to challenge the machine?
+            Challenge the machine.
         </p>
 
     </div>
@@ -1374,31 +1100,41 @@ footer strong{
     <div class="arena">
 
 
-        <div class="arena-box reveal">
+        <div class="arena-box">
 
-            <div class="ai-core">
+            <div class="ai-circle">
                 🤖
             </div>
 
         </div>
 
 
-        <div class="arena-box reveal">
+        <div class="arena-box">
 
             <h2>
                 NEXUS AI
             </h2>
 
-            <p>
+            <p
+                style="
+                color:#999;
+                margin-top:15px;
+                line-height:1.7;
+                ">
 
-                Challenge intelligent AI opponents
-                and prove your skills. Choose your
-                difficulty and enter the arena.
+                Face intelligent AI opponents
+                and test your skills.
+
+                Choose your difficulty and
+                enter the arena.
 
             </p>
 
 
-            <h3 style="margin-top:25px;">
+            <h3
+                style="
+                margin-top:25px;
+                ">
 
                 SELECT DIFFICULTY
 
@@ -1407,44 +1143,35 @@ footer strong{
 
             <div class="difficulty">
 
-                <button
-                    onclick="difficulty('ROOKIE')">
-
+                <button>
                     ROOKIE
-
                 </button>
 
-                <button
-                    onclick="difficulty('PRO')">
-
+                <button>
                     PRO
-
                 </button>
 
-                <button
-                    onclick="difficulty('ELITE')">
-
+                <button>
                     ELITE
-
                 </button>
 
-                <button
-                    onclick="difficulty('LEGEND')">
-
+                <button>
                     LEGEND
-
                 </button>
 
             </div>
 
 
-            <div style="margin-top:25px;">
+            <div
+                style="
+                margin-top:25px;
+                ">
 
                 <a
                     href="neon-battle.html"
                     class="play">
 
-                    ENTER ARENA →
+                    ENTER ARENA
 
                 </a>
 
@@ -1457,33 +1184,33 @@ footer strong{
 </section>
 
 
-<!-- ===================================================
+<!-- =========================
      LEADERBOARD
-=================================================== -->
+========================= -->
 
-<section
-    class="section"
-    id="leaderboard">
+<section id="leaderboard">
 
-    <div class="section-title reveal">
+    <div class="section-title">
 
         <h2>
-            GLOBAL LEADERBOARD
+            🏆 GLOBAL LEADERBOARD
         </h2>
 
         <p>
-            Top players in the NEXUS network.
+            The strongest players in NEXUS.
         </p>
 
     </div>
 
 
-    <div class="leaderboard reveal">
+    <div class="leaderboard">
 
 
         <div class="player">
 
-            <span>#1</span>
+            <span>
+                #1
+            </span>
 
             <span>
                 ShadowX
@@ -1502,7 +1229,9 @@ footer strong{
 
         <div class="player">
 
-            <span>#2</span>
+            <span>
+                #2
+            </span>
 
             <span>
                 CyberGhost
@@ -1521,7 +1250,9 @@ footer strong{
 
         <div class="player">
 
-            <span>#3</span>
+            <span>
+                #3
+            </span>
 
             <span>
                 NovaPlayer
@@ -1540,7 +1271,9 @@ footer strong{
 
         <div class="player">
 
-            <span>#4</span>
+            <span>
+                #4
+            </span>
 
             <span>
                 AIHunter
@@ -1556,28 +1289,111 @@ footer strong{
 
         </div>
 
+
     </div>
 
 </section>
 
 
-<!-- ===================================================
-     CONTACT
-=================================================== -->
+<!-- =========================
+     PRO VERSION
+========================= -->
 
-<section
-    class="section"
-    id="contact">
+<section id="pro">
 
-    <div class="contact reveal">
+    <div class="pro-section">
 
         <h2>
-            CONTACT NEXUS
+            💎 NEXUS PRO
         </h2>
 
-        <p style="color:#888;margin-top:10px;">
+        <p>
 
-            Connect with the future of gaming.
+            Unlock the premium NEXUS experience
+            with exclusive games, advanced AI
+            challenges and premium features.
+
+        </p>
+
+
+        <div class="pro-features">
+
+            <div class="pro-feature">
+
+                <span>
+                    🚀
+                </span>
+
+                <strong>
+                    Premium Games
+                </strong>
+
+            </div>
+
+
+            <div class="pro-feature">
+
+                <span>
+                    🤖
+                </span>
+
+                <strong>
+                    Advanced AI
+                </strong>
+
+            </div>
+
+
+            <div class="pro-feature">
+
+                <span>
+                    🏆
+                </span>
+
+                <strong>
+                    Pro Rankings
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- Later connect this
+             to your payment system -->
+
+        <a
+            href="login.html"
+            class="btn primary">
+
+            GET NEXUS PRO
+
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     CONTACT
+========================= -->
+
+<section id="contact">
+
+    <div class="contact">
+
+        <h2>
+            📡 CONTACT NEXUS
+        </h2>
+
+        <p
+            style="
+            color:#888;
+            margin-top:10px;
+            ">
+
+            Have a question or suggestion?
 
         </p>
 
@@ -1605,9 +1421,9 @@ footer strong{
 
         <a
             href="mailto:iabadulali@gmail.com"
-            class="email-btn">
+            class="btn primary">
 
-            EMAIL NEXUS
+            CONTACT US
 
         </a>
 
@@ -1616,9 +1432,9 @@ footer strong{
 </section>
 
 
-<!-- ===================================================
+<!-- =========================
      FOOTER
-=================================================== -->
+========================= -->
 
 <footer>
 
@@ -1632,20 +1448,22 @@ footer strong{
 
     <br><br>
 
-    © 2026 NEXUS AI
+    © 2026 NEXUS AI GAMING
 
 </footer>
 
 
-<!-- ===================================================
+<!-- =========================
      MOBILE NAVIGATION
-=================================================== -->
+========================= -->
 
 <div class="mobile-nav">
 
     <a href="#home">
 
-        <span>🏠</span>
+        <span>
+            🏠
+        </span>
 
         Home
 
@@ -1654,7 +1472,9 @@ footer strong{
 
     <a href="#games">
 
-        <span>🎮</span>
+        <span>
+            🎮
+        </span>
 
         Games
 
@@ -1663,7 +1483,9 @@ footer strong{
 
     <a href="#arena">
 
-        <span>🤖</span>
+        <span>
+            🤖
+        </span>
 
         AI
 
@@ -1672,129 +1494,27 @@ footer strong{
 
     <a href="#leaderboard">
 
-        <span>🏆</span>
+        <span>
+            🏆
+        </span>
 
         Rank
 
     </a>
 
 
-    <a href="#contact">
+    <a href="login.html">
 
-        <span>📞</span>
+        <span>
+            👤
+        </span>
 
-        Contact
+        Account
 
     </a>
 
 </div>
 
-
-<!-- ===================================================
-     JAVASCRIPT
-=================================================== -->
-
-<script>
-
-
-/* ============================
-   DIFFICULTY
-============================ */
-
-function difficulty(level){
-
-    alert(
-        level +
-        " difficulty selected! 🤖"
-    );
-
-}
-
-
-/* ============================
-   SCROLL REVEAL
-============================ */
-
-const revealElements =
-    document.querySelectorAll(
-        ".reveal"
-    );
-
-
-const observer =
-    new IntersectionObserver(
-
-        function(entries){
-
-            entries.forEach(
-                function(entry){
-
-                    if(entry.isIntersecting){
-
-                        entry.target.classList.add(
-                            "show"
-                        );
-
-                    }
-
-                }
-            );
-
-        },
-
-        {
-            threshold:.15
-        }
-
-    );
-
-
-revealElements.forEach(
-    function(element){
-
-        observer.observe(element);
-
-    }
-);
-
-
-/* ============================
-   ACTIVE NAVIGATION
-============================ */
-
-document
-    .querySelectorAll(".nav-links a")
-    .forEach(
-        function(link){
-
-            link.addEventListener(
-                "click",
-                function(){
-
-                    document
-                        .querySelectorAll(
-                            ".nav-links a"
-                        )
-                        .forEach(
-                            function(item){
-
-                                item.style.color =
-                                    "#aaa";
-
-                            }
-                        );
-
-                    link.style.color =
-                        "#00eaff";
-
-                }
-            );
-
-        }
-    );
-
-
-</script>
 
 </body>
 </html>
