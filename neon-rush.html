@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0,
+      maximum-scale=1.0,user-scalable=no">
+
+<title>NEXUS NEON RUSH</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+    background:#03030b;
+    color:white;
+    overflow:hidden;
+    height:100vh;
+}
+
+#game{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    background:
+        radial-gradient(circle at 50% 50%,
+        #15104a 0%,
+        #05051a 45%,
+        #020208 100%);
+}
+
+/* TOP UI */
+
+.topbar{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    padding:18px 25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    z-index:10;
+    pointer-events:none;
+}
+
+.logo{
+    font-size:20px;
+    font-weight:900;
+    letter-spacing:2px;
+    color:#00eaff;
+    text-shadow:
+        0 0 10px #00eaff,
+        0 0 25px #00eaff;
+}
+
+.stats{
+    display:flex;
+    gap:10px;
+}
+
+.stat{
+    min-width:100px;
+    padding:8px 14px;
+    text-align:center;
+    border:1px solid #00eaff55;
+    background:#080817bb;
+    border-radius:12px;
+    backdrop-filter:blur(10px);
+}
+
+.stat small{
+    display:block;
+    color:#888;
+    font-size:9px;
+    letter-spacing:1px;
+}
+
+.stat strong{
+    color:#00eaff;
+    font-size:17px;
+}
+
+/* CANVAS */
+
+canvas{
+    position:absolute;
+    inset:0;
+}
+
+/* MENU */
+
+.menu{
+    position:fixed;
+    inset:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:20;
+    background:#02020899;
+    backdrop-filter:blur(8px);
+}
+
+.panel{
+    width:min(500px,90%);
+    padding:45px 30px;
+    text-align:center;
+    border:1px solid #00eaff55;
+    border-radius:25px;
+    background:#09091ad9;
+    box-shadow:
+        0 0 60px #00eaff22,
+        inset 0 0 30px #ffffff05;
+}
+
+.panel h1{
+    font-size:clamp(40px,9vw,65px);
+    color:#00eaff;
+    text-shadow:
+        0 0 15px #00eaff,
+        0 0 40px #00eaff;
+    margin-bottom:10px;
+}
+
+.panel h2{
+    font-size:18px;
+    color:#aaa;
+    margin-bottom:25px;
+}
+
+.panel p{
+    color:#777;
+    line-height:1.7;
+    font-size:14px;
+    margin-bottom:25px;
+}
+
+.play-btn{
+    border:none;
+    padding:15px 40px;
+    border-radius:30px;
+    font-weight:bold;
+    font-size:16px;
+    color:white;
+    cursor:pointer;
+    background:linear-gradient(
+        90deg,
+        #713cff,
+        #00d9ff
+    );
+    box-shadow:0 0 30px #00d9ff44;
+    transition:.2s;
+}
+
+.play-btn:hover{
+    transform:scale(1.06);
+    box-shadow:0 0 45px #00d9ff77;
+}
+
+.instructions{
+    margin-top:20px;
+    color:#555;
+    font-size:12px;
+}
+
+/* MOBILE CONTROLS */
+
+.controls{
+    position:fixed;
+    bottom:25px;
+    left:50%;
+    transform:translateX(-50%);
+    display:none;
+    gap:12px;
+    z-index:15;
+}
+
+.control{
+    width:65px;
+    height:65px;
+    border-radius:50%;
+    border:1px solid #00eaff66;
+    background:#080817cc;
+    color:#00eaff;
+    font-size:25px;
+    touch-action:none;
+    user-select:none;
+}
+
+.control:active{
+    background:#00eaff33;
+    box-shadow:0 0 25px #00eaff55;
+}
+
+/* PAUSE */
+
+.pause{
+    position:fixed;
+    top:80px;
+    right:25px;
+    z-index:12;
+    padding:9px 15px;
+    border-radius:10px;
+    border:1px solid #ffffff22;
+    background:#080817bb;
+    color:#aaa;
+    cursor:pointer;
+}
+
+/* GAME OVER */
+
+.gameover{
+    position:fixed;
+    inset:0;
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:30;
+    background:#020208aa;
+    backdrop-filter:blur(8px);
+}
+
+.gameover-box{
+    width:min(420px,90%);
+    text-align:center;
+    padding:40px 25px;
+    border-radius:25px;
+    background:#09091af0;
+    border:1px solid #ff2d7555;
+    box-shadow:0 0 60px #ff2d7522;
+}
+
+.gameover-box h1{
+    color:#ff4b87;
+    text-shadow:0 0 20px #ff2d75;
+    margin-bottom:15px;
+}
+
+.final-score{
+    font-size:45px;
+    font-weight:bold;
+    color:#00eaff;
+    margin:15px;
+}
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+    .topbar{
+        padding:12px;
+    }
+
+    .logo{
+        font-size:15px;
+    }
+
+    .stat{
+        min-width:75px;
+        padding:6px 8px;
+    }
+
+    .stat strong{
+        font-size:14px;
+    }
+
+    .controls{
+        display:flex;
+    }
+
+    .pause{
+        top:65px;
+        right:12px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<canvas id="game"></canvas>
+
+<!-- TOP BAR -->
+
+<div class="topbar">
+
+    <div class="logo">
+        NEXUS NEON RUSH
+    </div>
+
+    <div class="stats">
+
+        <div class="stat">
+            <small>SCORE</small>
+            <strong id="score">0</strong>
+        </div>
+
+        <div class="stat">
+            <small>BEST</small>
+            <strong id="best">0</strong>
+        </div>
+
+        <div class="stat">
+            <small>LEVEL</small>
+            <strong id="level">1</strong>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- START MENU -->
+
+<div class="menu" id="menu">
+
+    <div class="panel">
+
+        <h1>NEON RUSH</h1>
+
+        <h2>NEXUS AI GAMING</h2>
+
+        <p>
+            Pilot your neon ship through the
+            NEXUS network. Collect energy,
+            dodge incoming enemies and survive
+            as long as possible.
+        </p>
+
+        <button
+            class="play-btn"
+            onclick="startGame()">
+
+            🚀 START GAME
+
+        </button>
+
+        <div class="instructions">
+
+            PC: WASD / Arrow Keys<br>
+            Mobile: Touch Controls
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- PAUSE -->
+
+<button
+    class="pause"
+    onclick="togglePause()">
+
+    ⏸ PAUSE
+
+</button>
+
+
+<!-- MOBILE CONTROLS -->
+
+<div class="controls">
+
+    <button
+        class="control"
+        id="left">
+
+        ◀
+
+    </button>
+
+    <button
+        class="control"
+        id="up">
+
+        ▲
+
+    </button>
+
+    <button
+        class="control"
+        id="down">
+
+        ▼
+
+    </button>
+
+    <button
+        class="control"
+        id="right">
+
+        ▶
+
+    </button>
+
+</div>
+
+
+<!-- GAME OVER -->
+
+<div class="gameover" id="gameover">
+
+    <div class="gameover-box">
+
+        <h1>GAME OVER</h1>
+
+        <p>Your final score</p>
+
+        <div
+            class="final-score"
+            id="finalScore">
+
+            0
+
+        </div>
+
+        <p id="bestMessage"></p>
+
+        <button
+            class="play-btn"
+            onclick="restartGame()">
+
+            🔄 PLAY AGAIN
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   CANVAS
+========================= */
+
+const canvas =
+    document.getElementById("game");
+
+const ctx =
+    canvas.getContext("2d");
+
+let W;
+let H;
+
+function resize(){
+
+    W = canvas.width =
+        window.innerWidth;
+
+    H = canvas.height =
+        window.innerHeight;
+
+}
+
+window.addEventListener(
+    "resize",
+    resize
+);
+
+resize();
+
+
+/* =========================
+   GAME VARIABLES
+========================= */
+
+let running = false;
+let paused = false;
+
+let score = 0;
+let level = 1;
+
+let best =
+    Number(
+        localStorage.getItem(
+            "nexusNeonBest"
+        )
+    ) || 0;
+
+document.getElementById(
+    "best"
+).textContent = best;
+
+
+/* =========================
+   PLAYER
+========================= */
+
+const player = {
+
+    x: W / 2,
+
+    y: H - 130,
+
+    size: 18,
+
+    speed: 7,
+
+    glow: 0
+
+};
+
+
+/* =========================
+   OBJECTS
+========================= */
+
+let enemies = [];
+let energy = [];
+let particles = [];
+let stars = [];
+
+
+/* =========================
+   STARS
+========================= */
+
+for(let i=0;i<130;i++){
+
+    stars.push({
+
+        x:Math.random()*W,
+
+        y:Math.random()*H,
+
+        size:Math.random()*2+0.5,
+
+        speed:Math.random()*1.5+0.2
+
+    });
+
+}
+
+
+/* =========================
+   KEYBOARD
+========================= */
+
+const keys = {};
+
+window.addEventListener(
+    "keydown",
+    e => {
+
+        keys[e.key.toLowerCase()] = true;
+
+        if(
+            e.key === " " &&
+            running
+        ){
+
+            togglePause();
+
+        }
+
+    }
+);
+
+window.addEventListener(
+    "keyup",
+    e => {
+
+        keys[e.key.toLowerCase()] = false;
+
+    }
+);
+
+
+/* =========================
+   MOBILE INPUT
+========================= */
+
+function controlButton(
+    id,
+    key
+){
+
+    const btn =
+        document.getElementById(id);
+
+    btn.addEventListener(
+        "touchstart",
+        e => {
+
+            e.preventDefault();
+
+            keys[key] = true;
+
+        }
+    );
+
+    btn.addEventListener(
+        "touchend",
+        e => {
+
+            e.preventDefault();
+
+            keys[key] = false;
+
+        }
+    );
+
+}
+
+controlButton("left","arrowleft");
+controlButton("right","arrowright");
+controlButton("up","arrowup");
+controlButton("down","arrowdown");
+
+
+/* =========================
+   START
+========================= */
+
+function startGame(){
+
+    document.getElementById(
+        "menu"
+    ).style.display = "none";
+
+    document.getElementById(
+        "gameover"
+    ).style.display = "none";
+
+    score = 0;
+
+    level = 1;
+
+    enemies = [];
+
+    energy = [];
+
+    particles = [];
+
+    player.x = W / 2;
+
+    player.y = H - 130;
+
+    running = true;
+
+    paused = false;
+
+    updateUI();
+
+    requestAnimationFrame(gameLoop);
+
+}
+
+
+/* =========================
+   RESTART
+========================= */
+
+function restartGame(){
+
+    startGame();
+
+}
+
+
+/* =========================
+   PAUSE
+========================= */
+
+function togglePause(){
+
+    if(!running)
+        return;
+
+    paused = !paused;
+
+}
+
+
+/* =========================
+   SPAWN ENEMY
+========================= */
+
+function spawnEnemy(){
+
+    enemies.push({
+
+        x:Math.random()*W,
+
+        y:-40,
+
+        size:
+            Math.random()*15+15,
+
+        speed:
+            Math.random()*2+
+            2+
+            level*.25,
+
+        rotation:
+            Math.random()*Math.PI,
+
+        spin:
+            (Math.random()-.5)*.05
+
+    });
+
+}
+
+
+/* =========================
+   SPAWN ENERGY
+========================= */
+
+function spawnEnergy(){
+
+    energy.push({
+
+        x:Math.random()*
+            (W-80)+40,
+
+        y:-30,
+
+        size:9,
+
+        speed:
+            2.5+
+
+            level*.15,
+
+        pulse:Math.random()*10
+
+    });
+
+}
+
+
+/* =========================
+   PARTICLES
+========================= */
+
+function createParticles(
+    x,
+    y,
+    amount=12
+){
+
+    for(let i=0;i<amount;i++){
+
+        particles.push({
+
+            x:x,
+
+            y:y,
+
+            vx:
+                (Math.random()-.5)*5,
+
+            vy:
+                (Math.random()-.5)*5,
+
+            life:1,
+
+            size:
+                Math.random()*3+1
+
+        });
+
+    }
+
+}
+
+
+/* =========================
+   PLAYER MOVEMENT
+========================= */
+
+function movePlayer(){
+
+    if(
+        keys["arrowleft"] ||
+        keys["a"]
+    ){
+
+        player.x -= player.speed;
+
+    }
+
+    if(
+        keys["arrowright"] ||
+        keys["d"]
+    ){
+
+        player.x += player.speed;
+
+    }
+
+    if(
+        keys["arrowup"] ||
+        keys["w"]
+    ){
+
+        player.y -= player.speed;
+
+    }
+
+    if(
+        keys["arrowdown"] ||
+        keys["s"]
+    ){
+
+        player.y += player.speed;
+
+    }
+
+    player.x =
+        Math.max(
+            25,
+            Math.min(
+                W-25,
+                player.x
+            )
+        );
+
+    player.y =
+        Math.max(
+            70,
+            Math.min(
+                H-60,
+                player.y
+            )
+        );
+
+}
+
+
+/* =========================
+   UPDATE STARS
+========================= */
+
+function updateStars(){
+
+    stars.forEach(star=>{
+
+        star.y += star.speed;
+
+        if(star.y > H){
+
+            star.y = 0;
+
+            star.x =
+                Math.random()*W;
+
+        }
+
+    });
+
+}
+
+
+/* =========================
+   UPDATE ENEMIES
+========================= */
+
+function updateEnemies(){
+
+    enemies.forEach(enemy=>{
+
+        enemy.y += enemy.speed;
+
+        enemy.rotation += enemy.spin;
+
+    });
+
+    enemies =
+        enemies.filter(
+            enemy =>
+                enemy.y <
+                H+60
+        );
+
+}
+
+
+/* =========================
+   UPDATE ENERGY
+========================= */
+
+function updateEnergy(){
+
+    energy.forEach(e=>{
+
+        e.y += e.speed;
+
+        e.pulse += .08;
+
+    });
+
+    energy =
+        energy.filter(
+            e =>
+                e.y <
+                H+50
+        );
+
+}
+
+
+/* =========================
+   UPDATE PARTICLES
+========================= */
+
+function updateParticles(){
+
+    particles.forEach(p=>{
+
+        p.x += p.vx;
+
+        p.y += p.vy;
+
+        p.life -= .025;
+
+    });
+
+    particles =
+        particles.filter(
+            p => p.life > 0
+        );
+
+}
+
+
+/* =========================
+   COLLISION
+========================= */
+
+function distance(
+    x1,y1,
+    x2,y2
+){
+
+    return Math.hypot(
+        x1-x2,
+        y1-y2
+    );
+
+}
+
+
+function checkCollisions(){
+
+    /* ENEMIES */
+
+    for(let enemy of enemies){
+
+        if(
+            distance(
+                player.x,
+                player.y,
+                enemy.x,
+                enemy.y
+            )
+            <
+            player.size+
+            enemy.size
+        ){
+
+            createParticles(
+                player.x,
+                player.y,
+                35
+            );
+
+            gameOver();
+
+            return;
+
+        }
+
+    }
+
+
+    /* ENERGY */
+
+    energy =
+        energy.filter(e=>{
+
+            if(
+                distance(
+                    player.x,
+                    player.y,
+                    e.x,
+                    e.y
+                )
+                <
+                player.size+
+                e.size
+            ){
+
+                score += 25;
+
+                createParticles(
+                    e.x,
+                    e.y,
+                    15
+                );
+
+                updateUI();
+
+                return false;
+
+            }
+
+            return true;
+
+        });
+
+}
+
+
+/* =========================
+   DRAW BACKGROUND
+========================= */
+
+function drawBackground(){
+
+    ctx.fillStyle="#03030b";
+
+    ctx.fillRect(
+        0,
+        0,
+        W,
+        H
+    );
+
+
+    /* STARS */
+
+    stars.forEach(star=>{
+
+        ctx.beginPath();
+
+        ctx.fillStyle =
+            "rgba(255,255,255,.65)";
+
+        ctx.arc(
+            star.x,
+            star.y,
+            star.size,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fill();
+
+    });
+
+
+    /* GRID */
+
+    ctx.strokeStyle =
+        "rgba(0,234,255,.045)";
+
+    ctx.lineWidth=1;
+
+    const grid=70;
+
+    for(
+        let x=0;
+        x<W;
+        x+=grid
+    ){
+
+        ctx.beginPath();
+
+        ctx.moveTo(x,0);
+
+        ctx.lineTo(x,H);
+
+        ctx.stroke();
+
+    }
+
+    for(
+        let y=0;
+        y<H;
+        y+=grid
+    ){
+
+        ctx.beginPath();
+
+        ctx.moveTo(0,y);
+
+        ctx.lineTo(W,y);
+
+        ctx.stroke();
+
+    }
+
+}
+
+
+/* =========================
+   DRAW PLAYER
+========================= */
+
+function drawPlayer(){
+
+    ctx.save();
+
+    ctx.translate(
+        player.x,
+        player.y
+    );
+
+    /* glow */
+
+    ctx.shadowBlur=30;
+
+    ctx.shadowColor="#00eaff";
+
+    /* ship */
+
+    ctx.beginPath();
+
+    ctx.moveTo(0,-25);
+
+    ctx.lineTo(18,20);
+
+    ctx.lineTo(0,12);
+
+    ctx.lineTo(-18,20);
+
+    ctx.closePath();
+
+    const gradient =
+        ctx.createLinearGradient(
+            0,-25,
+            0,25
+        );
+
+    gradient.addColorStop(
+        0,
+        "#ffffff"
+    );
+
+    gradient.addColorStop(
+        .4,
+        "#00eaff"
+    );
+
+    gradient.addColorStop(
+        1,
+        "#713cff"
+    );
+
+    ctx.fillStyle=gradient;
+
+    ctx.fill();
+
+    /* engine */
+
+    ctx.beginPath();
+
+    ctx.moveTo(-7,18);
+
+    ctx.lineTo(0,35);
+
+    ctx.lineTo(7,18);
+
+    ctx.fillStyle="#ff3df2";
+
+    ctx.fill();
+
+    ctx.restore();
+
+}
+
+
+/* =========================
+   DRAW ENEMY
+========================= */
+
+function drawEnemies(){
+
+    enemies.forEach(enemy=>{
+
+        ctx.save();
+
+        ctx.translate(
+            enemy.x,
+            enemy.y
+        );
+
+        ctx.rotate(
+            enemy.rotation
+        );
+
+        ctx.shadowBlur=25;
+
+        ctx.shadowColor="#ff246f";
+
+        ctx.strokeStyle="#ff3d7f";
+
+        ctx.lineWidth=3;
+
+        ctx.beginPath();
+
+        for(let i=0;i<6;i++){
+
+            const angle =
+                Math.PI*2/6*i;
+
+            const x =
+                Math.cos(angle)*
+                enemy.size;
+
+            const y =
+                Math.sin(angle)*
+                enemy.size;
+
+            if(i===0)
+                ctx.moveTo(x,y);
+            else
+                ctx.lineTo(x,y);
+
+        }
+
+        ctx.closePath();
+
+        ctx.stroke();
+
+        ctx.fillStyle="#ff246f44";
+
+        ctx.fill();
+
+        ctx.restore();
+
+    });
+
+}
+
+
+/* =========================
+   DRAW ENERGY
+========================= */
+
+function drawEnergy(){
+
+    energy.forEach(e=>{
+
+        const pulse =
+            Math.sin(e.pulse)*3;
+
+        ctx.save();
+
+        ctx.translate(
+            e.x,
+            e.y
+        );
+
+        ctx.shadowBlur=25;
+
+        ctx.shadowColor="#00ffb7";
+
+        ctx.fillStyle="#00ffb7";
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            0,
+            -e.size-pulse
+        );
+
+        ctx.lineTo(
+            e.size,
+            0
+        );
+
+        ctx.lineTo(
+            0,
+            e.size+pulse
+        );
+
+        ctx.lineTo(
+            -e.size,
+            0
+        );
+
+        ctx.closePath();
+
+        ctx.fill();
+
+        ctx.restore();
+
+    });
+
+}
+
+
+/* =========================
+   DRAW PARTICLES
+========================= */
+
+function drawParticles(){
+
+    particles.forEach(p=>{
+
+        ctx.globalAlpha =
+            p.life;
+
+        ctx.fillStyle="#00eaff";
+
+        ctx.beginPath();
+
+        ctx.arc(
+            p.x,
+            p.y,
+            p.size,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fill();
+
+        ctx.globalAlpha=1;
+
+    });
+
+}
+
+
+/* =========================
+   UI
+========================= */
+
+function updateUI(){
+
+    document.getElementById(
+        "score"
+    ).textContent =
+        Math.floor(score);
+
+    document.getElementById(
+        "level"
+    ).textContent =
+        level;
+
+}
+
+
+/* =========================
+   GAME OVER
+========================= */
+
+function gameOver(){
+
+    running=false;
+
+    if(score > best){
+
+        best =
+            Math.floor(score);
+
+        localStorage.setItem(
+            "nexusNeonBest",
+            best
+        );
+
+        document.getElementById(
+            "bestMessage"
+        ).textContent =
+            "🏆 NEW HIGH SCORE!";
+
+    }else{
+
+        document.getElementById(
+            "bestMessage"
+        ).textContent =
+            "Keep pushing for a new record!";
+
+    }
+
+    document.getElementById(
+        "best"
+    ).textContent=best;
+
+    document.getElementById(
+        "finalScore"
+    ).textContent=
+        Math.floor(score);
+
+    document.getElementById(
+        "gameover"
+    ).style.display="flex";
+
+}
+
+
+/* =========================
+   GAME LOOP
+========================= */
+
+let enemyTimer=0;
+let energyTimer=0;
+let levelTimer=0;
+
+function gameLoop(){
+
+    if(!running)
+        return;
+
+    requestAnimationFrame(
+        gameLoop
+    );
+
+    if(paused)
+        return;
+
+    movePlayer();
+
+    updateStars();
+
+    updateEnemies();
+
+    updateEnergy();
+
+    updateParticles();
+
+    checkCollisions();
+
+
+    score += .03;
+
+    levelTimer++;
+
+    if(
+        levelTimer >
+        1000
+    ){
+
+        level++;
+
+        levelTimer=0;
+
+        updateUI();
+
+    }
+
+
+    enemyTimer++;
+
+    energyTimer++;
+
+
+    if(
+        enemyTimer >
+        Math.max(
+            18,
+            65-level*3
+        )
+    ){
+
+        spawnEnemy();
+
+        enemyTimer=0;
+
+    }
+
+
+    if(
+        energyTimer >
+        120
+    ){
+
+        spawnEnergy();
+
+        energyTimer=0;
+
+    }
+
+
+    drawBackground();
+
+    drawEnergy();
+
+    drawEnemies();
+
+    drawParticles();
+
+    drawPlayer();
+
+    updateUI();
+
+}
+
+</script>
+
+</body>
+</html>
