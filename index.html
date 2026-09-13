@@ -657,23 +657,206 @@ footer {
             OF GAMING
         </h1>
 
+       <section class="hero" id="home">
+
+    <div class="hero-content">
+
+        <div class="tag">NEXT GENERATION GAMING</div>
+
+        <h1>
+            ENTER THE<br>
+            <span>FUTURE</span>
+            OF GAMING
+        </h1>
+
+    </div>
+           /* WELCOME SECTION */
+
+.welcome-section{
+    min-height:70vh;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:100px 7%;
+
+    text-align:center;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(108,44,255,.12),
+            transparent 60%
+        );
+}
+
+.welcome-content{
+    max-width:850px;
+}
+
+.welcome-tag{
+    color:#00eaff;
+
+    letter-spacing:4px;
+
+    font-size:13px;
+
+    font-weight:bold;
+
+    margin-bottom:20px;
+}
+
+.welcome-content h2{
+    font-size:clamp(35px,6vw,65px);
+
+    line-height:1.05;
+
+    margin-bottom:25px;
+}
+
+.welcome-content h2 span{
+    display:block;
+
+    color:#00eaff;
+
+    text-shadow:
+        0 0 25px #00eaff;
+}
+
+.welcome-content p{
+    max-width:700px;
+
+    margin:auto;
+
+    color:#999;
+
+    font-size:18px;
+
+    line-height:1.8;
+}
+
+.welcome-buttons{
+    margin-top:35px;
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:15px;
+
+    flex-wrap:wrap;
+}
+
+.welcome-btn{
+    padding:15px 28px;
+
+    border-radius:10px;
+
+    text-decoration:none;
+
+    font-weight:bold;
+
+    transition:.3s;
+}
+
+.welcome-btn.primary{
+    color:white;
+
+    background:
+        linear-gradient(
+            90deg,
+            #6c2cff,
+            #00d9ff
+        );
+
+    box-shadow:
+        0 0 25px
+        rgba(0,217,255,.25);
+}
+
+.welcome-btn.secondary{
+    color:#00eaff;
+
+    border:1px solid #00eaff;
+
+    background:transparent;
+}
+
+.welcome-btn:hover{
+    transform:translateY(-5px);
+
+    box-shadow:
+        0 0 30px
+        rgba(0,234,255,.35);
+}
+
+
+/* PHONE */
+
+@media(max-width:600px){
+
+    .welcome-section{
+        min-height:65vh;
+
+        padding:80px 20px;
+    }
+
+    .welcome-content h2{
+        font-size:36px;
+    }
+
+    .welcome-content p{
+        font-size:15px;
+    }
+
+    .welcome-buttons{
+        flex-direction:column;
+    }
+
+    .welcome-btn{
+        width:100%;
+        text-align:center;
+    }
+
+}
+<!-- WELCOME SECTION -->
+
+<section class="welcome-section" id="welcome">
+
+    <div class="welcome-content">
+
+        <div class="welcome-tag">
+            WELCOME TO NEXUS AI
+        </div>
+
+        <h2>
+            GAMING MEETS
+            <span>ARTIFICIAL INTELLIGENCE</span>
+        </h2>
+
         <p>
             Welcome to NEXUS AI — where artificial intelligence
             meets the next generation of gaming. Challenge AI,
             compete with players and dominate the leaderboard.
         </p>
 
-        <div class="buttons">
+        <div class="welcome-buttons">
 
-            <a href="#games" class="btn primary">
-                EXPLORE GAMES
+            <a href="#games" class="welcome-btn primary">
+                🎮 EXPLORE GAMES
             </a>
 
-            <a href="#arena" class="btn secondary">
-                AI ARENA
+            <a href="#arena" class="welcome-btn secondary">
+                🤖 AI ARENA
             </a>
 
         </div>
+
+    </div>
+
+</section>
+</section>
 
     </div>
 
