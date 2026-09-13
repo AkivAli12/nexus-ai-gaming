@@ -1,693 +1,351 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<meta name="theme-color" content="#050510">
 
 <title>NEXUS AI GAMING</title>
 
+
 <style>
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
-body {
-    background: #050510;
-    color: white;
-    overflow-x: hidden;
-}
-
-/* BACKGROUND */
-
-body::before {
-    content: "";
-    position: fixed;
-    width: 500px;
-    height: 500px;
-    background: #6c2cff;
-    filter: blur(180px);
-    opacity: .25;
-    top: -150px;
-    left: -150px;
-    z-index: -1;
-}
-
-body::after {
-    content: "";
-    position: fixed;
-    width: 450px;
-    height: 450px;
-    background: #00d9ff;
-    filter: blur(180px);
-    opacity: .18;
-    right: -150px;
-    bottom: -100px;
-    z-index: -1;
-}
-
-/* NAV */
-
-nav {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    padding: 20px 7%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(5,5,16,.78);
-    backdrop-filter: blur(15px);
-    border-bottom: 1px solid rgba(255,255,255,.08);
-    z-index: 1000;
-}
-
-.logo {
-    font-size: 25px;
-    font-weight: bold;
-    color: #00eaff;
-    text-shadow: 0 0 15px #00eaff;
-}
-
-nav ul {
-    display: flex;
-    list-style: none;
-    gap: 30px;
-}
-
-nav ul li a {
-    color: #ccc;
-    text-decoration: none;
-    transition: .3s;
-}
-
-nav ul li a:hover {
-    color: #00eaff;
-}
-
-.join {
-    padding: 10px 20px;
-    border-radius: 25px;
-    color: white;
-    text-decoration: none;
-    background: linear-gradient(90deg,#6c2cff,#00d9ff);
-    box-shadow: 0 0 20px rgba(0,217,255,.3);
-}
-
-/* HERO */
-
-.hero {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    padding: 130px 7% 70px;
-}
-
-.hero-content {
-    max-width: 750px;
-}
-
-.tag {
-    color: #00eaff;
-    letter-spacing: 4px;
-    font-size: 14px;
-    margin-bottom: 20px;
-}
-
-.hero h1 {
-    font-size: clamp(50px,8vw,100px);
-    line-height: .95;
-    margin-bottom: 25px;
-}
-
-.hero h1 span {
-    color: #00eaff;
-    text-shadow: 0 0 30px #00eaff;
-}
-
-.hero p {
-    color: #aaa;
-    font-size: 18px;
-    line-height: 1.7;
-    max-width: 600px;
-}
-
-.buttons {
-    margin-top: 35px;
-    display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
-}
-
-.btn {
-    padding: 15px 28px;
-    border-radius: 8px;
-    text-decoration: none;
-    color: white;
-    font-weight: bold;
-    transition: .3s;
-    cursor: pointer;
-}
-
-.primary {
-    background: linear-gradient(90deg,#6c2cff,#00d9ff);
-    box-shadow: 0 0 25px rgba(0,217,255,.25);
-}
-
-.secondary {
-    border: 1px solid #00eaff;
-}
-
-.btn:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 0 30px rgba(0,217,255,.4);
-}
-
-/* SECTIONS */
-
-section {
-    padding: 100px 7%;
-}
-
-.section-title {
-    text-align: center;
-    margin-bottom: 50px;
-}
-
-.section-title h2 {
-    font-size: 45px;
-}
-
-.section-title p {
-    color: #888;
-    margin-top: 10px;
-}
-
-/* GAME CARDS */
-
-.games {
-    display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(230px,1fr));
-    gap: 25px;
-}
-
-.card {
-    padding: 25px;
-    border: 1px solid rgba(0,234,255,.15);
-    background: rgba(255,255,255,.04);
-    border-radius: 18px;
-    backdrop-filter: blur(10px);
-    transition: .3s;
-}
-
-.card:hover {
-    transform: translateY(-8px);
-    border-color: #00eaff;
-    box-shadow: 0 0 30px rgba(0,234,255,.15);
-}
-
-.game-icon {
-    height: 140px;
-    border-radius: 12px;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 55px;
-    background: linear-gradient(135deg,#15152b,#111827);
-}
-
-.card h3 {
-    margin-bottom: 8px;
-}
-
-.card p {
-    color: #888;
-    margin-bottom: 18px;
-}
-
-.play {
-    display: inline-block;
-    padding: 9px 18px;
-    border: 1px solid #00eaff;
-    border-radius: 20px;
-    color: #00eaff;
-    text-decoration: none;
-    transition: .3s;
-}
-
-.play:hover {
-    background: #00eaff;
-    color: #050510;
-    box-shadow: 0 0 20px #00eaff;
-}
-
-/* PROFILE */
-
-.profile-box {
-    max-width: 900px;
-    margin: auto;
-    padding: 35px;
-    border-radius: 20px;
-    background: rgba(255,255,255,.04);
-    border: 1px solid rgba(0,234,255,.18);
-    box-shadow: 0 0 35px rgba(0,234,255,.05);
-}
-
-.profile-grid {
-    display: grid;
-    grid-template-columns: 120px 1fr;
-    gap: 30px;
-    align-items: center;
-}
-
-.avatar {
-    width: 110px;
-    height: 110px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 48px;
-    background: radial-gradient(circle,#00eaff33,#6c2cff33);
-    border: 2px solid #00eaff;
-    box-shadow: 0 0 30px #00eaff44;
-}
-
-.profile-info h2 {
-    color: #00eaff;
-}
-
-.profile-info p {
-    color: #888;
-    margin-top: 8px;
-}
-
-.username-input {
-    margin-top: 20px;
-    display: flex;
-    gap: 10px;
-}
-
-.username-input input {
-    flex: 1;
-}
-
-/* STATS */
-
-.stats {
-    margin-top: 30px;
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
-    gap: 15px;
-}
-
-.stat-box {
-    padding: 20px;
-    text-align: center;
-    border: 1px solid rgba(255,255,255,.08);
-    border-radius: 12px;
-    background: rgba(255,255,255,.03);
-}
-
-.stat-box strong {
-    display: block;
-    color: #00eaff;
-    font-size: 28px;
-    margin-bottom: 6px;
-}
-
-.stat-box span {
-    color: #777;
-    font-size: 13px;
-}
-
-/* AI ARENA */
-
-.arena {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
-    align-items: center;
-}
-
-.arena-box {
-    padding: 40px;
-    border-radius: 20px;
-    background: rgba(255,255,255,.04);
-    border: 1px solid rgba(255,255,255,.1);
-}
-
-.ai-circle {
-    width: 220px;
-    height: 220px;
-    margin: auto;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 80px;
-    background: radial-gradient(circle,#00eaff22,#6c2cff22);
-    border: 2px solid #00eaff;
-    box-shadow: 0 0 50px #00eaff55;
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    50% {
-        transform: scale(1.06);
-        box-shadow: 0 0 80px #00eaff88;
-    }
-}
-
-.difficulty {
-    margin-top: 25px;
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.difficulty button {
-    background: transparent;
-    color: white;
-    border: 1px solid #444;
-    padding: 10px 18px;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: .3s;
-}
-
-.difficulty button:hover,
-.difficulty button.active {
-    border-color: #00eaff;
-    color: #00eaff;
-    box-shadow: 0 0 15px #00eaff33;
-}
-
-/* LEADERBOARD */
-
-.leaderboard {
-    max-width: 950px;
-    margin: auto;
-    background: rgba(255,255,255,.04);
-    border-radius: 18px;
-    overflow: hidden;
-    border: 1px solid rgba(0,234,255,.12);
-}
-
-.leader-head,
-.player {
-    display: grid;
-    grid-template-columns: 70px 1fr 120px 130px 130px;
-    gap: 10px;
-    align-items: center;
-    padding: 18px 20px;
-}
-
-.leader-head {
-    color: #777;
-    font-size: 12px;
-    text-transform: uppercase;
-    background: rgba(0,234,255,.04);
-}
-
-.player {
-    border-top: 1px solid rgba(255,255,255,.07);
-    transition: .2s;
-}
-
-.player:hover {
-    background: rgba(0,234,255,.05);
-}
-
-.player.rank-1 {
-    color: #00eaff;
-}
-
-.player.current-player {
-    background: rgba(108,44,255,.12);
-    border-left: 3px solid #00eaff;
-}
-
-.rank {
-    font-weight: bold;
-}
-
-.player-name {
-    font-weight: bold;
-}
-
-.level {
-    color: #999;
-}
-
-.xp {
-    color: #00eaff;
-    font-weight: bold;
-}
+/* =====================================================
+   RESET
+===================================================== */
 
-.best {
-    color: #aaa;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-.empty {
-    padding: 35px;
-    text-align: center;
-    color: #777;
+html{
+    scroll-behavior:smooth;
 }
 
-/* LEADERBOARD CONTROLS */
+body{
+    background:#050510;
+    color:white;
 
-.leader-controls {
-    max-width: 950px;
-    margin: 20px auto 0;
-    display: flex;
-    justify-content: flex-end;
-}
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
 
-.reset-btn {
-    background: transparent;
-    color: #777;
-    border: 1px solid #333;
-    padding: 9px 15px;
-    border-radius: 8px;
-    cursor: pointer;
-}
+    min-height:100vh;
 
-.reset-btn:hover {
-    color: #ff5c7a;
-    border-color: #ff5c7a;
+    overflow-x:hidden;
+    overflow-y:auto;
 }
 
-/* CONTACT */
 
-.contact {
-    max-width: 700px;
-    margin: auto;
-    text-align: center;
-}
+/* =====================================================
+   BACKGROUND GLOW
+===================================================== */
 
-.contact-info {
-    margin: 30px 0;
-    color: #aaa;
-    line-height: 2;
-}
+body::before{
+    content:"";
 
-form {
-    display: grid;
-    gap: 15px;
-}
+    position:fixed;
 
-input,
-textarea {
-    width: 100%;
-    padding: 15px;
-    background: rgba(255,255,255,.05);
-    border: 1px solid #333;
-    border-radius: 8px;
-    color: white;
-    outline: none;
-}
+    width:500px;
+    height:500px;
 
-input:focus,
-textarea:focus {
-    border-color: #00eaff;
-}
+    top:-200px;
+    left:-180px;
 
-textarea {
-    min-height: 130px;
-}
+    background:#6c2cff;
 
-/* TOAST */
-
-#toast {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    padding: 15px 22px;
-    background: rgba(5,5,20,.95);
-    border: 1px solid #00eaff;
-    border-radius: 10px;
-    color: #00eaff;
-    box-shadow: 0 0 25px #00eaff44;
-    transform: translateY(100px);
-    opacity: 0;
-    transition: .3s;
-    z-index: 2000;
-}
+    filter:blur(180px);
 
-#toast.show {
-    transform: translateY(0);
-    opacity: 1;
-}
+    opacity:.20;
 
-/* FOOTER */
+    z-index:-2;
 
-footer {
-    text-align: center;
-    padding: 40px;
-    border-top: 1px solid rgba(255,255,255,.08);
-    color: #777;
+    pointer-events:none;
 }
-
-/* MOBILE */
-
-@media(max-width:800px) {
-
-    nav ul {
-        display: none;
-    }
-
-    .hero h1 {
-        font-size: 55px;
-    }
 
-    .arena {
-        grid-template-columns: 1fr;
-    }
+body::after{
+    content:"";
 
-    .profile-grid {
-        grid-template-columns: 1fr;
-        text-align: center;
-    }
+    position:fixed;
 
-    .avatar {
-        margin: auto;
-    }
+    width:500px;
+    height:500px;
 
-    .username-input {
-        flex-direction: column;
-    }
+    right:-200px;
+    bottom:-200px;
 
-    .stats {
-        grid-template-columns: 1fr;
-    }
+    background:#00d9ff;
 
-    .leader-head {
-        display: none;
-    }
+    filter:blur(180px);
 
-    .player {
-        grid-template-columns: 45px 1fr 80px;
-    }
+    opacity:.15;
 
-    .player .level,
-    .player .best {
-        display: none;
-    }
+    z-index:-2;
 
-    #toast {
-        left: 20px;
-        right: 20px;
-        bottom: 20px;
-        text-align: center;
-    }
-
+    pointer-events:none;
 }
-
-</style>
-</head>
-
-<body>
-
-
-<!-- NAVIGATION -->
-
-<nav>
-
-    <div class="logo">
-        NEXUS AI
-    </div>
-
-    <ul>
-        <li><a href="#home">Home</a></li>
-        <li><a href="#games">Games</a></li>
-        <li><a href="#profile">Profile</a></li>
-        <li><a href="#arena">AI Arena</a></li>
-        <li><a href="#leaderboard">Leaderboard</a></li>
-        <li><a href="#contact">Contact</a></li>
-    </ul>
-
-    <a href="login.html" class="join">JOIN NOW</a>
-    </a>
-
-</nav>
-
-
-<!-- HERO -->
-
-<section class="hero" id="home">
-
-    <div class="hero-content">
-
-        <div class="tag">
-            NEXT GENERATION GAMING
-        </div>
 
-        <h1>
-            ENTER THE<br>
-            <span>FUTURE</span>
-            OF GAMING
-        </h1>
 
-       <section class="hero" id="home">
+/* =====================================================
+   NAVBAR
+===================================================== */
 
-    <div class="hero-content">
+nav{
+    position:sticky;
 
-        <div class="tag">NEXT GENERATION GAMING</div>
+    top:0;
 
-        <h1>
-            ENTER THE<br>
-            <span>FUTURE</span>
-            OF GAMING
-        </h1>
+    z-index:1000;
 
-    </div>
-           /* WELCOME SECTION */
+    width:100%;
 
-.welcome-section{
-    min-height:70vh;
+    padding:18px 7%;
 
     display:flex;
+
     align-items:center;
+
+    justify-content:space-between;
+
+    background:rgba(5,5,16,.82);
+
+    backdrop-filter:blur(18px);
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.08);
+}
+
+.logo{
+    font-size:25px;
+
+    font-weight:900;
+
+    color:#00eaff;
+
+    text-shadow:
+        0 0 12px #00eaff,
+        0 0 25px #00eaff;
+}
+
+.logo span{
+    color:white;
+}
+
+.nav-links{
+    display:flex;
+
+    gap:30px;
+}
+
+.nav-links a{
+    color:#aaa;
+
+    text-decoration:none;
+
+    font-size:14px;
+
+    transition:.3s;
+}
+
+.nav-links a:hover{
+    color:#00eaff;
+
+    text-shadow:
+        0 0 10px #00eaff;
+}
+
+.join{
+    padding:11px 22px;
+
+    border-radius:25px;
+
+    color:white;
+
+    text-decoration:none;
+
+    font-weight:bold;
+
+    background:
+        linear-gradient(
+            90deg,
+            #6c2cff,
+            #00d9ff
+        );
+
+    box-shadow:
+        0 0 25px
+        rgba(0,217,255,.25);
+
+    transition:.3s;
+}
+
+.join:hover{
+    transform:translateY(-3px);
+
+    box-shadow:
+        0 0 35px
+        rgba(0,217,255,.45);
+}
+
+
+/* =====================================================
+   HERO
+===================================================== */
+
+.hero{
+    min-height:88vh;
+
+    display:flex;
+
+    align-items:center;
+
+    padding:
+        100px 7%
+        80px;
+
+    position:relative;
+}
+
+.hero-content{
+    max-width:900px;
+}
+
+.tag{
+    color:#00eaff;
+
+    letter-spacing:6px;
+
+    font-size:13px;
+
+    font-weight:bold;
+
+    margin-bottom:25px;
+}
+
+.hero h1{
+    font-size:
+        clamp(55px,9vw,115px);
+
+    line-height:.88;
+
+    letter-spacing:-5px;
+}
+
+.hero h1 span{
+    color:#00eaff;
+
+    text-shadow:
+        0 0 25px #00eaff,
+        0 0 60px #00eaff;
+}
+
+
+/* HERO DECORATION */
+
+.hero-orb{
+    position:absolute;
+
+    right:10%;
+    top:30%;
+
+    width:240px;
+    height:240px;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(0,234,255,.3);
+
+    box-shadow:
+        0 0 70px
+        rgba(0,234,255,.12);
+
+    animation:
+        orbPulse 3s infinite;
+}
+
+.hero-orb::before{
+    content:"";
+
+    position:absolute;
+
+    inset:25px;
+
+    border-radius:50%;
+
+    border:
+        1px solid
+        rgba(108,44,255,.6);
+}
+
+.hero-orb::after{
+    content:"AI";
+
+    position:absolute;
+
+    inset:0;
+
+    display:flex;
+
+    align-items:center;
+
     justify-content:center;
 
-    padding:100px 7%;
+    color:#00eaff;
+
+    font-size:45px;
+
+    font-weight:900;
+
+    text-shadow:
+        0 0 20px #00eaff;
+}
+
+@keyframes orbPulse{
+
+    50%{
+        transform:scale(1.08);
+
+        box-shadow:
+            0 0 100px
+            rgba(0,234,255,.25);
+    }
+
+}
+
+
+/* =====================================================
+   WELCOME SECTION
+===================================================== */
+
+.welcome{
+    min-height:75vh;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
 
     text-align:center;
+
+    padding:
+        100px 7%;
 
     background:
         radial-gradient(
             circle at center,
             rgba(108,44,255,.12),
-            transparent 60%
+            transparent 65%
         );
 }
 
@@ -698,7 +356,7 @@ footer {
 .welcome-tag{
     color:#00eaff;
 
-    letter-spacing:4px;
+    letter-spacing:5px;
 
     font-size:13px;
 
@@ -707,15 +365,16 @@ footer {
     margin-bottom:20px;
 }
 
-.welcome-content h2{
-    font-size:clamp(35px,6vw,65px);
+.welcome h2{
+    font-size:
+        clamp(38px,6vw,70px);
 
-    line-height:1.05;
+    line-height:1;
 
     margin-bottom:25px;
 }
 
-.welcome-content h2 span{
+.welcome h2 span{
     display:block;
 
     color:#00eaff;
@@ -724,7 +383,7 @@ footer {
         0 0 25px #00eaff;
 }
 
-.welcome-content p{
+.welcome p{
     max-width:700px;
 
     margin:auto;
@@ -749,6 +408,8 @@ footer {
 }
 
 .welcome-btn{
+    display:inline-block;
+
     padding:15px 28px;
 
     border-radius:10px;
@@ -778,35 +439,512 @@ footer {
 .welcome-btn.secondary{
     color:#00eaff;
 
-    border:1px solid #00eaff;
-
-    background:transparent;
+    border:
+        1px solid
+        #00eaff;
 }
 
 .welcome-btn:hover{
     transform:translateY(-5px);
 
     box-shadow:
-        0 0 30px
+        0 0 35px
         rgba(0,234,255,.35);
 }
 
 
-/* PHONE */
+/* =====================================================
+   GENERAL SECTIONS
+===================================================== */
 
-@media(max-width:600px){
+section{
+    scroll-margin-top:80px;
+}
 
-    .welcome-section{
+.section{
+    max-width:1150px;
+
+    margin:auto;
+
+    padding:
+        100px 7%;
+}
+
+.section-title{
+    text-align:center;
+
+    margin-bottom:50px;
+}
+
+.section-title h2{
+    font-size:45px;
+}
+
+.section-title p{
+    color:#888;
+
+    margin-top:10px;
+}
+
+
+/* =====================================================
+   GAME HUB
+===================================================== */
+
+.games{
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:20px;
+}
+
+.game-card{
+    padding:22px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    border:
+        1px solid
+        rgba(255,255,255,.1);
+
+    border-radius:18px;
+
+    transition:.3s;
+}
+
+.game-card:hover{
+    transform:translateY(-8px);
+
+    border-color:#00eaff;
+
+    box-shadow:
+        0 0 35px
+        rgba(0,234,255,.12);
+}
+
+.game-image{
+    height:170px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:14px;
+
+    margin-bottom:18px;
+
+    font-size:65px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #15152b,
+            #111827
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,.06);
+}
+
+.game-card h3{
+    font-size:20px;
+
+    margin-bottom:8px;
+}
+
+.game-card p{
+    color:#777;
+
+    font-size:13px;
+
+    margin-bottom:18px;
+}
+
+.play{
+    display:inline-block;
+
+    padding:9px 16px;
+
+    border:
+        1px solid
+        #00eaff;
+
+    border-radius:20px;
+
+    color:#00eaff;
+
+    text-decoration:none;
+
+    font-size:12px;
+
+    font-weight:bold;
+
+    transition:.3s;
+}
+
+.play:hover{
+    background:#00eaff;
+
+    color:#050510;
+
+    box-shadow:
+        0 0 20px
+        #00eaff;
+}
+
+
+/* =====================================================
+   AI ARENA
+===================================================== */
+
+.arena{
+    display:grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:30px;
+
+    align-items:center;
+}
+
+.arena-box{
+    padding:40px;
+
+    min-height:350px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.1);
+
+    border-radius:22px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+}
+
+.ai-core{
+    width:210px;
+    height:210px;
+
+    margin:auto;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:70px;
+
+    border:
+        2px solid
+        #00eaff;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(0,234,255,.15),
+            rgba(108,44,255,.08)
+        );
+
+    box-shadow:
+        0 0 60px
+        rgba(0,234,255,.3);
+
+    animation:
+        corePulse 2.5s infinite;
+}
+
+@keyframes corePulse{
+
+    50%{
+        transform:scale(1.06);
+
+        box-shadow:
+            0 0 90px
+            rgba(0,234,255,.45);
+    }
+
+}
+
+.arena-box h2{
+    font-size:32px;
+}
+
+.arena-box p{
+    color:#888;
+
+    line-height:1.7;
+
+    margin-top:15px;
+}
+
+.difficulty{
+    display:flex;
+
+    gap:10px;
+
+    flex-wrap:wrap;
+
+    margin-top:20px;
+}
+
+.difficulty button{
+    padding:10px 17px;
+
+    border:
+        1px solid
+        #333;
+
+    border-radius:20px;
+
+    background:transparent;
+
+    color:white;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.difficulty button:hover{
+    border-color:#00eaff;
+
+    color:#00eaff;
+}
+
+
+/* =====================================================
+   LEADERBOARD
+===================================================== */
+
+.leaderboard{
+    max-width:900px;
+
+    margin:auto;
+
+    overflow:hidden;
+
+    border:
+        1px solid
+        rgba(255,255,255,.1);
+
+    border-radius:18px;
+
+    background:
+        rgba(255,255,255,.035);
+}
+
+.player{
+    display:grid;
+
+    grid-template-columns:
+        70px 1fr 100px 120px;
+
+    padding:20px;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.07);
+
+    color:#aaa;
+}
+
+.player:first-child{
+    color:#00eaff;
+
+    background:
+        rgba(0,234,255,.03);
+}
+
+.player:last-child{
+    border-bottom:none;
+}
+
+
+/* =====================================================
+   CONTACT
+===================================================== */
+
+.contact{
+    max-width:700px;
+
+    margin:auto;
+
+    text-align:center;
+
+    padding:40px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.1);
+
+    border-radius:22px;
+
+    background:
+        rgba(255,255,255,.035);
+}
+
+.contact-info{
+    margin:25px 0;
+
+    color:#999;
+
+    line-height:2;
+}
+
+.contact-info a{
+    color:#00eaff;
+
+    text-decoration:none;
+}
+
+.email-btn{
+    display:inline-block;
+
+    padding:13px 25px;
+
+    color:white;
+
+    text-decoration:none;
+
+    border-radius:9px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #6c2cff,
+            #00d9ff
+        );
+
+    font-weight:bold;
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+footer{
+    padding:45px 20px;
+
+    text-align:center;
+
+    color:#666;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.08);
+}
+
+footer strong{
+    color:#00eaff;
+}
+
+
+/* =====================================================
+   MOBILE NAV
+===================================================== */
+
+.mobile-nav{
+    display:none;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:950px){
+
+    .nav-links{
+        gap:15px;
+    }
+
+    .games{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .hero-orb{
+        opacity:.35;
+
+        right:2%;
+    }
+
+}
+
+
+@media(max-width:700px){
+
+    nav{
+        padding:15px 18px;
+    }
+
+    .nav-links{
+        display:none;
+    }
+
+    .logo{
+        font-size:20px;
+    }
+
+    .join{
+        padding:9px 15px;
+
+        font-size:12px;
+    }
+
+    .hero{
+        min-height:80vh;
+
+        padding:
+            80px 20px;
+    }
+
+    .hero h1{
+        font-size:55px;
+
+        letter-spacing:-3px;
+    }
+
+    .hero-orb{
+        width:150px;
+        height:150px;
+
+        right:-20px;
+        top:20%;
+
+        opacity:.2;
+    }
+
+    .welcome{
         min-height:65vh;
 
-        padding:80px 20px;
+        padding:
+            80px 20px;
     }
 
-    .welcome-content h2{
-        font-size:36px;
+    .welcome h2{
+        font-size:38px;
     }
 
-    .welcome-content p{
+    .welcome p{
         font-size:15px;
     }
 
@@ -816,39 +954,255 @@ footer {
 
     .welcome-btn{
         width:100%;
+    }
+
+    .section{
+        padding:
+            75px 20px;
+    }
+
+    .section-title h2{
+        font-size:32px;
+    }
+
+    .games{
+        grid-template-columns:1fr;
+    }
+
+    .arena{
+        grid-template-columns:1fr;
+    }
+
+    .arena-box{
+        min-height:300px;
+
+        padding:25px;
+    }
+
+    .player{
+        grid-template-columns:
+            45px 1fr 65px;
+    }
+
+    .player span:last-child{
+        display:none;
+    }
+
+    .mobile-nav{
+        display:flex;
+
+        position:fixed;
+
+        bottom:0;
+        left:0;
+
+        width:100%;
+
+        z-index:1500;
+
+        justify-content:
+            space-around;
+
+        padding:8px 3px;
+
+        background:
+            rgba(5,5,16,.94);
+
+        backdrop-filter:
+            blur(15px);
+
+        border-top:
+            1px solid
+            rgba(255,255,255,.1);
+    }
+
+    .mobile-nav a{
+        color:#888;
+
+        text-decoration:none;
+
         text-align:center;
+
+        font-size:10px;
+    }
+
+    .mobile-nav span{
+        display:block;
+
+        font-size:19px;
+
+        margin-bottom:2px;
+    }
+
+    footer{
+        padding-bottom:90px;
     }
 
 }
-<!-- WELCOME SECTION -->
 
-<section class="welcome-section" id="welcome">
 
-    <div class="welcome-content">
+@media(max-width:400px){
+
+    .hero h1{
+        font-size:46px;
+    }
+
+    .game-image{
+        height:140px;
+    }
+
+}
+
+
+/* =====================================================
+   SCROLL ANIMATION
+===================================================== */
+
+.reveal{
+    opacity:0;
+
+    transform:translateY(30px);
+
+    transition:
+        opacity .7s ease,
+        transform .7s ease;
+}
+
+.reveal.show{
+    opacity:1;
+
+    transform:translateY(0);
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- ===================================================
+     NAVIGATION
+=================================================== -->
+
+<nav>
+
+    <div class="logo">
+        NEXUS <span>AI</span>
+    </div>
+
+    <div class="nav-links">
+
+        <a href="#home">Home</a>
+
+        <a href="#games">Games</a>
+
+        <a href="#arena">AI Arena</a>
+
+        <a href="#leaderboard">
+            Leaderboard
+        </a>
+
+        <a href="#contact">
+            Contact
+        </a>
+
+    </div>
+
+    <a
+        href="login.html"
+        class="join">
+
+        JOIN NOW
+
+    </a>
+
+</nav>
+
+
+<!-- ===================================================
+     HERO
+=================================================== -->
+
+<section
+    class="hero"
+    id="home">
+
+    <div class="hero-content reveal">
+
+        <div class="tag">
+            NEXT GENERATION GAMING
+        </div>
+
+        <h1>
+
+            ENTER THE
+
+            <br>
+
+            <span>FUTURE</span>
+
+            OF GAMING
+
+        </h1>
+
+    </div>
+
+
+    <div class="hero-orb"></div>
+
+</section>
+
+
+<!-- ===================================================
+     WELCOME
+=================================================== -->
+
+<section class="welcome">
+
+    <div class="welcome-content reveal">
 
         <div class="welcome-tag">
             WELCOME TO NEXUS AI
         </div>
 
         <h2>
+
             GAMING MEETS
-            <span>ARTIFICIAL INTELLIGENCE</span>
+
+            <span>
+                ARTIFICIAL INTELLIGENCE
+            </span>
+
         </h2>
 
         <p>
-            Welcome to NEXUS AI — where artificial intelligence
-            meets the next generation of gaming. Challenge AI,
-            compete with players and dominate the leaderboard.
+
+            Welcome to NEXUS AI — where artificial
+            intelligence meets the next generation
+            of gaming. Challenge AI, compete with
+            players and dominate the leaderboard.
+
         </p>
+
 
         <div class="welcome-buttons">
 
-            <a href="#games" class="welcome-btn primary">
+            <a
+                href="#games"
+                class="welcome-btn primary">
+
                 🎮 EXPLORE GAMES
+
             </a>
 
-            <a href="#arena" class="welcome-btn secondary">
+            <a
+                href="#arena"
+                class="welcome-btn secondary">
+
                 🤖 AI ARENA
+
             </a>
 
         </div>
@@ -856,23 +1210,24 @@ footer {
     </div>
 
 </section>
-</section>
-
-    </div>
-
-</section>
 
 
-<!-- GAMES -->
+<!-- ===================================================
+     GAME HUB
+=================================================== -->
 
-<section id="games">
+<section
+    class="section"
+    id="games">
 
-    <div class="section-title">
+    <div class="section-title reveal">
 
-        <h2>AI GAME HUB</h2>
+        <h2>
+            AI GAME HUB
+        </h2>
 
         <p>
-            Discover your next gaming experience.
+            Choose your next challenge.
         </p>
 
     </div>
@@ -881,11 +1236,11 @@ footer {
     <div class="games">
 
 
-        <!-- CYBER WARRIORS -->
+        <!-- GAME 1 -->
 
-        <div class="card">
+        <div class="game-card reveal">
 
-            <div class="game-icon">
+            <div class="game-image">
                 ⚔️
             </div>
 
@@ -900,17 +1255,19 @@ footer {
             <a
                 href="cyber-warriors.html"
                 class="play">
+
                 PLAY NOW
+
             </a>
 
         </div>
 
 
-        <!-- GALAXY X -->
+        <!-- GAME 2 -->
 
-        <div class="card">
+        <div class="game-card reveal">
 
-            <div class="game-icon">
+            <div class="game-image">
                 🚀
             </div>
 
@@ -925,18 +1282,20 @@ footer {
             <a
                 href="galaxy-x.html"
                 class="play">
+
                 PLAY NOW
+
             </a>
 
         </div>
 
 
-        <!-- AI OVERDRIVE -->
+        <!-- GAME 3 -->
 
-        <div class="card">
+        <div class="game-card reveal">
 
-            <div class="game-icon">
-                🏎️
+            <div class="game-image">
+                🤖
             </div>
 
             <h3>
@@ -950,17 +1309,19 @@ footer {
             <a
                 href="ai-overdrive.html"
                 class="play">
+
                 PLAY NOW
+
             </a>
 
         </div>
 
 
-        <!-- NEON BATTLE -->
+        <!-- GAME 4 -->
 
-        <div class="card">
+        <div class="game-card reveal">
 
-            <div class="game-icon">
+            <div class="game-image">
                 👾
             </div>
 
@@ -975,126 +1336,27 @@ footer {
             <a
                 href="neon-battle.html"
                 class="play">
+
                 PLAY NOW
+
             </a>
 
         </div>
 
-
     </div>
 
 </section>
 
 
-<!-- PLAYER PROFILE -->
+<!-- ===================================================
+     AI ARENA
+=================================================== -->
 
-<section id="profile">
+<section
+    class="section"
+    id="arena">
 
-    <div class="section-title">
-
-        <h2>PLAYER PROFILE</h2>
-
-        <p>
-            Your NEXUS gaming identity.
-        </p>
-
-    </div>
-
-
-    <div class="profile-box">
-
-        <div class="profile-grid">
-
-            <div class="avatar">
-                👤
-            </div>
-
-            <div class="profile-info">
-
-                <h2 id="profileName">
-                    Guest Player
-                </h2>
-
-                <p>
-                    NEXUS PLAYER • LEVEL
-                    <span id="profileLevel">
-                        1
-                    </span>
-                </p>
-
-                <div class="username-input">
-
-                    <input
-                        id="usernameInput"
-                        type="text"
-                        maxlength="20"
-                        placeholder="Enter your gamer name">
-
-                    <button
-                        class="btn primary"
-                        onclick="saveUsername()">
-                        SAVE NAME
-                    </button>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div class="stats">
-
-            <div class="stat-box">
-
-                <strong id="totalXP">
-                    0
-                </strong>
-
-                <span>
-                    TOTAL XP
-                </span>
-
-            </div>
-
-
-            <div class="stat-box">
-
-                <strong id="bestScore">
-                    0
-                </strong>
-
-                <span>
-                    BEST SCORE
-                </span>
-
-            </div>
-
-
-            <div class="stat-box">
-
-                <strong id="gamesPlayed">
-                    0
-                </strong>
-
-                <span>
-                    GAMES PLAYED
-                </span>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- AI ARENA -->
-
-<section id="arena">
-
-    <div class="section-title">
+    <div class="section-title reveal">
 
         <h2>
             AI ARENA
@@ -1110,60 +1372,65 @@ footer {
     <div class="arena">
 
 
-        <div class="arena-box">
+        <div class="arena-box reveal">
 
-            <div class="ai-circle">
+            <div class="ai-core">
                 🤖
             </div>
 
         </div>
 
 
-        <div class="arena-box">
+        <div class="arena-box reveal">
 
             <h2>
                 NEXUS AI
             </h2>
 
-            <p style="
-                color:#999;
-                margin-top:15px;
-                line-height:1.7;
-            ">
+            <p>
 
-                Challenge our advanced AI opponents
-                and prove that human players can still
-                dominate the future.
+                Challenge intelligent AI opponents
+                and prove your skills. Choose your
+                difficulty and enter the arena.
 
             </p>
 
 
             <h3 style="margin-top:25px;">
+
                 SELECT DIFFICULTY
+
             </h3>
 
 
             <div class="difficulty">
 
                 <button
-                    onclick="selectDifficulty(this)">
+                    onclick="difficulty('ROOKIE')">
+
                     ROOKIE
+
                 </button>
 
                 <button
-                    onclick="selectDifficulty(this)">
+                    onclick="difficulty('PRO')">
+
                     PRO
+
                 </button>
 
                 <button
-                    class="active"
-                    onclick="selectDifficulty(this)">
+                    onclick="difficulty('ELITE')">
+
                     ELITE
+
                 </button>
 
                 <button
-                    onclick="selectDifficulty(this)">
+                    onclick="difficulty('LEGEND')">
+
                     LEGEND
+
                 </button>
 
             </div>
@@ -1174,7 +1441,9 @@ footer {
                 <a
                     href="neon-battle.html"
                     class="play">
-                    PLAY NOW
+
+                    ENTER ARENA →
+
                 </a>
 
             </div>
@@ -1186,751 +1455,342 @@ footer {
 </section>
 
 
-<!-- LEADERBOARD -->
+<!-- ===================================================
+     LEADERBOARD
+=================================================== -->
 
-<section id="leaderboard">
+<section
+    class="section"
+    id="leaderboard">
 
-    <div class="section-title">
+    <div class="section-title reveal">
 
         <h2>
             GLOBAL LEADERBOARD
         </h2>
 
         <p>
-            Top players in this browser's NEXUS network.
+            Top players in the NEXUS network.
         </p>
 
     </div>
 
 
-    <div class="leaderboard">
+    <div class="leaderboard reveal">
 
-        <div class="leader-head">
+
+        <div class="player">
+
+            <span>#1</span>
 
             <span>
-                Rank
+                ShadowX
             </span>
 
             <span>
-                Player
+                LVL 99
             </span>
 
             <span>
-                Level
-            </span>
-
-            <span>
-                XP
-            </span>
-
-            <span>
-                Best Score
+                98,420 XP
             </span>
 
         </div>
 
 
-        <div id="leaderboardList">
+        <div class="player">
+
+            <span>#2</span>
+
+            <span>
+                CyberGhost
+            </span>
+
+            <span>
+                LVL 94
+            </span>
+
+            <span>
+                91,820 XP
+            </span>
 
         </div>
 
-    </div>
+
+        <div class="player">
+
+            <span>#3</span>
+
+            <span>
+                NovaPlayer
+            </span>
+
+            <span>
+                LVL 91
+            </span>
+
+            <span>
+                87,500 XP
+            </span>
+
+        </div>
 
 
-    <div class="leader-controls">
+        <div class="player">
 
-        <button
-            class="reset-btn"
-            onclick="resetScores()">
+            <span>#4</span>
 
-            RESET MY SCORES
+            <span>
+                AIHunter
+            </span>
 
-        </button>
+            <span>
+                LVL 88
+            </span>
+
+            <span>
+                82,340 XP
+            </span>
+
+        </div>
 
     </div>
 
 </section>
 
 
-<!-- CONTACT -->
+<!-- ===================================================
+     CONTACT
+=================================================== -->
 
-<section id="contact">
+<section
+    class="section"
+    id="contact">
 
-    <div class="contact">
+    <div class="contact reveal">
 
-        <div class="section-title">
+        <h2>
+            CONTACT NEXUS
+        </h2>
 
-            <h2>
-                CONTACT NEXUS
-            </h2>
+        <p style="color:#888;margin-top:10px;">
 
-            <p>
-                Connect with the future of gaming.
-            </p>
+            Connect with the future of gaming.
 
-        </div>
+        </p>
 
 
         <div class="contact-info">
 
-            📞 9394562832
+            📞
+
+            <a href="tel:9394562832">
+                9394562832
+            </a>
+
             <br>
 
-            📧 iabadulali@gmail.com
+            📧
+
+            <a href="mailto:iabadulali@gmail.com">
+
+                iabadulali@gmail.com
+
+            </a>
 
         </div>
 
 
-        <form onsubmit="sendMessage(event)">
+        <a
+            href="mailto:iabadulali@gmail.com"
+            class="email-btn">
 
-            <input
-                type="text"
-                placeholder="Your Name"
-                required>
+            EMAIL NEXUS
 
-
-            <input
-                type="email"
-                placeholder="Your Email"
-                required>
-
-
-            <textarea
-                placeholder="Your Message"
-                required>
-            </textarea>
-
-
-            <button
-                class="btn primary"
-                type="submit">
-
-                SEND MESSAGE
-
-            </button>
-
-        </form>
+        </a>
 
     </div>
 
 </section>
 
 
-<!-- FOOTER -->
+<!-- ===================================================
+     FOOTER
+=================================================== -->
 
 <footer>
 
-    © 2026 NEXUS AI GAMING —
+    <strong>
+        NEXUS AI GAMING
+    </strong>
+
+    <br><br>
+
     ENTER THE FUTURE.
+
+    <br><br>
+
+    © 2026 NEXUS AI
 
 </footer>
 
 
-<div id="toast">
-    Saved!
+<!-- ===================================================
+     MOBILE NAVIGATION
+=================================================== -->
+
+<div class="mobile-nav">
+
+    <a href="#home">
+
+        <span>🏠</span>
+
+        Home
+
+    </a>
+
+
+    <a href="#games">
+
+        <span>🎮</span>
+
+        Games
+
+    </a>
+
+
+    <a href="#arena">
+
+        <span>🤖</span>
+
+        AI
+
+    </a>
+
+
+    <a href="#leaderboard">
+
+        <span>🏆</span>
+
+        Rank
+
+    </a>
+
+
+    <a href="#contact">
+
+        <span>📞</span>
+
+        Contact
+
+    </a>
+
 </div>
 
 
+<!-- ===================================================
+     JAVASCRIPT
+=================================================== -->
+
 <script>
 
-/* =====================================
-   NEXUS PLAYER DATA
-===================================== */
 
-const STORAGE_KEY =
-    "nexus_ai_player";
+/* ============================
+   DIFFICULTY
+============================ */
 
+function difficulty(level){
 
-const DEFAULT_DATA = {
+    alert(
+        level +
+        " difficulty selected! 🤖"
+    );
 
-    username: "Guest Player",
-
-    scores: {
-
-        "Cyber Warriors": 0,
-
-        "Galaxy X": 0,
-
-        "AI Overdrive": 0,
-
-        "Neon Battle": 0
-
-    },
-
-    gamesPlayed: 0
-
-};
+}
 
 
-/* =====================================
-   GET PLAYER DATA
-===================================== */
+/* ============================
+   SCROLL REVEAL
+============================ */
 
-function getPlayerData() {
+const revealElements =
+    document.querySelectorAll(
+        ".reveal"
+    );
 
-    try {
 
-        const saved =
-            localStorage.getItem(
-                STORAGE_KEY
+const observer =
+    new IntersectionObserver(
+
+        function(entries){
+
+            entries.forEach(
+                function(entry){
+
+                    if(entry.isIntersecting){
+
+                        entry.target.classList.add(
+                            "show"
+                        );
+
+                    }
+
+                }
             );
 
-        if (!saved) {
+        },
 
-            return {
-                ...DEFAULT_DATA,
-                scores: {
-                    ...DEFAULT_DATA.scores
+        {
+            threshold:.15
+        }
+
+    );
+
+
+revealElements.forEach(
+    function(element){
+
+        observer.observe(element);
+
+    }
+);
+
+
+/* ============================
+   ACTIVE NAVIGATION
+============================ */
+
+document
+    .querySelectorAll(".nav-links a")
+    .forEach(
+        function(link){
+
+            link.addEventListener(
+                "click",
+                function(){
+
+                    document
+                        .querySelectorAll(
+                            ".nav-links a"
+                        )
+                        .forEach(
+                            function(item){
+
+                                item.style.color =
+                                    "#aaa";
+
+                            }
+                        );
+
+                    link.style.color =
+                        "#00eaff";
+
                 }
-            };
+            );
 
         }
-
-
-        const data =
-            JSON.parse(saved);
-
-
-        return {
-
-            ...DEFAULT_DATA,
-
-            ...data,
-
-            scores: {
-
-                ...DEFAULT_DATA.scores,
-
-                ...(data.scores || {})
-
-            }
-
-        };
-
-    }
-
-    catch (error) {
-
-        return {
-            ...DEFAULT_DATA,
-            scores: {
-                ...DEFAULT_DATA.scores
-            }
-        };
-
-    }
-
-}
-
-
-/* =====================================
-   SAVE PLAYER DATA
-===================================== */
-
-function savePlayerData(data) {
-
-    localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(data)
     );
 
-}
-
-
-/* =====================================
-   USERNAME
-===================================== */
-
-function saveUsername() {
-
-    const input =
-        document.getElementById(
-            "usernameInput"
-        );
-
-
-    let name =
-        input.value.trim();
-
-
-    if (!name) {
-
-        showToast(
-            "Please enter a gamer name."
-        );
-
-        return;
-
-    }
-
-
-    const data =
-        getPlayerData();
-
-
-    data.username =
-        name.substring(0,20);
-
-
-    savePlayerData(data);
-
-    updateEverything();
-
-
-    showToast(
-        "Gamer name saved!"
-    );
-
-}
-
-
-/* =====================================
-   PLAYER LEVEL
-===================================== */
-
-function getLevel(xp) {
-
-    return Math.max(
-        1,
-        Math.floor(xp / 1000) + 1
-    );
-
-}
-
-
-/* =====================================
-   UPDATE PROFILE
-===================================== */
-
-function updateProfile() {
-
-    const data =
-        getPlayerData();
-
-
-    const scores =
-        Object.values(
-            data.scores
-        );
-
-
-    const totalXP =
-        scores.reduce(
-            (sum, value) =>
-                sum + Number(value || 0),
-            0
-        );
-
-
-    const bestScore =
-        Math.max(
-            0,
-            ...scores
-        );
-
-
-    document.getElementById(
-        "profileName"
-    ).textContent =
-        data.username;
-
-
-    document.getElementById(
-        "profileLevel"
-    ).textContent =
-        getLevel(totalXP);
-
-
-    document.getElementById(
-        "totalXP"
-    ).textContent =
-        totalXP.toLocaleString();
-
-
-    document.getElementById(
-        "bestScore"
-    ).textContent =
-        bestScore.toLocaleString();
-
-
-    document.getElementById(
-        "gamesPlayed"
-    ).textContent =
-        data.gamesPlayed || 0;
-
-
-    document.getElementById(
-        "usernameInput"
-    ).value =
-        data.username === "Guest Player"
-            ? ""
-            : data.username;
-
-}
-
-
-/* =====================================
-   LEADERBOARD
-===================================== */
-
-function updateLeaderboard() {
-
-    const data =
-        getPlayerData();
-
-
-    const scores =
-        Object.values(
-            data.scores
-        );
-
-
-    const totalXP =
-        scores.reduce(
-            (sum, value) =>
-                sum + Number(value || 0),
-            0
-        );
-
-
-    const bestScore =
-        Math.max(
-            0,
-            ...scores
-        );
-
-
-    const currentPlayer = {
-
-        name:
-            data.username,
-
-        xp:
-            totalXP,
-
-        best:
-            bestScore
-
-    };
-
-
-    /*
-       Local demo leaderboard.
-
-       The other players are sample
-       NPC leaderboard entries.
-    */
-
-    const players = [
-
-        {
-            name: "ShadowX",
-            xp: 98420,
-            best: 28420
-        },
-
-        {
-            name: "CyberGhost",
-            xp: 91820,
-            best: 26820
-        },
-
-        {
-            name: "NovaPlayer",
-            xp: 87500,
-            best: 24500
-        },
-
-        {
-            name: "AIHunter",
-            xp: 82340,
-            best: 22340
-        },
-
-        currentPlayer
-
-    ];
-
-
-    players.sort(
-        (a,b) =>
-            b.xp - a.xp
-    );
-
-
-    const container =
-        document.getElementById(
-            "leaderboardList"
-        );
-
-
-    container.innerHTML = "";
-
-
-    players.forEach(
-        (player,index) => {
-
-            const row =
-                document.createElement(
-                    "div"
-                );
-
-
-            row.className =
-                "player " +
-                (index === 0
-                    ? "rank-1 "
-                    : "") +
-                (
-                    player.name ===
-                    currentPlayer.name
-                    ? "current-player"
-                    : ""
-                );
-
-
-            const rank =
-                index + 1;
-
-
-            const medal =
-                rank === 1
-                    ? "🥇"
-                    : rank === 2
-                    ? "🥈"
-                    : rank === 3
-                    ? "🥉"
-                    : "#" + rank;
-
-
-            row.innerHTML = `
-
-                <span class="rank">
-                    ${medal}
-                </span>
-
-                <span class="player-name">
-                    ${escapeHTML(player.name)}
-                </span>
-
-                <span class="level">
-                    LVL ${getLevel(player.xp)}
-                </span>
-
-                <span class="xp">
-                    ${player.xp.toLocaleString()} XP
-                </span>
-
-                <span class="best">
-                    ${player.best.toLocaleString()}
-                </span>
-
-            `;
-
-
-            container.appendChild(row);
-
-        }
-    );
-
-}
-
-
-/* =====================================
-   HTML ESCAPE
-===================================== */
-
-function escapeHTML(text) {
-
-    return String(text)
-
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-
-        .replace(
-            /</g,
-            "&lt;"
-        )
-
-        .replace(
-            />/g,
-            "&gt;"
-        )
-
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-
-        .replace(
-            /'/g,
-            "&#039;"
-        );
-
-}
-
-
-/* =====================================
-   DIFFICULTY
-===================================== */
-
-function selectDifficulty(button) {
-
-    document
-        .querySelectorAll(
-            ".difficulty button"
-        )
-        .forEach(
-            btn =>
-                btn.classList.remove(
-                    "active"
-                )
-        );
-
-
-    button.classList.add(
-        "active"
-    );
-
-
-    showToast(
-        button.textContent +
-        " difficulty selected."
-    );
-
-}
-
-
-/* =====================================
-   TOAST
-===================================== */
-
-let toastTimer;
-
-
-function showToast(message) {
-
-    const toast =
-        document.getElementById(
-            "toast"
-        );
-
-
-    toast.textContent =
-        message;
-
-
-    toast.classList.add(
-        "show"
-    );
-
-
-    clearTimeout(
-        toastTimer
-    );
-
-
-    toastTimer =
-        setTimeout(
-            () => {
-
-                toast.classList.remove(
-                    "show"
-                );
-
-            },
-            2200
-        );
-
-}
-
-
-/* =====================================
-   RESET SCORES
-===================================== */
-
-function resetScores() {
-
-    const confirmed =
-        confirm(
-            "Reset your NEXUS scores?"
-        );
-
-
-    if (!confirmed) {
-
-        return;
-
-    }
-
-
-    const data =
-        getPlayerData();
-
-
-    data.scores = {
-
-        "Cyber Warriors": 0,
-
-        "Galaxy X": 0,
-
-        "AI Overdrive": 0,
-
-        "Neon Battle": 0
-
-    };
-
-
-    data.gamesPlayed = 0;
-
-
-    savePlayerData(data);
-
-    updateEverything();
-
-
-    showToast(
-        "Your scores were reset."
-    );
-
-}
-
-
-/* =====================================
-   CONTACT
-===================================== */
-
-function sendMessage(event) {
-
-    event.preventDefault();
-
-
-    showToast(
-        "Message received! Welcome to NEXUS AI."
-    );
-
-
-    event.target.reset();
-
-}
-
-
-/* =====================================
-   INITIALIZE
-===================================== */
-
-function updateEverything() {
-
-    updateProfile();
-
-    updateLeaderboard();
-
-}
-
-
-updateEverything();
 
 </script>
 
