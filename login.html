@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="theme-color" content="#080812">
+
+<title>NEXUS AI | Login</title>
+
+<style>
+
+/* =========================
+   RESET
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    min-height:100vh;
+    background:#050510;
+    color:white;
+    overflow:hidden;
+}
+
+
+/* =========================
+   BACKGROUND
+========================= */
+
+body::before{
+    content:"";
+    position:fixed;
+    width:500px;
+    height:500px;
+    left:-180px;
+    top:-150px;
+    background:#6c2cff;
+    filter:blur(180px);
+    opacity:.28;
+}
+
+body::after{
+    content:"";
+    position:fixed;
+    width:500px;
+    height:500px;
+    right:-180px;
+    bottom:-180px;
+    background:#00d9ff;
+    filter:blur(180px);
+    opacity:.20;
+}
+
+
+/* =========================
+   TOP NAV
+========================= */
+
+.navbar{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    padding:22px 7%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    z-index:10;
+}
+
+.logo{
+    color:#00eaff;
+    font-size:24px;
+    font-weight:800;
+    text-decoration:none;
+    text-shadow:0 0 18px #00eaff;
+}
+
+.home-btn{
+    color:#bbb;
+    text-decoration:none;
+    border:1px solid rgba(255,255,255,.15);
+    padding:10px 18px;
+    border-radius:25px;
+    transition:.3s;
+}
+
+.home-btn:hover{
+    color:#00eaff;
+    border-color:#00eaff;
+    box-shadow:0 0 20px rgba(0,234,255,.2);
+}
+
+
+/* =========================
+   MAIN
+========================= */
+
+.main{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:100px 20px 30px;
+    position:relative;
+    z-index:2;
+}
+
+
+/* =========================
+   LOGIN CARD
+========================= */
+
+.auth-card{
+    width:100%;
+    max-width:460px;
+    padding:40px;
+    background:rgba(15,15,30,.82);
+    border:1px solid rgba(0,234,255,.18);
+    border-radius:25px;
+    backdrop-filter:blur(20px);
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.5),
+        0 0 40px rgba(0,234,255,.06);
+}
+
+
+/* =========================
+   HEADING
+========================= */
+
+.auth-header{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.auth-icon{
+    width:70px;
+    height:70px;
+    margin:0 auto 18px;
+    border-radius:20px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:32px;
+    background:linear-gradient(
+        135deg,
+        #6c2cff,
+        #00d9ff
+    );
+    box-shadow:0 0 30px rgba(0,217,255,.25);
+}
+
+.auth-header h1{
+    font-size:30px;
+    margin-bottom:8px;
+}
+
+.auth-header p{
+    color:#888;
+    font-size:14px;
+}
+
+
+/* =========================
+   TABS
+========================= */
+
+.tabs{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:5px;
+    padding:5px;
+    background:#090916;
+    border-radius:12px;
+    margin-bottom:25px;
+}
+
+.tab{
+    border:none;
+    padding:12px;
+    border-radius:9px;
+    background:transparent;
+    color:#888;
+    cursor:pointer;
+    font-weight:bold;
+    transition:.3s;
+}
+
+.tab.active{
+    background:linear-gradient(
+        90deg,
+        #6c2cff,
+        #00d9ff
+    );
+    color:white;
+}
+
+
+/* =========================
+   FORM
+========================= */
+
+.form{
+    display:none;
+}
+
+.form.active{
+    display:block;
+}
+
+.form-group{
+    margin-bottom:18px;
+}
+
+.form-group label{
+    display:block;
+    margin-bottom:8px;
+    color:#ccc;
+    font-size:13px;
+}
+
+.input-box{
+    position:relative;
+}
+
+.input-box span{
+    position:absolute;
+    left:14px;
+    top:50%;
+    transform:translateY(-50%);
+    color:#666;
+}
+
+.input-box input{
+    width:100%;
+    padding:14px 14px 14px 43px;
+    border-radius:10px;
+    border:1px solid #29293a;
+    outline:none;
+    background:#090914;
+    color:white;
+    font-size:14px;
+    transition:.3s;
+}
+
+.input-box input:focus{
+    border-color:#00eaff;
+    box-shadow:0 0 15px rgba(0,234,255,.08);
+}
+
+
+/* =========================
+   PASSWORD
+========================= */
+
+.password-toggle{
+    position:absolute;
+    right:13px;
+    top:50%;
+    transform:translateY(-50%);
+    cursor:pointer;
+    color:#777;
+}
+
+.password-toggle:hover{
+    color:#00eaff;
+}
+
+
+/* =========================
+   OPTIONS
+========================= */
+
+.form-options{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+    font-size:12px;
+}
+
+.remember{
+    color:#888;
+    display:flex;
+    align-items:center;
+    gap:7px;
+}
+
+.remember input{
+    accent-color:#00d9ff;
+}
+
+.forgot{
+    color:#00d9ff;
+    text-decoration:none;
+}
+
+.forgot:hover{
+    text-decoration:underline;
+}
+
+
+/* =========================
+   MAIN BUTTON
+========================= */
+
+.submit-btn{
+    width:100%;
+    border:none;
+    padding:14px;
+    border-radius:10px;
+    background:linear-gradient(
+        90deg,
+        #6c2cff,
+        #00d9ff
+    );
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    font-size:14px;
+    box-shadow:0 0 20px rgba(0,217,255,.15);
+    transition:.3s;
+}
+
+.submit-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 0 30px rgba(0,217,255,.35);
+}
+
+
+/* =========================
+   DIVIDER
+========================= */
+
+.divider{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin:23px 0;
+    color:#555;
+    font-size:12px;
+}
+
+.divider::before,
+.divider::after{
+    content:"";
+    height:1px;
+    flex:1;
+    background:#29293a;
+}
+
+
+/* =========================
+   SOCIAL BUTTONS
+========================= */
+
+.social{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+.social button{
+    padding:11px;
+    border-radius:9px;
+    border:1px solid #29293a;
+    background:#090914;
+    color:#ccc;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.social button:hover{
+    border-color:#00eaff;
+    color:white;
+}
+
+
+/* =========================
+   TERMS
+========================= */
+
+.terms{
+    text-align:center;
+    color:#666;
+    font-size:11px;
+    line-height:1.6;
+    margin-top:22px;
+}
+
+.terms a{
+    color:#00d9ff;
+    text-decoration:none;
+}
+
+
+/* =========================
+   TOAST
+========================= */
+
+#toast{
+    position:fixed;
+    left:50%;
+    bottom:30px;
+    transform:translate(-50%,100px);
+    background:#171727;
+    border:1px solid #303047;
+    padding:13px 20px;
+    border-radius:10px;
+    color:white;
+    opacity:0;
+    transition:.3s;
+    z-index:100;
+    font-size:13px;
+}
+
+#toast.show{
+    transform:translate(-50%,0);
+    opacity:1;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:550px){
+
+    body{
+        overflow:auto;
+    }
+
+    .navbar{
+        padding:18px 20px;
+    }
+
+    .logo{
+        font-size:20px;
+    }
+
+    .home-btn{
+        padding:8px 13px;
+        font-size:12px;
+    }
+
+    .main{
+        padding:90px 15px 30px;
+        align-items:flex-start;
+    }
+
+    .auth-card{
+        padding:28px 20px;
+        border-radius:20px;
+    }
+
+    .auth-header h1{
+        font-size:25px;
+    }
+
+    .social{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<div class="navbar">
+
+    <a href="index.html" class="logo">
+        NEXUS AI
+    </a>
+
+    <a href="index.html" class="home-btn">
+        ← Back Home
+    </a>
+
+</div>
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="main">
+
+<div class="auth-card">
+
+
+<!-- HEADER -->
+
+<div class="auth-header">
+
+    <div class="auth-icon">
+        🤖
+    </div>
+
+    <h1 id="authTitle">
+        Welcome Back
+    </h1>
+
+    <p id="authSubtitle">
+        Login to continue your NEXUS experience
+    </p>
+
+</div>
+
+
+<!-- TABS -->
+
+<div class="tabs">
+
+    <button
+        class="tab active"
+        id="loginTab"
+        onclick="showLogin()">
+
+        LOGIN
+
+    </button>
+
+    <button
+        class="tab"
+        id="signupTab"
+        onclick="showSignup()">
+
+        SIGN UP
+
+    </button>
+
+</div>
+
+
+<!-- =========================
+     LOGIN FORM
+========================= -->
+
+<form
+    class="form active"
+    id="loginForm"
+    onsubmit="loginUser(event)">
+
+
+<div class="form-group">
+
+    <label>Email Address</label>
+
+    <div class="input-box">
+
+        <span>📧</span>
+
+        <input
+            type="email"
+            id="loginEmail"
+            placeholder="Enter your email"
+            required>
+
+    </div>
+
+</div>
+
+
+<div class="form-group">
+
+    <label>Password</label>
+
+    <div class="input-box">
+
+        <span>🔒</span>
+
+        <input
+            type="password"
+            id="loginPassword"
+            placeholder="Enter your password"
+            required>
+
+        <span
+            class="password-toggle"
+            onclick="togglePassword('loginPassword',this)">
+            👁
+        </span>
+
+    </div>
+
+</div>
+
+
+<div class="form-options">
+
+    <label class="remember">
+
+        <input type="checkbox">
+
+        Remember me
+
+    </label>
+
+    <a href="#"
+       class="forgot"
+       onclick="forgotPassword(event)">
+
+       Forgot password?
+
+    </a>
+
+</div>
+
+
+<button
+    type="submit"
+    class="submit-btn">
+
+    LOGIN TO NEXUS →
+
+</button>
+
+
+</form>
+
+
+<!-- =========================
+     SIGN UP FORM
+========================= -->
+
+<form
+    class="form"
+    id="signupForm"
+    onsubmit="signupUser(event)">
+
+
+<div class="form-group">
+
+    <label>Username</label>
+
+    <div class="input-box">
+
+        <span>👤</span>
+
+        <input
+            type="text"
+            id="signupName"
+            placeholder="Choose a username"
+            required>
+
+    </div>
+
+</div>
+
+
+<div class="form-group">
+
+    <label>Email Address</label>
+
+    <div class="input-box">
+
+        <span>📧</span>
+
+        <input
+            type="email"
+            id="signupEmail"
+            placeholder="Enter your email"
+            required>
+
+    </div>
+
+</div>
+
+
+<div class="form-group">
+
+    <label>Password</label>
+
+    <div class="input-box">
+
+        <span>🔒</span>
+
+        <input
+            type="password"
+            id="signupPassword"
+            placeholder="Create a password"
+            required>
+
+        <span
+            class="password-toggle"
+            onclick="togglePassword('signupPassword',this)">
+            👁
+        </span>
+
+    </div>
+
+</div>
+
+
+<div class="form-group">
+
+    <label>Confirm Password</label>
+
+    <div class="input-box">
+
+        <span>🔐</span>
+
+        <input
+            type="password"
+            id="confirmPassword"
+            placeholder="Confirm your password"
+            required>
+
+        <span
+            class="password-toggle"
+            onclick="togglePassword('confirmPassword',this)">
+            👁
+        </span>
+
+    </div>
+
+</div>
+
+
+<div class="form-options">
+
+    <label class="remember">
+
+        <input
+            type="checkbox"
+            required>
+
+        I agree to the terms
+
+    </label>
+
+</div>
+
+
+<button
+    type="submit"
+    class="submit-btn">
+
+    CREATE ACCOUNT →
+
+</button>
+
+
+</form>
+
+
+<!-- DIVIDER -->
+
+<div class="divider">
+    OR CONTINUE WITH
+</div>
+
+
+<!-- SOCIAL -->
+
+<div class="social">
+
+    <button
+        onclick="socialLogin('Google')">
+
+        🌐 Google
+
+    </button>
+
+    <button
+        onclick="socialLogin('GitHub')">
+
+        ◉ GitHub
+
+    </button>
+
+</div>
+
+
+<!-- TERMS -->
+
+<div class="terms">
+
+    By continuing, you agree to the
+    <a href="#">Terms of Service</a>
+    and
+    <a href="#">Privacy Policy</a>.
+
+</div>
+
+
+</div>
+
+</main>
+
+
+<!-- TOAST -->
+
+<div id="toast">
+    Welcome to NEXUS AI
+</div>
+
+
+<script>
+
+/* =========================
+   SWITCH TO LOGIN
+========================= */
+
+function showLogin(){
+
+    document
+        .getElementById("loginForm")
+        .classList.add("active");
+
+    document
+        .getElementById("signupForm")
+        .classList.remove("active");
+
+    document
+        .getElementById("loginTab")
+        .classList.add("active");
+
+    document
+        .getElementById("signupTab")
+        .classList.remove("active");
+
+    document
+        .getElementById("authTitle")
+        .textContent="Welcome Back";
+
+    document
+        .getElementById("authSubtitle")
+        .textContent=
+        "Login to continue your NEXUS experience";
+
+}
+
+
+/* =========================
+   SWITCH TO SIGNUP
+========================= */
+
+function showSignup(){
+
+    document
+        .getElementById("signupForm")
+        .classList.add("active");
+
+    document
+        .getElementById("loginForm")
+        .classList.remove("active");
+
+    document
+        .getElementById("signupTab")
+        .classList.add("active");
+
+    document
+        .getElementById("loginTab")
+        .classList.remove("active");
+
+    document
+        .getElementById("authTitle")
+        .textContent="Join NEXUS AI";
+
+    document
+        .getElementById("authSubtitle")
+        .textContent=
+        "Create your account and enter the future";
+
+}
+
+
+/* =========================
+   PASSWORD VISIBILITY
+========================= */
+
+function togglePassword(id,icon){
+
+    const input=
+        document.getElementById(id);
+
+    if(input.type==="password"){
+
+        input.type="text";
+        icon.textContent="🙈";
+
+    }else{
+
+        input.type="password";
+        icon.textContent="👁";
+
+    }
+
+}
+
+
+/* =========================
+   LOGIN
+========================= */
+
+function loginUser(event){
+
+    event.preventDefault();
+
+    const email=
+        document.getElementById(
+            "loginEmail"
+        ).value;
+
+    if(!email){
+        return;
+    }
+
+    showToast(
+        "Login system connected! 🚀"
+    );
+
+}
+
+
+/* =========================
+   SIGN UP
+========================= */
+
+function signupUser(event){
+
+    event.preventDefault();
+
+    const password=
+        document.getElementById(
+            "signupPassword"
+        ).value;
+
+    const confirm=
+        document.getElementById(
+            "confirmPassword"
+        ).value;
+
+    if(password!==confirm){
+
+        showToast(
+            "Passwords do not match!"
+        );
+
+        return;
+
+    }
+
+    showToast(
+        "Account created! Welcome to NEXUS 🚀"
+    );
+
+}
+
+
+/* =========================
+   FORGOT PASSWORD
+========================= */
+
+function forgotPassword(event){
+
+    event.preventDefault();
+
+    showToast(
+        "Password recovery will be added soon."
+    );
+
+}
+
+
+/* =========================
+   SOCIAL LOGIN
+========================= */
+
+function socialLogin(provider){
+
+    showToast(
+        provider +
+        " login will be connected later."
+    );
+
+}
+
+
+/* =========================
+   TOAST
+========================= */
+
+let toastTimer;
+
+function showToast(message){
+
+    const toast=
+        document.getElementById("toast");
+
+    toast.textContent=message;
+
+    toast.classList.add("show");
+
+    clearTimeout(toastTimer);
+
+    toastTimer=
+        setTimeout(function(){
+
+            toast.classList.remove("show");
+
+        },2500);
+
+}
+
+</script>
+
+</body>
+</html>
